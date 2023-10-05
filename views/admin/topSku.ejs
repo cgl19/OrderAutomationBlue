@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ComtanixCMS">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="ComtanixCMS">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+    <title>Orders | ComtanixCMS</title>
+
+    <!-- vendor css -->
+    <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
+    <!-- <link href="/lib/typicons.font/typicons.css" rel="stylesheet"> -->
+    
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="/assets/css/dashforge.css">
+    <!-- <link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
+    <!-- <link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css'> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+    <!-- <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css'> -->
+    <style>
+     
+.dt-buttons {
+	margin-bottom: 10px;
+  margin-left: 200px;
+}
+.dt-buttons.btn-group{
+	float: left;
+}
+.dataTables_filter {
+  position: absolute;
+	float: right;
+  right: 30px;
+	margin-top: 4px;
+	text-align: left;
+}
+.dataTables_info {
+	float: right;
+}
+.dataTables_length{
+	left:30px;
+  position: absolute;
+	margin-top: 4px;
+}
+.dataTables_paginate{
+  float: right !important;
+}
+input {
+      height:28px !important;
+      margin-right:2px;
+    }
+    select {
+      height:35px !important;
+      margin-right:2px;
+    }
+    td {
+      text-align: left !important;
+      vertical-align: middle !important;
+    }
+    table.dataTable thead .sorting { background: url('/images/sort_both.png') no-repeat center right; }
+    table.dataTable thead .sorting_asc { background: url('/images/sort_asc.png') no-repeat center right; }
+    table.dataTable thead .sorting_desc { background: url('/images/sort_desc.png') no-repeat center right; }
+
+    table.dataTable thead .sorting_asc_disabled { background: url('/images/sort_asc_disabled.png') no-repeat center right; }
+    table.dataTable thead .sorting_desc_disabled { background: url('/images/sort_desc_disabled.png') no-repeat center right; }
+    .sorting::after  {
+      content : none !important
+    }
+    .sorting::before  {
+      content : none !important
+    }
+    .sorting_asc::before {
+      content : none !important
+    }
+    .sorting_asc::after {
+      content : none !important
+    }
+    .sorting_desc::after {
+      content : none !important
+    }
+    .dataTables_paginate{
+      float  : right !important
+    }
+    .fg-toolbar {
+      width : 100% !important
+    }
+
+    .dt-button-collection > li.active {
+      background-color : #0168fa !important;
+      color : white !important;
+      margin-bottom : 3px;
+      padding : 5px
+    }
+
+    .dt-button-collection > li.active > a {
+      color : white !important
+    }
+
+    </style>
+  </head>
+  <body class="page-profile">
+
+    <%- include('./includes/header', {page : "OrderFilter" }) %>
+
+    <div class="content content-fixed">
+      <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+          <div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                <li class="breadcrumb-item active" aria-current="page">Orders</li>
+              </ol>
+            </nav>
+            <h4 class="mg-b-0 tx-spacing--1">Filter Orders</h4>
+          </div>
+         
+        </div>
+        <div class="row row-xs">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body pd-y-20 pd-x-25">
+                <div data-label="Example" class="df-example ">
+                <!-- Tabs navs -->
+<ul class="nav nav-tabs nav-justified mb-3" id="ex1" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a
+        class="nav-link active"
+        id="ex3-tab-1"
+        data-mdb-toggle="tab"
+        href="#ex3-tabs-1"
+        role="tab"
+        aria-controls="ex3-tabs-1"
+        aria-selected="true"
+        >Top Sellers by SKU</a
+      >
+    </li>
+    <li class="nav-item" role="presentation">
+      <a
+        class="nav-link"
+        id="ex3-tab-2"
+        data-mdb-toggle="tab"
+        href="#ex3-tabs-2"
+        role="tab"
+        aria-controls="ex3-tabs-2"
+        aria-selected="false"
+        >TOP Sellers by MFR</a
+      >
+    </li>
+    <li class="nav-item" role="presentation">
+      <a
+        class="nav-link"
+        id="ex3-tab-3"
+        data-mdb-toggle="tab"
+        href="#ex3-tabs-3"
+        role="tab"
+        aria-controls="ex3-tabs-3"
+        aria-selected="false"
+        >TOP Sellers by Ditributors</a
+      >
+    </li>
+  </ul>
+  <!-- Tabs navs -->
+  
+  <!-- Tabs content -->
+  <div class="tab-content" id="ex2-content">
+    <div
+      class="tab-pane fade show active"
+      id="ex3-tabs-1"
+      role="tabpanel"
+      aria-labelledby="ex3-tab-1"
+    >
+    <% top10Sku.forEach(function(skuCount) { %>
+        <li>
+          SKU: <%= skuCount.sku %>, Number of Orders: <%= skuCount.count %>
+        </li>
+      <% }); %>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="ex3-tabs-2"
+      role="tabpanel"
+      aria-labelledby="ex3-tab-2"
+    >
+    <% top10Manufacturers.forEach(function(mfrNameCount) { %>
+        <li>
+          MFR: <%= mfrNameCount.mfrName %>, Number of Orders: <%= mfrNameCount.count %>
+        </li>
+      <% }); %>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="ex3-tabs-3"
+      role="tabpanel"
+      aria-labelledby="ex3-tab-3"
+    >
+    <% top10disti.forEach(function(disti) { %>
+        <li>
+          Distributor: <%= disti.ditributor%>, Number of Orders: <%= disti.count %>
+        </li>
+      <% }); %>
+    </div>
+  </div>
+  <!-- Tabs content -->
+                </div><!-- df-example -->
+              </div>
+            </div>
+          </div>
+        </div><!-- row -->
+      </div><!-- container -->
+    </div><!-- content -->
+ 
+
+   
+
+    
+
+    
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+    <script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
+    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
+    <script src='https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js'></script>
+    <!-- <script src="/lib/feather-icons/feather.min.js"></script> -->
+    <!-- <script src="/assets/js/pages/admin/vendors.js"></script> -->
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+<script>
+  
+
+  let table = $('#example2').DataTable({
+    
+    "dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+    't'+
+    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+    "paging": true,
+    
+    "autoWidth": false,
+    "ordering" : false,
+    "fixedHeader": true,
+    "buttons": [
+      'colvis',
+    ]
+  ,
+    "searching": true,
+    // "serverSide": true,
+    "oLanguage": {
+      "sInfoFiltered": " ",
+      "sInfo": "Showing _START_ to _END_ of total _TOTAL_ ",
+      "sInfoEmpty": "No result found",
+      "sZeroRecords": "No results were found for your search",
+      "oPaginate": {
+        "sNext": "Next",
+        "sPrevious": "Previous"
+      },
+      "sSearch": "Search"
+    },//"deferLoading": 0,
+    // "sAjaxSource": '/admin/orders/paginate',
+    // "fnServerData": function (sSource, aoData, fnCallback) {
+    //   $.ajax({
+    //     "dataType": 'json',
+    //     "type": "post",
+    //     "url": sSource,
+    //     "data": aoData,
+    //     "success": function (data) {
+    //       fnCallback(data);
+    //     }
+    //   });
+    // },
+    // "aoColumnDefs": [],
+    // "aoColumns": [
+    //   { mData: 'orderId', 'data': 'orderId' },
+    //   { mData: 'poNumber', 'data': 'poNumber' },
+    //   // { mData: 'vendorName', 'data': 'Disti Vendor Name' },
+    //   { mData: 'email', 'data': 'email' },
+    //   { mData: 'createdBy', 'data': 'createdBy' },
+    //   { mData: 'processedBy', 'data': 'processedBy' },
+    //   { mData: 'status', 'data': 'status' },
+    //   { mData: 'createdAt', 'data': 'createdAt' },
+    //   { mData: 'details', 'data': 'actions' },
+    //   { mData: 'edit', 'data': 'actions' },
+
+      
+      
+    // ],
+    // scroller: {
+    //   loadingIndicator: true
+    // },
+  });
+
+</script>
+  </body>
+</html>

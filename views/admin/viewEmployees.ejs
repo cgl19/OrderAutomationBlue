@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ComtanixCMS">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="ComtanixCMS">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+    <title>Orders | ComtanixCMS</title>
+
+    <!-- vendor css -->
+    <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
+    <!-- <link href="/lib/typicons.font/typicons.css" rel="stylesheet"> -->
+    
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="/assets/css/dashforge.css">
+    <!-- <link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
+    <!-- <link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css'> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+    <!-- <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css'> -->
+    <style>
+     
+.dt-buttons {
+	margin-bottom: 10px;
+  margin-left: 200px;
+}
+.dt-buttons.btn-group{
+	float: left;
+}
+.dataTables_filter {
+  position: absolute;
+	float: right;
+  right: 30px;
+	margin-top: 4px;
+	text-align: left;
+}
+.dataTables_info {
+	float: right;
+}
+.dataTables_length{
+	left:30px;
+  position: absolute;
+	margin-top: 4px;
+}
+.dataTables_paginate{
+  float: right !important;
+}
+input {
+      height:28px !important;
+      margin-right:2px;
+    }
+    select {
+      height:35px !important;
+      margin-right:2px;
+    }
+    td {
+      text-align: left !important;
+      vertical-align: middle !important;
+    }
+    table.dataTable thead .sorting { background: url('/images/sort_both.png') no-repeat center right; }
+    table.dataTable thead .sorting_asc { background: url('/images/sort_asc.png') no-repeat center right; }
+    table.dataTable thead .sorting_desc { background: url('/images/sort_desc.png') no-repeat center right; }
+
+    table.dataTable thead .sorting_asc_disabled { background: url('/images/sort_asc_disabled.png') no-repeat center right; }
+    table.dataTable thead .sorting_desc_disabled { background: url('/images/sort_desc_disabled.png') no-repeat center right; }
+    .sorting::after  {
+      content : none !important
+    }
+    .sorting::before  {
+      content : none !important
+    }
+    .sorting_asc::before {
+      content : none !important
+    }
+    .sorting_asc::after {
+      content : none !important
+    }
+    .sorting_desc::after {
+      content : none !important
+    }
+    .dataTables_paginate{
+      float  : right !important
+    }
+    .fg-toolbar {
+      width : 100% !important
+    }
+
+    .dt-button-collection > li.active {
+      background-color : #0168fa !important;
+      color : white !important;
+      margin-bottom : 3px;
+      padding : 5px
+    }
+
+    .dt-button-collection > li.active > a {
+      color : white !important
+    }
+
+    </style>
+  </head>
+  <body class="page-profile">
+
+    <%- include('includes/header' , {page:'employees'}) %>
+
+    <div class="content content-fixed">
+      <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+          <div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                <li class="breadcrumb-item active" aria-current="page">Employees</li>
+              </ol>
+            </nav>
+            <h4 class="mg-b-0 tx-spacing--1">All Employees</h4>
+          </div>
+          <div class="d-none d-md-block">
+            <a href="#modal2" class="btn btn-primary" data-toggle="modal">Add New Employee</a>
+          </div>
+        </div>
+
+        <% if(error_message != ""){ %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%= error_message %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        <% } %>
+
+        <% if(success_message != ""){ %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <%= success_message %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+        <div class="row row-xs">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body pd-y-20 pd-x-25">
+                <div data-label="Example" class="df-example ">
+                  <table id="example2" class="table hover">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Powers</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(let i=0; i<employees.length; i++) { %>
+                        <tr>
+                          <td><%= i+1 %></td>
+                          <td><%= employees[i].name %></td>
+                          <td><%= employees[i].email %></td>
+                          <td>
+                            <% for(let j=0; j<employees[i]?.Powers.length; j++) { %>
+                               <%= employees[i]?.Powers[j]?.name %><%= employees[i]?.Powers.length - j != employees[i]?.Powers.length ? ',' : '' %>
+                              <% } %>
+                          </td>
+                          <td><a href="/admin/employees/<%= employees[i].id %>" class="btn btn-sm btn-secondary ml-2">Details</a><a data-id="<%= employees[i].id %>" data-name="<%= employees[i].name %>" data-email="<%= employees[i].email %>" class="btn btn-sm btn-warning ml-2 editBtn">Edit</a><a  href="/admin/employees/<%= employees[i].id %>/delete" class="btn btn-sm btn-danger ml-2">Delete</a></td>
+                        </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                </div><!-- df-example -->
+              </div>
+            </div>
+          </div>
+        </div><!-- row -->
+      </div><!-- container -->
+    </div><!-- content -->
+ 
+
+    <div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-14">
+          <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel2">Add Employee</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" style="width: 100%;" action="/admin/employees/add">
+              
+              <p style="text-align: left; display: inline-block;width: 100%;">Name:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                  <input type="text" name="name" class="form-control wd-sm-250 flex-fill" placeholder="Enter name">
+              </div>
+              <p style="text-align: left; display: inline-block;width: 100%;">Email:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                  <input type="text" name="email" class="form-control wd-sm-250 flex-fill" placeholder="Enter email address">
+              </div>
+              <p style="text-align: left; display: inline-block;width: 100%;">Password:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                  <input type="password" name="password" class="form-control wd-sm-250 flex-fill" placeholder="Enter Password if you wish to change it.">
+              </div>
+              <p style="text-align: left; display: inline-block;width: 100%;">Privilidges:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                  <select id="" name="powers" class="form-control" style="width: 100%;">
+                    <option>Select Privilidges</option>
+                    <option value="1">Accounts</option>
+                    <option value="2">Amazon</option>
+                    <option value="3">Amazon With Reporting Permission</option>
+                    <option value="4">Accounts With Reporting Permission</option>
+                    
+                  </select>
+              </div>
+              <button class="btn btn-brand-02 mg-sm-t-0 w-100" type="submit">Add Employee</button>
+          </form>  
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-14">
+          <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel2">Edit Employee</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" style="width: 100%;" action="/admin/employees/edit">
+              <input id="eId" type="hidden" name="id" />
+              <p style="text-align: left; display: inline-block;width: 100%;">Name:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                  <input type="text" name="name" class="form-control wd-sm-250 flex-fill" id="eName" placeholder="Enter name">
+              </div>
+              <p style="text-align: left; display: inline-block;width: 100%;">Email:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                  <input type="text" name="email" class="form-control wd-sm-250 flex-fill" id="eEmail" placeholder="Enter email address">
+              </div>
+              <p style="text-align: left; display: inline-block;width: 100%;">Password:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                  <input type="password" name="password" class="form-control wd-sm-250 flex-fill" placeholder="Enter Password if you wish to change it.">
+              </div>
+              <button class="btn btn-brand-02 mg-sm-t-0 w-100" type="submit">Edit Employee</button>
+          </form>  
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-14">
+          <div class="modal-header">
+            <h6 class="modal-title" id="exampleModalLabel2">Assign Tasks</h6>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="POST" style="width: 100%;" action="/admin/employees/assign">
+              <input id="aId" type="hidden" name="id" />
+              
+              
+              <p style="text-align: left; display: inline-block;width: 100%;">Select Disti / Vendor / CMS Vendor:</p>
+              <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                <select class="js-example-basic-single form-control" id="select" name="select" style="width: 100%;color: black;">
+                  
+                </select>
+              </div>
+             
+              <button class="btn btn-brand-02 mg-sm-t-0 w-100" type="submit">Assign</button>
+          </form>  
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+    <script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
+    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
+    <script src='https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js'></script>
+    <!-- <script src="/lib/feather-icons/feather.min.js"></script> -->
+    <script src="/assets/js/pages/admin/vendors.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+    <script>
+      toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-bottom-right",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "2000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    } 
+      $(".editBtn").on('click',(e)=>{
+        e.preventDefault();
+        let id = $(e.currentTarget).attr('data-id');
+        let name = $(e.currentTarget).attr('data-name');
+        let email = $(e.currentTarget).attr('data-email');
+
+        $("#eEmail").val(email)
+        $("#eName").val(name)
+        $("#eId").val(id)
+        $("#editModal").modal(true)
+      })
+
+      $(".assignBtn").on('click',(e)=>{
+        e.preventDefault();
+        let id = $(e.currentTarget).attr('data-id');
+        $("#aId").val(id)
+        $("#assignModal").modal(true)
+      })
+
+      $(document).ready(function() {
+        
+        $('.assignedVendorsSelect').select2({
+          multiple: true,
+          theme :"classic",
+          placeholder: 'Assigned Vendors',
+        });
+        
+          $('#select').select2({
+            multiple: true,
+            theme :"classic",
+            dropdownParent: $("#assignModal"),
+            ajax: {
+              url: '/admin/vendors/select/paginate',
+              dataType: 'json',
+              method : "post",
+              delay: 250,
+              data: function (params) {
+                var query = {
+                  search: params.term,
+                  page: params.page || 1
+                }
+
+                // Query parameters will be ?search=[term]&page=[page]
+                return query;
+              },
+              processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data.data,
+                    pagination: {
+                        more: (params.page * 15) < data.recordsTotal
+                    }
+                };
+              },
+              cache: true
+            },
+            placeholder: 'Search for a Vendor',
+            minimumInputLength: 1,
+          });
+
+
+          $('#select3').select2({
+            multiple: true,
+            theme :"classic",
+            dropdownParent: $("#modal2"),
+            placeholder: 'Select Priviledges',
+          });
+
+          $("body").on('change','.assignedVendorsSelect',(e)=>{
+            let id = $(e.currentTarget).attr('data-id')
+            let value = $(e.currentTarget).val()
+            $.post('/admin/employee/vendors/assigned/update',{id : id, vendors : value, },(res)=>{
+              if(res.status){
+                toastr["success"]("Assigned Vendors updated successfully.")
+              }else{
+                toastr["error"]("Assigned Vendors updation failed.")
+              }
+            })
+          })
+      });
+
+      
+    </script>
+  </body>
+</html>

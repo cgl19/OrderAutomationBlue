@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ComtanixCMS">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="ComtanixCMS">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+    <title>Employee Dashboard | ComtanixCMS</title>
+
+    <!-- vendor css --> 
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/jquery.raty.css">
+
+    <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
+
+    <!-- DashForge CSS -->
+     <link rel="stylesheet" href="/assets/css/dashforge.css">
+    <!--<link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
+    <style>
+      .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Dull background */
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      /* Change position to absolute */
+      top: 50%;
+      /* Center vertically */
+      left: 50%;
+      /* Center horizontally */
+      transform: translate(-50%, -50%);
+      /* Adjust centering */
+    }
+
+    .select2-container  {
+    z-index : 10000000000000000000 !important
+  }
+
+  .select2-dropdown  {
+    z-index : 10000000000000000000 !important
+  }
+    .loading-text {
+      font-size: 16px;
+      color: #ffffff;
+      margin-top: 10px;
+    }
+
+    /* Center the spinner */
+    .spinner-border {
+      display: inline-block;
+      width: 3rem;
+      height: 3rem;
+      vertical-align: text-bottom;
+      border: 0.25em solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spinner-border 0.75s linear infinite;
+    }
+
+    @keyframes spinner-border {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    </style>
+  </head>
+  <body class="page-profile">
+
+    <%- include('includes/header', {page : "dashboard"}) %>
+
+    <div id="loader" class="loader-container">
+      <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <p class="loading-text">Generating Report... Please wait...</p>
+      </div>
+    </div>
+
+    <!-- loader ended here -->
+
+    
+
+    <div class="content content-fixed">
+      <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+          <div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+              </ol>
+            </nav>
+            <h4 class="mg-b-0 tx-spacing--1">Welcome to Dashboard</h4>
+          </div>
+          <div class="d-none d-md-block">
+            <a href="/employee/addOrder" class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="upload" class="wd-10 mg-r-5"></i> Add Order</a>
+            <button type="button" id="export-btn" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+              Export Orders
+            </button>
+            
+
+          </div>
+        </div>
+
+        <div class="row row-xs">
+          <div class="col-lg-8 col-xl-9">
+           
+          </div>
+          <div class="col-md-6 col-lg-4 col-xl-3 mg-t-10 mg-lg-t-0">
+            
+          </div>
+          <div class="col-lg-12 col-md-12 mg-t-10">
+            <h1>Orders</h1>
+  <p>Total Assigned Orders: <%= assignedCount %></p>
+  <p>Completed Orders: <%= completedOrderCount %></p>
+  <table id="example2" class="table hover">
+    <thead> 
+      <tr>
+          
+        
+          <th>Order ID</th>
+          <th>PO Number</th>
+          <th>Amazon User Name</th>
+          <th>Purchase Rep</th>
+          <th>Status</th>
+          <th>Created At</th>
+          <% if (userPowers.find(power => power.name === "AmazonWithReporting")) { %>
+            <th>Rating</th>
+            <% } %>
+          <th>Action</th>
+         
+         
+      </tr>
+  </thead>
+    <tbody>
+       
+    </tbody>
+</table>
+  
+              
+      
+          </div><!-- col -->
+          <div class="col-lg-3 col-md-6 mg-t-10">
+            
+          </div><!-- col -->
+          <div class="col-lg-3 col-md-6 mg-t-10">
+            
+          </div><!-- col -->
+          <div class="col-lg-3 col-md-6 mg-t-10">
+          
+          </div><!-- col -->
+          
+          
+        </div><!-- row -->
+      </div><!-- container -->
+    </div><!-- content -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Export Data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="exportForm">
+              <div class="form-group">
+                <label for="fromDate">From Date</label>
+                <input type="date" class="form-control" id="fromDate" name="fromDate" required>
+              </div>
+              <div class="form-group">
+                <label for="toDate">To Date</label>
+                <input type="date" class="form-control" id="toDate" name="toDate" required>
+              </div>
+              <div class="form-group">
+                <% if (userPowers.some(power => power.dataValues.name === 'AmazonWithReporting')) { %>
+                  <label for="employees">Employees</label>
+                  <select class="form-control select2 parent_filter_select2" id="selectEmp" name="employees[]" multiple="multiple" required>
+                    
+                    <!-- Add employee options here -->
+                    <% employeesData.forEach(employee=> { %>
+                      <option value="<%= employee.id %>">
+                        <%= employee.name %>
+                      </option>
+                      
+                      <% }); %>
+                    </select>
+                    
+                  </div>
+                  <% } else { %>
+                    <label for="employees">Employees</label>
+                  <select class="form-control select2" id="selectEmp" name="employees[]" multiple="multiple" required>
+                    <option value="" disabled>Select Employees</option>
+                    <!-- Add employee options here -->
+                    
+                      <option value="<%= user.id %>" >
+                        <%= user.name %>
+                      </option>
+                      
+                      
+                    </select>
+                    <% } %>
+                    <div class="form-group">
+                      <label for="status">Status</label>
+                      <select class="form-control select2" name="status[]" multiple="multiple" id="selectStatus">
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="in-progress">In-Progress</option>
+                        <option value="pending">Pending</option>
+                      </select>
+                    </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="exportButton">Export</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <script src="/lib/chart.js/Chart.bundle.min.js"></script>
+    
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/jquery.raty.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <script>
+
+  </script>
+    <!--<script src="/lib/feather-icons/feather.min.js"></script>
+    <script src="/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.stack.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.resize.js"></script>
+     <script src="/assets/js/dashforge.js"></script>
+    <script src="/assets/js/dashforge.sampledata.js"></script>
+    <script src="/assets/js/dashboard-two.js"></script> -->
+
+    <!-- append theme customizer -->
+    <!-- <script src="/lib/js-cookie/js.cookie.js"></script>
+    <script src="/assets/js/dashforge.settings.js"></script>
+    -->
+    <script>
+     document.getElementById('exportButton').addEventListener('click', function () {
+    const form = document.getElementById('exportForm');
+        if (form.checkValidity()) {
+          $('#myModal').modal('hide');
+          $('#loader').show();
+
+      let status = $('#selectStatus').val();
+          let formData = {
+            fromDate: form.fromDate.value,
+            toDate: form.toDate.value,
+          employees:$('#selectEmp').val(),
+            status: [...status],
+          };
+
+
+      
+            
+
+            $.ajax({
+              type: 'POST',
+              url: '/employee/orders/exports',
+              data: formData,
+              success: function (response) {
+                // Call the downloadCsv function here
+                console.log('Export success:', response);
+                
+              },
+              error: function (error) {
+                console.error('Export error:', error);
+                
+              }
+            });
+          
+        }
+      });
+
+
+
+
+
+
+
+      //this function is respnsible for the download the exported data of csv 
+      //this function will runs when you submit the Modal for exporting data 
+      // exportButton it is the id of the Button inside the ExportModal 
+
+      document.getElementById("exportButton").addEventListener("click", function () {
+        setTimeout(function () {
+          // This code will be executed after 10 seconds
+          downloadCsv();
+        }, 10000); // 10000 milliseconds = 10 seconds
+      });
+
+      function downloadCsv() {
+        $.ajax({
+          url: '/employee/order/download',
+          method: 'GET',
+          xhrFields: {
+            responseType: 'blob'
+          },
+          success: function (data) {
+            const blob = new Blob([data], { type: 'text/xlsx' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'file.xlsx';
+            link.click();
+          },
+          error: function (error) {
+            console.error('Error downloading CSV:', error);
+          },
+        });
+        $('#loader').hide();
+      }
+
+
+      //dwonload csv functionality ended here 
+    </script>
+    <script>
+  
+
+      let table = $('#example2').DataTable({
+        
+        "dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+        't'+
+        '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+        "paging": true,
+        
+        "autoWidth": false,
+        "ordering" : false,
+        "fixedHeader": true,
+        "buttons": [
+          'colvis',
+        ]
+      ,
+        "searching": true,
+        "serverSide": true,
+        "oLanguage": {
+          "sInfoFiltered": " ",
+          "sInfo": "Showing _START_ to _END_ of total _TOTAL_ ",
+          "sInfoEmpty": "No result found",
+          "sZeroRecords": "No results were found for your search",
+          "oPaginate": {
+            "sNext": "Next",
+            "sPrevious": "Previous"
+          },
+          "sSearch": "Search"
+        },//"deferLoading": 0,
+        "sAjaxSource": '/employee/orders/paginateAmazon',
+        "fnServerData": function (sSource, aoData, fnCallback) {
+          $.ajax({
+            "dataType": 'json',
+            "type": "post",
+            "url": sSource,
+            "data": aoData,
+            "success": function (data) {
+              renderStars();
+              fnCallback(data);
+            }
+          });
+        },
+        "aoColumnDefs": [],
+        "aoColumns": [
+          { mData: 'orderId', 'data': 'orderId' },
+          { mData: 'poNumber', 'data': 'poNumber' },
+          // { mData: 'vendorName', 'data': 'Disti Vendor Name' },
+          // { mData: 'email', 'data': 'email' },
+          { mData: 'createdBy', 'data': 'createdBy' },
+          { mData: 'processedBy', 'data': 'processedBy' },
+         
+          { mData: 'status', 'data': 'status' },
+          { mData: 'createdAt', 'data': 'createdAt' },
+          <% if (userPowers.find(power => power.name === "AmazonWithReporting")) { %>
+            { mData: 'rating', 'data': 'rating' },
+          <% } %>
+          { mData: 'details', 'data': 'details' },
+         
+    
+          
+          
+        ],
+        scroller: {
+          loadingIndicator: true
+        },
+      });
+     
+
+      function renderStars(data) {
+  // You can perform actions here based on the data received from the server
+  console.log('rendering stars');
+  setTimeout(() => {
+    <% if (userPowers.find(power => power.name === "AmazonWithReporting")) { %>
+    $('.ratingDiv').raty({
+      half: true,
+      click: function (score, evt) {
+        let orderId = $(this).attr('data-orderid');
+
+        let requestData = {
+          orderId: orderId,
+          score: score
+          // Add more key-value pairs as needed
+        };
+
+        $.ajax({
+          dataType: 'json',
+          type: 'POST',
+          url: '/employee/ratingProcess',
+          data: requestData,
+          success: function (response) {
+            if (response.status === true) {
+              // Handle success
+              console.log('Rating submission successful:', response);
+              alert('Rating submitted successfully.');
+            } else {
+              // Handle failure
+              console.error('Rating submission failed:', response);
+              alert('Rating submission failed. Rating already exists.');
+            }
+          },
+          error: function (xhr, status, error) {
+            // Handle AJAX error here
+            console.error('Rating submission error:', error);
+            alert('Rating submission error. Please try again later.');
+          }
+        });
+      }
+    });
+    <% } else if (userPowers.find(power => power.name === "accounts") || userPowers.find(power => power.name === "AccountsWithReporting")) { %>
+    $('.ratingDiv').raty({
+      readOnly: true,
+      half: true,
+    });
+    <% } %>
+  }, 200); // Adjust the timeout as needed
+}
+    </script>
+    <script>
+      $.fn.select2.amd.define('select2/selectAllAdapter', [
+    'select2/utils',
+    'select2/dropdown',
+    'select2/dropdown/attachBody'
+], function (Utils, Dropdown, AttachBody) {
+
+    function SelectAll() { }
+    SelectAll.prototype.render = function (decorated) {
+        var self = this,
+            $rendered = decorated.call(this),
+            $selectAll = $(
+                '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-check-square-o"></i> Select All</button>'
+            ),
+            $unselectAll = $(
+                '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-square-o"></i> Unselect All</button>'
+            ),
+            $btnContainer = $('<div style="margin-top:3px; z-index :900000000000000000000000000000000000000000">').append($selectAll).append($unselectAll);
+        if (!this.$element.prop("multiple")) {
+            // this isn't a multi-select -> don't add the buttons!
+            return $rendered;
+        }
+        $rendered.find('.select2-dropdown').prepend($btnContainer);
+        $selectAll.on('click', function (e) {
+          self.$element.find('option').prop("selected", true);
+
+            // Trigger a change event on the select element to reflect the changes
+            self.$element.trigger("change");
+
+            // Close the dropdown
+            self.trigger('close');
+            // var $results = $rendered.find('.select2-results__option[aria-selected=false]');
+            // console.log("=============================",$results)
+            // $results.each(function () {
+            //     self.trigger('select', {
+            //         data: $(this).data('data')
+            //     });
+            // });
+            self.trigger('close');
+        });
+        $unselectAll.on('click', function (e) {
+          self.$element.find('option').prop("selected", false);
+
+// Trigger a change event on the select element to reflect the changes
+self.$element.trigger("change");
+
+// Close the dropdown
+self.trigger('close');
+          // $('.select2').select2('destroy').find('option').prop('selected', false).end().select2();
+            // var $results = $rendered.find('.select2-results__option[aria-selected=true]');
+            // $results.each(function () {
+            //     self.trigger('unselect', {
+            //         data: $(this).data('data')
+            //     });
+            // });
+            self.trigger('close');
+        });
+        return $rendered;
+    };
+
+    return Utils.Decorate(
+        Utils.Decorate(
+            Dropdown,
+            AttachBody
+        ),
+        SelectAll
+    );
+
+});
+
+$(document).ready(function () {
+          $('.select2').select2({
+            width: "100%",
+            "z-index" : 1000000000,
+            dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+          });
+        });
+
+// $('#parent_filter_select2').select2({
+//     placeholder: 'Select',
+//     dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+// });
+
+
+    </script>
+  </body>
+</html>

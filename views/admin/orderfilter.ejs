@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ComtanixCMS">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="ComtanixCMS">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+    <title>Orders | ComtanixCMS</title>
+
+    <!-- vendor css -->
+    <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
+    <!-- <link href="/lib/typicons.font/typicons.css" rel="stylesheet"> -->
+    
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="/assets/css/dashforge.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
+    <style>
+      /* Add this to your <style> tag or external CSS file */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Dull background */
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+  
+      .loader {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        /* Change position to absolute */
+        top: 50%;
+        /* Center vertically */
+        left: 50%;
+        /* Center horizontally */
+        transform: translate(-50%, -50%);
+        /* Adjust centering */
+      }
+  
+      .loading-text {
+        font-size: 16px;
+        color: #ffffff;
+        margin-top: 10px;
+      }
+  
+      /* Center the spinner */
+      .spinner-border {
+        display: inline-block;
+        width: 3rem;
+        height: 3rem;
+        vertical-align: text-bottom;
+        border: 0.25em solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: spinner-border 0.75s linear infinite;
+      }
+  
+      @keyframes spinner-border {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+    <style>
+     
+.dt-buttons {
+	margin-bottom: 10px;
+  margin-left: 200px;
+}
+.dt-buttons.btn-group{
+	float: left;
+}
+.dataTables_filter {
+  position: absolute;
+	float: right;
+  right: 30px;
+	margin-top: 4px;
+	text-align: left;
+}
+.dataTables_info {
+	float: right;
+}
+.dataTables_length{
+	left:30px;
+  position: absolute;
+	margin-top: 4px;
+}
+.dataTables_paginate{
+  float: right !important;
+}
+input {
+      height:28px !important;
+      margin-right:2px;
+    }
+    select {
+      height:35px !important;
+      margin-right:2px;
+    }
+    td {
+      text-align: left !important;
+      vertical-align: middle !important;
+    }
+    table.dataTable thead .sorting { background: url('/images/sort_both.png') no-repeat center right; }
+    table.dataTable thead .sorting_asc { background: url('/images/sort_asc.png') no-repeat center right; }
+    table.dataTable thead .sorting_desc { background: url('/images/sort_desc.png') no-repeat center right; }
+
+    table.dataTable thead .sorting_asc_disabled { background: url('/images/sort_asc_disabled.png') no-repeat center right; }
+    table.dataTable thead .sorting_desc_disabled { background: url('/images/sort_desc_disabled.png') no-repeat center right; }
+    .sorting::after  {
+      content : none !important
+    }
+    .sorting::before  {
+      content : none !important
+    }
+    .sorting_asc::before {
+      content : none !important
+    }
+    .sorting_asc::after {
+      content : none !important
+    }
+    .sorting_desc::after {
+      content : none !important
+    }
+    .dataTables_paginate{
+      float  : right !important
+    }
+    .fg-toolbar {
+      width : 100% !important
+    }
+
+    .dt-button-collection > li.active {
+      background-color : #0168fa !important;
+      color : white !important;
+      margin-bottom : 3px;
+      padding : 5px
+    }
+
+    .dt-button-collection > li.active > a {
+      color : white !important
+    }
+
+    </style>
+  </head>
+  <body class="page-profile">
+
+    <%- include('./includes/header', {page : "OrderFilter" }) %>
+
+
+
+
+    <div class="content content-fixed">
+      <div class="d-flex justify-content-end">
+        <div class="d-none d-md-block">
+          <button type="button" id="export-btn" class="btn btn-primary" data-toggle="modal" data-target="dashboard.html#filterModal">
+            Filter & Reporting
+        </button>
+        
+        
+      </div>
+      <style>
+        .d-none.d-md-block {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .d-none.d-md-block label {
+          flex: 1;
+          margin-right: 10px;
+        }
+
+        .d-none.d-md-block input[type="date"] {
+          flex: 2;
+          padding: 4px;
+          margin-right: 9px;
+          border-radius: 4px;
+          border-color: rgb(158, 158, 158);
+        }
+      </style>
+
+
+
+      </div>
+      <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+          
+          
+
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="card card-body">
+                  <h6 class="tx-uppercase tx-5  tx-spacing-1 tx-color-02 tx-semibold mg-b-8" ;">
+                    Filtered Orders of </h6>
+                    <p>
+                   <%= fromDate %> - <%=new Date(toDate).toISOString().split('T')[0];%> 
+                  </p>
+                  <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                    <!-- chart-three -->
+                  </div>
+                </div>
+              </div>
+          
+              <div class="col-md-4">
+                <div class="card card-body">
+                  <h6 class="tx-uppercase tx-5 tx-spacing-1 tx-color-02 tx-semibold mg-b-8">
+                    Manufacturer</h6>
+                    <p> <%= mfr %></p>
+                   
+                  
+                  <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                    <!-- chart-three -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card card-body">
+                  <h6 class="tx-uppercase  tx-spacing-1 tx-color-02 tx-semibold mg-b-8">
+                    Distributor</h6>
+                    <p> <%= disti %></p>
+                   
+                  
+                  <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                    <!-- chart-three -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         
+        </div>
+        
+       
+
+
+      
+    
+             
+
+
+
+
+
+
+
+
+
+  <!-- Tabs navs -->
+  <section id="tabs" class="project-tab">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Filtered Records (<%= orders.length %>)</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Top Skus</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Top MFRs</a>
+                        <a class="nav-item nav-link" id="nav-dist-tab" data-toggle="tab" href="#nav-dist" role="tab" aria-controls="nav-dist" aria-selected="false">Top Distributors</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                      <div data-label="Example" class="df-example ">
+                        <div class="row row-xs">
+                          <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body pd-y-20 pd-x-25">
+                          <table id="example2" class="table hover">
+                            <% let megaCogs = 0 %>
+                           
+                            <thead>
+                              <tr>
+                                <th style="font-weight: 600;">ORDERID</th>
+                                <th style="font-weight: 600;">PO #</th>
+                                <th style="font-weight: 600;">Mfr</th>
+                                <th style="font-weight: 600;">Total COGS</th>
+                                <th style="font-weight: 600;">Amazon Rep</th>
+                                <th style="font-weight: 600;">Purchasing Rep</th>
+                                <th style="font-weight: 600;">Status</th>
+                                <th style="font-weight: 600;">Date Time</th>
+                                <th style="font-weight: 600;">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <% orders.forEach((order) => { %>
+                                <tr>
+                                  <td><%= order.orderId %></td>
+                                  <td><%= order.poNumber %></td>
+                                  <% let cog = 0  %>
+                                  <% order?.cost?.split('|').forEach(cost=> {cog = cog + +cost}) %>
+                                  <% order?.freightCost?.split('|').forEach(cost=> {cog = cog + +cost}) %>
+                                  <% order?.handlingFee?.split('|').forEach(cost=> {cog = cog + +cost}) %>
+                                  <% cog = cog + +order.insurance %>
+                                  <% cog = cog + +order.saleTax %>
+                                  <% cog = cog + +order.resoldRevenue %>
+                                  <% cog = cog + +order.creditMemo %>
+                                  <% cog = cog + +order.miscFee %>
+                                  <!-- <td><%= order.cog %></td> -->
+                                  <td><%= order.mfrName %></td>
+                                  <td><%= Number(cog) %></td>
+                                  <td><%= order.amazonUser.name%></td>
+                                  <td><%= order.accountUser.name%></td>
+                                  
+                                  <td><%= order.status %></td>
+                                  <td><%= order.createdAt %></td>
+                                  <td>
+                                    <% megaCogs = Number(megaCogs + cog) %>
+        
+                                    <!-- Add actions here -->
+                                    <!-- For example, edit and delete buttons -->
+                                
+                 <a class="btn btn-primary" href="/employee/editOrderAccount/<%=order.id%>">Edit</a>
+                  
+                 <a class="btn btn-primary" href="/admin/orders/<%=order.id%>">Details</a>    
+                                    
+                                  </td>
+                                </tr>
+                              <% }); %>
+                             
+                              <div class="col-md-4">
+                                <div class="card card-body">
+                                  <h6 class="tx-uppercase tx-5 tx-spacing-1 tx-color-02 tx-semibold mg-b-8">
+                                   COGS: $<%= megaCogs.toFixed(2) %>
+                                  </h6>
+                                  <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                                    <!-- chart-three -->
+                                  </div>
+                              </div>
+                              </div>
+                            </tbody>
+                          </table>
+                          </div>
+                          </div>
+                          </div>
+
+                        </div><!-- df-example -->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                      <div class="row row-xs">
+                        <div class="col-lg-12">
+                          <div class="card">
+                              <div class="card-body pd-y-20 pd-x-25">
+                        <table id="skuTable" class="table hover">
+                         
+                          <thead>
+                            <tr>
+                              <th style="font-weight: 800;">SKU</th>
+                              <th style="font-weight: 800;">Orders</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% top10Sku.forEach(function(skuCount) { %>
+                              <tr>
+                                <td><%= skuCount.sku %></td><td><%= skuCount.count %></td>
+                              </tr>
+                            <% }); %>
+                          </tbody>
+                        </table>
+                        </div>
+                        </div>
+                        </div>
+
+                      </div><!-- df-example -->
+                    </div>
+                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                      <div class="row row-xs">
+                        <div class="col-lg-12">
+                          <div class="card">
+                              <div class="card-body pd-y-20 pd-x-25">
+                        <table id="mfrTable" class="table hover">
+                         
+                          <thead>
+                            <tr>
+                              <th style="font-weight: 800;">MFR NAME</th>
+                              <th style="font-weight: 800;">Orders</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% top10Manufacturers.forEach(function(mfrNameCount) { %>
+                              <tr>
+                               <td><%= mfrNameCount.mfrName %></td><td><%= mfrNameCount.count %></td> 
+                              </tr>
+                            <% }); %>
+                          </tbody>
+                        </table>
+                        </div>
+                        </div>
+                        </div>
+
+
+                       
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      </div><!-- df-example -->
+                    </div>
+                    <div class="tab-pane fade" id="nav-dist" role="tabpanel" aria-labelledby="nav-dist-tab">
+                      <div class="row row-xs">
+                        <div class="col-lg-12">
+                          <div class="card">
+                              <div class="card-body pd-y-20 pd-x-25">
+                        <table id="distiTable" class="table hover">
+                         
+                          <thead>
+                            <tr>
+                              <th style="font-weight: 800;">Distributor</th>
+                              <th style="font-weight: 800;">Orders</th>
+                            </tr>
+                          </thead>
+                          <% let choiceCount = 0, techCount = 0%>
+                          <tbody>
+                            <% top10disti.forEach(function(disti) { %>
+                              <tr>
+                                <% techCount = disti.distributor.includes('ech') ? techCount + disti.count : techCount + 0%>
+                                <% choiceCount = disti.distributor.includes('hoice') ? choiceCount + disti.count :choiceCount + 0%>
+                                <td><%= disti.distributor%></td><td><%= disti.count %></td> 
+                              </tr>
+                            <% }); %>
+                            <div class="con">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <div class="card card-body">
+                                    <h6 class="tx-uppercase  tx-spacing-1 tx-color-02 tx-semibold mg-b-8">
+                                      Total Choice Orders:</h6>
+                                      <p>  <%= choiceCount %></p>
+                                     
+                                    
+                                    <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                                      <!-- chart-three -->
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                  <div class="card card-body">
+                                    <h6 class="tx-uppercase  tx-spacing-1 tx-color-02 tx-semibold mg-b-8">
+                                      Total Tech Orders:</h6>
+                                      <p>   <%= techCount %></p>
+                                    
+                                     
+                                    
+                                    <div class="d-flex d-lg-block d-xl-flex align-items-end">
+                                      <!-- chart-three -->
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+
+
+                           
+                           
+                            </div>
+                           
+                        </table>
+                        </div>
+                        </div>
+                        </div>
+
+                      </div><!-- df-example -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+  <!-- Tabs content -->
+  <!-- <div class="tab-content" id="ex2-content">
+    <div
+      class="tab-pane fade show active"
+      id="ex3-tabs-1"
+      role="tabpanel"
+      aria-labelledby="ex3-tab-1"
+    >
+    <% top10Sku.forEach(function(skuCount) { %>
+        <li>
+          SKU: <%= skuCount.sku %>, Number of Orders: <%= skuCount.count %>
+        </li>
+      <% }); %>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="ex3-tabs-2"
+      role="tabpanel"
+      aria-labelledby="ex3-tab-2"
+    >
+    <% top10Manufacturers.forEach(function(mfrNameCount) { %>
+        <li>
+          MFR: <%= mfrNameCount.mfrName %>, Number of Orders: <%= mfrNameCount.count %>
+        </li>
+      <% }); %>
+    </div>
+    <div
+      class="tab-pane fade"
+      id="ex3-tabs-3"
+      role="tabpanel"
+      aria-labelledby="ex3-tab-3"
+    >
+    
+    </div>
+  </div> -->
+  <!-- Tabs content -->
+                 
+  
+
+           
+      </div><!-- container -->
+    </div><!-- content -->
+ 
+
+   
+
+    
+
+    
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+    <script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+    <script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
+    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
+    <script src='https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js'></script>
+    <!-- <script src="/lib/feather-icons/feather.min.js"></script> -->
+    <!-- <script src="/assets/js/pages/admin/vendors.js"></script> -->
+<!--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+<script>
+  
+  $("#skuTable").DataTable({
+    "dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+    't'+
+    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+    "paging": true,
+    
+    "autoWidth": false,
+    "ordering" : false,
+    "fixedHeader": true,
+    "buttons": [
+      'colvis',
+    ]
+  ,
+    "searching": true,
+    // "serverSide": true,
+    "oLanguage": {
+      "sInfoFiltered": " ",
+      "sInfo": "Showing _START_ to _END_ of total _TOTAL_ ",
+      "sInfoEmpty": "No result found",
+      "sZeroRecords": "No results were found for your search",
+      "oPaginate": {
+        "sNext": "Next",
+        "sPrevious": "Previous"
+      },
+      "sSearch": "Search"
+    },
+  })
+
+  $("#mfrTable").DataTable({
+    "dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+    't'+
+    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+    "paging": true,
+    
+    "autoWidth": false,
+    "ordering" : false,
+    "fixedHeader": true,
+    "buttons": [
+      'colvis',
+    ]
+  ,
+    "searching": true,
+    // "serverSide": true,
+    "oLanguage": {
+      "sInfoFiltered": " ",
+      "sInfo": "Showing _START_ to _END_ of total _TOTAL_ ",
+      "sInfoEmpty": "No result found",
+      "sZeroRecords": "No results were found for your search",
+      "oPaginate": {
+        "sNext": "Next",
+        "sPrevious": "Previous"
+      },
+      "sSearch": "Search"
+    },
+  })
+
+  $("#distiTable").DataTable({
+    "dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+    't'+
+    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+    "paging": true,
+    
+    "autoWidth": false,
+    "ordering" : false,
+    "fixedHeader": true,
+    "buttons": [
+      'colvis',
+    ]
+  ,
+    "searching": true,
+    // "serverSide": true,
+    "oLanguage": {
+      "sInfoFiltered": " ",
+      "sInfo": "Showing _START_ to _END_ of total _TOTAL_ ",
+      "sInfoEmpty": "No result found",
+      "sZeroRecords": "No results were found for your search",
+      "oPaginate": {
+        "sNext": "Next",
+        "sPrevious": "Previous"
+      },
+      "sSearch": "Search"
+    },
+  })
+  let table = $('#example2').DataTable({
+    
+    "dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>'+
+    't'+
+    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+    "paging": true,
+    
+    "autoWidth": false,
+    "ordering" : false,
+    "fixedHeader": true,
+    "buttons": [
+      'colvis',
+    ]
+  ,
+    "searching": true,
+    // "serverSide": true,
+    "oLanguage": {
+      "sInfoFiltered": " ",
+      "sInfo": "Showing _START_ to _END_ of total _TOTAL_ ",
+      "sInfoEmpty": "No result found",
+      "sZeroRecords": "No results were found for your search",
+      "oPaginate": {
+        "sNext": "Next",
+        "sPrevious": "Previous"
+      },
+      "sSearch": "Search"
+    },//"deferLoading": 0,
+    // "sAjaxSource": '/admin/orders/paginate',
+    // "fnServerData": function (sSource, aoData, fnCallback) {
+    //   $.ajax({
+    //     "dataType": 'json',
+    //     "type": "post",
+    //     "url": sSource,
+    //     "data": aoData,
+    //     "success": function (data) {
+    //       fnCallback(data);
+    //     }
+    //   });
+    // },
+    // "aoColumnDefs": [],
+    // "aoColumns": [
+    //   { mData: 'orderId', 'data': 'orderId' },
+    //   { mData: 'poNumber', 'data': 'poNumber' },
+    //   // { mData: 'vendorName', 'data': 'Disti Vendor Name' },
+    //   { mData: 'email', 'data': 'email' },
+    //   { mData: 'createdBy', 'data': 'createdBy' },
+    //   { mData: 'processedBy', 'data': 'processedBy' },
+    //   { mData: 'status', 'data': 'status' },
+    //   { mData: 'createdAt', 'data': 'createdAt' },
+    //   { mData: 'details', 'data': 'actions' },
+    //   { mData: 'edit', 'data': 'actions' },
+
+      
+      
+    // ],
+    // scroller: {
+    //   loadingIndicator: true
+    // },
+  });
+
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      // Get the button element
+      var exportBtn = document.getElementById("export-btn");
+
+      // Get the modal element
+      var filterModal = new bootstrap.Modal(document.getElementById("filterModal"));
+
+      // Add a click event listener to the button
+      exportBtn.addEventListener("click", function () {
+          // Open the modal
+          filterModal.show();
+      });
+  });
+</script>
+<script>
+  $.fn.select2.amd.define('select2/selectAllAdapter', ['select2/utils','select2/dropdown','select2/dropdown/attachBody'], function (Utils, Dropdown, AttachBody) {
+function SelectAll() { }
+SelectAll.prototype.render = function (decorated) {
+    var self = this,
+        $rendered = decorated.call(this),
+        $selectAll = $(
+            '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-check-square-o"></i> Select All</button>'
+        ),
+        $unselectAll = $(
+            '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-square-o"></i> Unselect All</button>'
+        ),
+        $btnContainer = $('<div style="margin-top:3px; z-index :900000000000000000000000000000000000000000">').append($selectAll).append($unselectAll);
+    if (!this.$element.prop("multiple")) {
+        // this isn't a multi-select -> don't add the buttons!
+        return $rendered;
+    }
+    $rendered.find('.select2-dropdown').prepend($btnContainer);
+    $selectAll.on('click', function (e) {
+      self.$element.find('option').prop("selected", true);
+
+        // Trigger a change event on the select element to reflect the changes
+        self.$element.trigger("change");
+
+        // Close the dropdown
+        self.trigger('close');
+        // var $results = $rendered.find('.select2-results__option[aria-selected=false]');
+        // console.log("=============================",$results)
+        // $results.each(function () {
+        //     self.trigger('select', {
+        //         data: $(this).data('data')
+        //     });
+        // });
+        self.trigger('close');
+    });
+    $unselectAll.on('click', function (e) {
+      self.$element.find('option').prop("selected", false);
+
+// Trigger a change event on the select element to reflect the changes
+self.$element.trigger("change");
+
+// Close the dropdown
+self.trigger('close');
+      // $('.select2').select2('destroy').find('option').prop('selected', false).end().select2();
+        // var $results = $rendered.find('.select2-results__option[aria-selected=true]');
+        // $results.each(function () {
+        //     self.trigger('unselect', {
+        //         data: $(this).data('data')
+        //     });
+        // });
+        self.trigger('close');
+    });
+    return $rendered;
+};
+
+return Utils.Decorate(
+    Utils.Decorate(
+        Dropdown,
+        AttachBody
+    ),
+    SelectAll
+);
+
+});
+
+$(document).ready(function () {
+      $('.select2').select2({
+        width: "100%",
+        "z-index" : 10000000,
+        dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+      });
+    });
+
+// $('#parent_filter_select2').select2({
+//     placeholder: 'Select',
+//     dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+// });
+
+
+</script>
+
+<script>
+  $.fn.select2.amd.define('select2/selectAllAdapter', ['select2/utils', 'select2/dropdown', 'select2/dropdown/attachBody'], function (Utils, Dropdown, AttachBody) {
+
+function SelectAll() { }
+SelectAll.prototype.render = function (decorated) {
+    var self = this,
+        $rendered = decorated.call(this),
+        $selectAll = $(
+            '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-check-square-o"></i> Select All</button>'
+        ),
+        $unselectAll = $(
+            '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-square-o"></i> Unselect All</button>'
+        ),
+        $btnContainer = $('<div style="margin-top:3px; z-index :900000000000000000000000000000000000000000">').append($selectAll).append($unselectAll);
+    if (!this.$element.prop("multiple")) {
+        // this isn't a multi-select -> don't add the buttons!
+        return $rendered;
+    }
+    $rendered.find('.select2-dropdown').prepend($btnContainer);
+    $selectAll.on('click', function (e) {
+      self.$element.find('option').prop("selected", true);
+
+        // Trigger a change event on the select element to reflect the changes
+        self.$element.trigger("change");
+
+        // Close the dropdown
+        self.trigger('close');
+        // var $results = $rendered.find('.select2-results__option[aria-selected=false]');
+        // console.log("=============================",$results)
+        // $results.each(function () {
+        //     self.trigger('select', {
+        //         data: $(this).data('data')
+        //     });
+        // });
+        self.trigger('close');
+    });
+    $unselectAll.on('click', function (e) {
+      self.$element.find('option').prop("selected", false);
+
+// Trigger a change event on the select element to reflect the changes
+self.$element.trigger("change");
+
+// Close the dropdown
+self.trigger('close');
+      // $('.select2').select2('destroy').find('option').prop('selected', false).end().select2();
+        // var $results = $rendered.find('.select2-results__option[aria-selected=true]');
+        // $results.each(function () {
+        //     self.trigger('unselect', {
+        //         data: $(this).data('data')
+        //     });
+        // });
+        self.trigger('close');
+    });
+    return $rendered;
+};
+
+return Utils.Decorate(
+    Utils.Decorate(
+        Dropdown,
+        AttachBody
+    ),
+    SelectAll
+);
+
+});
+
+$(document).ready(function () {
+      $('.select2').select2({
+        width: "100%",
+        "z-index" : 10000000,
+        dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+      });
+    });
+
+// $('#parent_filter_select2').select2({
+//     placeholder: 'Select',
+//     dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+// });
+
+
+</script>
+
+
+
+<script>
+  $.fn.select2.amd.define('select2/selectAllAdapter', [
+'select2/utils',
+'select2/dropdown',
+'select2/dropdown/attachBody'
+], function (Utils, Dropdown, AttachBody) {
+
+function SelectAll() { }
+SelectAll.prototype.render = function (decorated) {
+    var self = this,
+        $rendered = decorated.call(this),
+        $selectAll = $(
+            '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-check-square-o"></i> Select All</button>'
+        ),
+        $unselectAll = $(
+            '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-square-o"></i> Unselect All</button>'
+        ),
+        $btnContainer = $('<div style="margin-top:3px; z-index :900000000000000000000000000000000000000000">').append($selectAll).append($unselectAll);
+    if (!this.$element.prop("multiple")) {
+        // this isn't a multi-select -> don't add the buttons!
+        return $rendered;
+    }
+    $rendered.find('.select2-dropdown').prepend($btnContainer);
+    $selectAll.on('click', function (e) {
+      self.$element.find('option').prop("selected", true);
+
+        // Trigger a change event on the select element to reflect the changes
+        self.$element.trigger("change");
+
+        // Close the dropdown
+        self.trigger('close');
+        // var $results = $rendered.find('.select2-results__option[aria-selected=false]');
+        // console.log("=============================",$results)
+        // $results.each(function () {
+        //     self.trigger('select', {
+        //         data: $(this).data('data')
+        //     });
+        // });
+        self.trigger('close');
+    });
+    $unselectAll.on('click', function (e) {
+      self.$element.find('option').prop("selected", false);
+
+// Trigger a change event on the select element to reflect the changes
+self.$element.trigger("change");
+
+// Close the dropdown
+self.trigger('close');
+      // $('.select2').select2('destroy').find('option').prop('selected', false).end().select2();
+        // var $results = $rendered.find('.select2-results__option[aria-selected=true]');
+        // $results.each(function () {
+        //     self.trigger('unselect', {
+        //         data: $(this).data('data')
+        //     });
+        // });
+        self.trigger('close');
+    });
+    return $rendered;
+};
+
+return Utils.Decorate(
+    Utils.Decorate(
+        Dropdown,
+        AttachBody
+    ),
+    SelectAll
+);
+
+});
+
+$(document).ready(function () {
+      $('.select2').select2({
+        width: "100%",
+        "z-index" : 10000000,
+        dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+      });
+    });
+
+// $('#parent_filter_select2').select2({
+//     placeholder: 'Select',
+//     dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+// });
+
+
+</script>
+
+<script>
+  document.getElementById('export-btn').addEventListener('click', function () {
+      // Define the query parameters
+     
+      // Redirect to the dashboard page with query parameters
+      window.location.href = '/admin?' + 'filtermodalopen=true';
+  });
+</script>
+  </body>
+</html>

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Twitter -->
+  <meta name="twitter:site" content="@themepixels">
+  <meta name="twitter:creator" content="@themepixels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ComtanixCMS">
+  <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+  <!-- Facebook -->
+  <meta property="og:url" content="http://themepixels.me/dashforge">
+  <meta property="og:title" content="ComtanixCMS">
+
+  <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="600">
+
+  <!-- Meta -->
+  <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+  <meta name="author" content="ThemePixels">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+  <title>Employee Dashboard | ComtanixCMS</title>
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: green;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 50%;
+    }
+
+    /* Close Button */
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+  <!-- vendor css -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  
+  <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
+
+  <!-- DashForge CSS -->
+  <link rel="stylesheet" href="/assets/css/dashforge.css">
+  <!--<link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
+</head>
+
+<body class="page-profile">
+
+ 
+  <%- include('includes/header', {page : "editOrderAccount"}) %>
+    
+
+      
+    <div class="content content-fixed">
+      <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+          <div
+            class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30"
+          >
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="#">Orders</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Process Orders
+                  </li>
+                </ol>
+              </nav>
+              <h4 class="mg-b-0 tx-spacing--1">Process Orders</h4>
+            </div>
+            <div class="d-none d-md-block">
+              <!-- <button class="btn btn-sm pd-x-15 btn-white btn-uppercase" id="email-button">
+                <i data-feather="mail" class="wd-10 mg-r-5"></i> Email
+              </button> -->
+              <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5" onclick="window.print()">
+                <i data-feather="printer" class="wd-10 mg-r-5"></i> Print
+              </button>
+              <% if ( record.file!=''){%>
+                
+                
+                <a id="downloadAllLink" class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5" href="#">
+                  <i data-feather="download" class="wd-10 mg-r-5"></i> Download All Attached Files
+                </a>
+              <%}%>
+              <!-- <button
+                class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"
+              >
+                <i data-feather="file" class="wd-10 mg-r-5"></i> Generate Report
+              </button> -->
+            </div>
+          </div>
+
+          <div class="row row-xs">
+            <div class="col-sm-12 col-lg-12">
+              <div class="card card-body">
+                <form id="adnan">
+                  <div class="col-12 mb-3">
+                    <label for="Comments">AmazonComment</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                    <textarea
+                      name="Comments"
+                      class="form-control"
+                      placeholder="Leave a comment here"
+                      id="Comments"
+                      value="<%= record?.amazonComments%>"
+                      style="height: 100%" 
+                    ><%= record?.amazonComments%>
+                  </textarea>
+                  </div>
+                  <div class="form-row">
+                    <div class="col-3 mb-3">
+                      <label for="status">Amazon Account</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input type="text" class="form-control" value="<%= record?.amazonAccount%>" id="status" >
+                        
+                      </select>
+                    </div>
+					
+            
+                    <div class="col-3 mb-3">
+                      <label for="orderId">Order ID</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="orderId"
+                        value="<%= record?.orderId%>"
+                        required 
+                        />
+                      </div>
+                      
+                      <div class="col-3 mb-3">
+                        <label for="orderDate">Order Date</label>
+                        <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="orderDate"
+                     
+                          value="<%= record?.orderDate%>"
+                          required 
+                        />
+                      </div>
+                    <div class="col-3 mb-3">
+                      <label for="shipBy">Ship By</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="shipBy"
+                        value="<%= record?.shipBy%>"
+                        required 
+                      />
+                    </div>
+                    
+                  </div>
+
+                  <div class="form-row">
+					<div class="col-3 mb-3">
+                      <label for="deliverBy">Deliver By</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="deliverBy"
+                        value="<%= record?.deliverBy%>"
+                        required 
+                      />
+                    </div>
+						<div class="col-3 mb-3">
+						  <label for="deliverBy">Purchase Date</label>
+						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+							id="purchaseDate"
+              value="<%= record.purchaseDate%>"
+            
+							required 
+						  />
+						</div>
+                    <div class="col-3 mb-3">
+                      <label for="contactBuyer">Contact Buyer</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="contactBuyer"
+                        value="<%= record?.contactBuyer%>"
+                    
+                        required 
+                      /> 
+                    </div>
+                    <div class="col-3 mb-3">
+						<label for="status">Customer Type</label>
+						<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						<input type="text" value="<%= record?.customerType %>" class="form-control" id="status" >
+            
+					  </div>
+                   
+				</div>
+				<div class="form-row">
+					<div class="col-3 mb-3">
+						<label for="status">Distributor</label>
+						<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						<select class="form-control" id="status" >
+						  <option value="pending" selected><%= record?.distributor %></option>
+						</select>
+					  </div>
+                    <div class="col-3 mb-3">
+                      <label for="mfrName">Manufacturer Name</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="mfrName"
+                      
+                        value="<%= record .mfrName%>"
+                        required 
+                      />
+                    </div>
+				</div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="d-none d-md-block" style="width: 100%">
+                     
+                      
+                    </div>
+                  </div>
+                  <div id="AmazonDiv">
+                    <% for(i=0;i<record?.sku.split(",").length;i++){%>
+
+                      <div class="form-row">
+                        <div class="col-3 mb-3">
+                          <label for="sku">SKU</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="sku"
+                            value="<%=record?.sku.split(",")[i] %>"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+
+                          <label for="quantity">Quantity</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.quantity.split(",")[i] %>"
+                            id="quantity"
+                            required
+                            
+                          />
+                        </div>
+  
+                        <div class="col-3 mb-3">
+                          <label for="price">Price</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.price.split(",")[i] %>"
+                            id="price"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="tax">Tax</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.tax.split(",")[i] %>"
+                            id="tax"
+                            required
+                            
+                          />
+                        </div>
+                      </div>
+  
+                      <div class="form-row">
+                        <div class="col-3 mb-3">
+                          <label for="shippingFee">Shipping Fee</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            value="<%=record?.shippingFee.split(",")[i] %>"
+                            class="form-control"
+                            id="shippingFee"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="amazonFee">Amazon Fee</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            value="<%=record?.amazonFee.split(",")[i] %>"
+                            class="form-control"
+                            id="amazonFee"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="mft">MFT</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.mft.split(",")[i] %>"
+                            id="mft"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="yourEarning">Your Earning</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.yourEarning.split(",")[i] %>"
+                            id="yourEarning"
+                            required
+                            
+                          />
+                        </div>
+                      </div>
+  
+                      <div class="form-row">
+                        <div class="col-3 mb-3">
+                          <label for="cost">Cost</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            
+                            value="<%=record?.cost.split(",")[i] %>"
+                            id="cost"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="freightCost">Freight Cost</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            
+                            value="<%=record?.freightCost.split(",")[i] %>"
+                            id="freightCost"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="handlingFee">Handling Fee</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            
+                            value="<%=record?.handlingFee.split(",")[i] %>"
+                            id="handlingFee"
+                            required
+                            
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="gmd">GMD</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            
+                            value="<%= (+record?.yourEarning.split(",")[i]) - (+ record?.handlingFee.split(",")[i]) - (+ record?.freightCost.split(",")[i]) - (+ record?.cost.split(",")[i])   %>"
+                            id="handlingFee"
+                            required
+                          />
+                        </div>
+                        <hr>
+                      </div>
+                      <hr />
+                      <%}%>
+                  </div>
+          
+					<div class="form-row">
+						<div class="col-12 mb-3">
+						  <label for="shippingAddress">Shipping Address</label>
+              <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+              
+						  <textarea
+                      name="Comments"
+                      class="form-control"
+                      placeholder="Shipping Address"
+                      id="floatingTextarea2" 
+                      value="<%= record?.shippingAddress%>"
+                  
+                      
+                    ><%= record?.shippingAddress%></textarea>
+						</div>
+						
+							<div class="col-3 mb-3">
+								<label for="status">Address Type</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+								<select class="form-control" id="status" >
+								  <option value="<%=record?.addressType%>"  selected><%=record?.addressType%></option>
+								  
+                  
+								</select>
+							  </div>
+						<div class="col-4 mb-3">
+						  <label for="phone">Phone</label>
+              <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+              value="<%=record?.phone%>"
+							id="phone"
+							required
+              
+						  />
+						</div>
+						<div class="col-4 mb-3">
+						  <label for="companyPhone">Company Phone</label>
+						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+							id="companyPhone"
+              value="<%=record?.companyPhone%>"
+							required
+              
+						  />
+						</div>
+					  </div>
+					  <div class="form-row">
+						<div class="col-4 mb-3">
+						  <label for="email">Email</label>
+						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+							id="email"
+              value="<%=record?.email%>"
+							required
+              
+						  />
+						</div>
+            
+						
+					  </div>
+            <hr>
+        
+          </form>
+            <form id="orderForm1">
+              <input type="hidden" id="orderId" name="orderId" value="<%= record?.id %>">
+              <div class="row">
+            <div class="col-6 mb-3">
+						  <label for="companyPhone">Po Number</label>
+						 
+						  <input
+							type="text"
+							class="form-control"
+							id="po" name="po"
+              value="<%=record.poNumber%>"
+							required
+              
+						  />
+						</div>
+            <div class="col-6 mb-3">
+              <label for="paymentTerm">Payment Terms</label>
+              <select name="payment" class="form-control" id="payment" required>
+                <option value="<%=record.paymentTerm%>" ><%=record.paymentTerm%></option>
+                <option value="net30">Net30</option>
+                <option value="dllNet30">DLL Net30</option>
+                <option value="npNet45">North Point Net45</option>
+                <option value="dnhCreditCard">DnH Credit Card</option>
+              </select>
+            </div></div>
+
+
+
+           <div class="row">
+  <div class="col-4 mb-3">
+    <label for="processedAccount">Processed Account</label>
+    <select name="processedAccount" class="form-control" id="processedAccount" required>
+      <option value="<%=record.processedAccount%>"><%=record.processedAccount%></option>
+      <option value="Choice">Choice</option>
+      <option value="Tech">Tech</option>
+      <option value="Texas Warehouse">Texas Warehouse</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+  <div class="col-4 mb-3">
+    <label for="invoiceNo">Invoice No</label>
+    <input
+      type="text"
+      class="form-control"
+      id="invoiceNo"
+      name="invoiceNo"
+      value="<%=record.invoiceNo%>"
+      
+      required
+    />
+  </div>
+  <div class="col-4 mb-3">
+    <label for="billNo">Bill No</label>
+    <input
+      type="text"
+      class="form-control"
+      id="billNo"
+      name="billNo"
+      value="<%=record.billNo%>"
+      required
+    />
+  </div>
+  <div class="col-4 mb-3" id="otherInputWrapper" style="display: none;">
+    <label for="otherAccount" style="color:rgb(54, 70, 242)">Other Account</label>
+    <input style="border: 3px solid rgb(54, 70, 242);"
+      type="text"
+      class="form-control"
+      id="otherAccount"
+      name="otherAccount"
+      value="<%=record.otherAccount%>"
+    />
+  </div>
+</div>
+
+
+
+
+<!-- starts here -->
+
+
+<div class="row">
+ 
+  <div class="col-4 mb-3">
+    <label for="trackingNo">Tracking No</label>
+    <input
+      type="text"
+      class="form-control"
+      id="trackingNo"
+      name="trackingNo"
+      value=""
+      
+      
+    />
+  </div>
+  <!-- <div class="col-4 mb-3">
+    <label for="poDate">Po Date</label>
+    <input
+      type="date"
+      class="form-control"
+      id="poDate"
+      name="poDate"
+      value=""
+      
+    />
+  </div> -->
+  <div class="col-4 mb-3">
+    <label for="verification">Verification</label>
+    <select name="verification" class="form-control" id="verification" >
+      <option value="verified">Verified</option>
+      <option value="not-verified">Not Verified</option>
+    </select>
+  </div>
+</div>
+
+
+
+<!-- row second -->
+
+<div class="row">
+ 
+  <div class="col-4 mb-3">
+    <label for="invoiceDate">Invoice Date</label>
+    <input
+      type="date"
+      class="form-control"
+      id="invoiceDate"
+      name="invoiceDate"
+      value=""
+      
+      
+    />
+  </div>
+  <div class="col-4 mb-3">
+    <label for="billDate">Bill Date</label>
+    <input
+      type="date"
+      class="form-control"
+      id="billDate"
+      name="billDate"
+      value=""
+    />
+  </div>
+  <div class="col-4 mb-3">
+    <label for="shippingDiscount">Shipping Discount</label>
+    <input
+      type="text"
+      class="form-control"
+      id="shippingDiscount"
+      name="shippingDiscount"
+      value=""
+    />
+  </div>
+</div>
+
+
+
+<!-- third -->
+
+<div class="row">
+ 
+  <div class="col-4 mb-3">
+    <label for="insurance">Insurance </label>
+    <input
+      type="text"
+      class="form-control"
+      id="insurance"
+      name="insurance"
+      value=""
+      
+      
+    />
+  </div>
+  <div class="col-4 mb-3">
+    <label for="salesTax">Sales Tax</label>
+    <input
+      type="text"
+      class="form-control"
+      id="salesTax"
+      name="salesTax"
+      value=""
+    />
+  </div>
+  <div class="col-4 mb-3">
+    <label for="creditMemo">Credit Memo</label>
+    <input
+      type="text"
+      class="form-control"
+      id="creditMemo"
+      name="creditMemo"
+      value=""
+    />
+  </div>
+</div>
+
+
+<!-- fourth -->
+
+<div class="row">
+ 
+  <div class="col-6 mb-3">
+    <label for="miscFee">Misc Fee </label>
+    <input
+      type="text"
+      class="form-control"
+      id="miscFee"
+      name="miscFee"
+      value=""
+      
+      
+    />
+  </div>
+  <div class="col-6 mb-3">
+    <label for="resoldRevenue">Resold Revenue</label>
+    <input
+      type="text"
+      class="form-control"
+      id="resoldRevenue"
+      name="resoldRevenue"
+      value=""
+    />
+  </div>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end here here -->
+
+
+
+
+
+
+            <div class="col-12 mb-3">
+              <label for="floatingTextarea2">Comment</label>
+              
+              <textarea
+                name="comments"
+                class="form-control"
+                placeholder="Leave a comment here"
+                id="comments" name="comments"
+                value="<%=record.accountComments%>"
+                style="height: 100%" 
+              ></textarea>
+            </div>
+
+
+
+          
+           
+            <div style="align-items: center; justify-content: center;display: flex; gap: 10px;">
+            <button type="button" class="  col-5 mb-2 btn btn-success" id="completed1">Submit</button>
+          </div>
+          
+					</form>
+					<!-- cancel model............................................................................. -->
+          <div id="myModal123" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <form id="myForm">
+               
+                <label for="rfc">Reason For Cancellation:</label>
+                  <select id="rfc" name="rfc" >
+                    <option value="disregrad">Disregard</option>
+                    <option value="valid">Valid</option>
+                  
+                  </select><br>
+
+              <label for="commentcancellation">Additional Comment for Cancellation:</label>
+              <textarea id="commentcancellation" name="commentcancellation" rows="4" ></textarea><br>
+
+          
+                <button type="submit">Submit</button>
+              </form>
+            </div>
+          </div>
+          
+         <!-- refurbedmodel .................................................................... -->
+          
+            <div id="refurbedmodel" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="myForm1">
+                 <label for="canceltype">Cancelled Order:</label>
+<select class="form-control" id="canceltype" name="canceltype" >
+  <option value="FullRefund">Full Refund</option>
+  <option value="HalfRefund">half Refund</option>
+ 
+</select><br>
+
+                  <label for="fee">Product Charges Audit:</label>
+                  <input class="form-control" type="text" id="fee" name="fee" ><br>
+            
+                  <label for="refundamount">Refund Amount Audit:</label>
+                  <input class="form-control" type="text" id="refundamount" name="refundamount" ><br>
+            
+                  <label for="shippingcharge">Shipping Charge Audit:</label>
+                  <input class="form-control" type="text" id="shippingcharge" name="shippingcharge" ><br>
+
+                  <label for="amazonfee">Amazon Fee Audit:</label>
+                  <input class="form-control" type="text" id="amazonfee" name="amazonfee" ><br>
+
+                  <label for="extrafee">Extra Fee Audit:</label>
+                  <input class="form-control" type="text" id="extrafee" name="extrafee" ><br>
+            
+                  <!-- Add more fields if needed -->
+            
+                  <button type="submit">Submit</button>
+                </form>
+              </div>
+            </div>
+            
+          
+            <button class="col-4 mx-auto d-block mb-2 btn btn-danger" id="refurbed" type="button" data-id="<%= record?.id %>">Mark As Refurbed</button>
+            <button class="col-4 mx-auto d-block mb-2 btn btn-danger" id="cancelled2" type="button" data-id="<%= record?.id %>">Mark As Cancel</button>
+                  </div>
+                
+                </div>
+              </div>
+          </div>
+          <!-- row -->
+        </div>
+        <!-- container -->
+      </div>
+    </div>
+    <!-- content -->
+
+    <script src="../../lib/jquery/jquery.min.js"></script>
+    <script src="../../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+
+
+
+    <script>
+      toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-bottom-right",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "2000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    </script>
+    <script>
+      $("#addAmazonBtn").on("click", (e) => {
+        e.preventDefault();
+        $("#AmazonDiv").prepend(` <div class="skuPart"> <div class="form-row">
+										<div class="col-3 mb-3">
+											<label for="sku">SKU</label>
+											<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+											<input type="text" class="form-control" id="sku" required> 
+										  </div>
+									  <div class="col-3 mb-3">
+										<label for="quantity">Quantity</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="quantity" required > 
+									  </div>
+									 
+									  <div class="col-3 mb-3">
+										<label for="price">Price</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="price" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="tax">Tax</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="tax" required>
+									  </div>
+									</div>
+									
+									<div class="form-row">
+									  <div class="col-3 mb-3">
+										<label for="shippingFee">Shipping Fee</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="shippingFee" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="amazonFee">Amazon Fee</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="amazonFee" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="mft">MFT</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="mft" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="yourEarning">Your Earning</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="yourEarning" required>
+									  </div>
+									</div>
+									
+									<div class="form-row">
+									  <div class="col-3 mb-3">
+										<label for="cost">Cost</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="cost" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="freightCost">Freight Cost</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="freightCost" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="handlingFee">Handling Fee</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="handlingFee" required>
+									  </div>
+									</div>  <div class=" row col-3 mb-3 ">
+                    <div class="d-none d-md-block" style="width: 100%">
+                      <a
+                        href="javascript://void(0)"
+                        id=""
+                        class="btn btn-danger delete-row"
+                        style="float: left"
+                        >Delete</a
+                      >
+                    </div>
+                  </div> </div><hr>`);
+      });
+
+    
+
+ $(document).ready(function() {
+  // Function to remove the clicked row
+  function removeRow(element) {
+    $(element).closest(".skuPart").remove();
+  }
+
+  // Attach click event to delete buttons
+  $(document).on("click", ".delete-row", function() {
+    removeRow(this);
+  });
+
+ 
+});
+
+ $(document).ready(function() {
+    // ... Existing code to prepend new form rows ...
+
+    // Function to copy field value to clipboard
+    function copyFieldValue(element) {
+      let inputField = $(element).siblings('input')
+      if(inputField.length){
+        const fieldValue = inputField.val();
+        copyToClipboard(fieldValue);
+      }else{
+        let inputField = $(element).siblings('select')
+        if(inputField.length){
+          const fieldValue = inputField.val();
+          copyToClipboard(fieldValue);
+        }else{
+          let inputField = $(element).siblings('textarea')
+          const fieldValue = inputField.val();
+          copyToClipboard(fieldValue);
+        }
+
+      }
+      
+      // alert(`${inputField.attr("id")} value copied: ${fieldValue}`);
+    }
+
+    // Attach click event to copy icon buttons
+    $(document).on("click", ".cpBtn", function() {
+      copyFieldValue(this);
+    });
+
+    // Function to copy text to clipboard
+    function copyToClipboard(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      
+        
+      toastr["success"](" value Copied successfully.")
+  
+      
+     
+      
+    }
+    
+  });
+
+// document.querySelectorAll(".far fa-copy").forEach(copyLinkContainer=>{
+//    const inputField=copyLinkContainer.querySelector(".border-0");
+//    const fieldvalue=copyLinkContainer.querySelector(".form-control");
+//    const text= inputField.value();
+   
+//    inputField.removeEventListener("focus",()=>inputField.select());
+//    fieldvalue.removeEventListener("click",()=>inputField.select());
+// })
+
+
+
+    </script>
+    <script>
+      
+   
+
+      const completeButton = document.getElementById("completed1");
+      const orderForm = document.getElementById("orderForm1");
+  
+      
+      
+  
+      completeButton.addEventListener("click", function() {
+        
+          updateStatus();
+      });
+  
+      function updateStatus() {
+          const formData = new FormData(orderForm);
+          const orderId = formData.get("orderId");
+          const po = formData.get("po");
+          const comments = formData.get("comments");
+          const payment = formData.get("payment");
+          const processedAccount = formData.get("processedAccount");
+          const billNo = formData.get("billNo");
+          const invoiceNo = formData.get("invoiceNo");
+         const otherAccount = formData.get("otherAccount");
+         const trackingNo = formData.get("trackingNo");
+        //  const poDate = formData.get("poDate");
+         const verification= formData.get("verification");
+         const invoiceDate= formData.get("invoiceDate");
+         const billDate= formData.get("billDate");
+         const shippingDiscount= formData.get("shippingDiscount");
+         const insurance =formData.get("insurance");
+         const salesTax=formData.get("salesTax");
+         const creditMemo=formData.get("creditMemo");
+         const miscFee=formData.get("miscFee");
+         const resoldRevenue=formData.get("resoldRevenue");
+  
+          // Send the status, PO, comments, and orderId to the server
+          fetch("/employee/editOrderAccount", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                  orderId: orderId,
+                  // status: newStatus,
+                  po: po,
+                  comments: comments,
+                  payment:payment,
+                  processedAccount:processedAccount,
+                  billNo:billNo,
+                  invoiceNo:invoiceNo,
+                  otherAccount:otherAccount,
+                  trackingNo:trackingNo,
+                  // poDate:poDate,
+                  verification:verification,
+                  invoiceDate:invoiceDate,
+                  billDate:billDate,
+                  shippingDiscount:shippingDiscount,
+                  insurance:insurance,
+                  salesTax:salesTax,
+                  creditMemo:creditMemo,
+                  miscFee:miscFee,
+                  resoldRevenue:resoldRevenue,
+                  
+              })
+          })
+          .then(response => response.json()) // Parse the JSON response
+          .then(data => {
+    if (data.status) {
+        // Save the orderId, userId, and status
+        const orderid = data.orderId;
+        const userid = data.accountUserId;
+        const status = data.updatedStatus;
+
+        // Perform the first AJAX call to update the record
+
+        // Perform the second AJAX call to send the variables for nodemail
+        $.ajax({
+            url: '/employee/sendEmailAccount', // Replace with your actual endpoint
+            method: 'POST',
+            data: {
+                orderid: orderid,
+                userid: userid,
+                status: status
+            },
+            success: function(response) {
+                // Handle the response from the server
+
+                // Once the email sending AJAX call is successful, show the success alert
+                alert('Email sent and record updated successfully');
+                window.location.href = '/employee/account';
+            },
+            error: function(error) {
+                alert('Error sending email and updating record');
+            }
+        });
+    } else {
+        alert('Not Successful');
+    }
+})
+.catch(error => {
+    console.error('Error updating status:', error);
+});
+      }
+
+
+
+
+
+
+      document.getElementById('email-button').addEventListener('click', function() {
+    const pageContent = document.documentElement.outerHTML;
+    const emailBody = encodeURIComponent(pageContent);
+    
+    const emailLink = `mailto:?subject=Check%20Out%20This%20Page&body=${emailBody}`;
+    
+    window.location.href = emailLink;
+});
+  </script>
+ <script>
+//   const recordFilenames = `<%= record.filename %>`;
+// const downloadAllLink = document.getElementById('downloadAllLink');
+// const filenames = recordFilenames.split(',');
+
+// downloadAllLink.addEventListener('click', async (event) => {
+//   event.preventDefault();
+
+//   for (const fileName of filenames) {
+//     const response = await fetch(`/files/${encodeURIComponent(fileName.trim())}`);
+//     const blob = await response.blob();
+
+//     const downloadLink = document.createElement('a');
+//     downloadLink.href = URL.createObjectURL(blob);
+//     downloadLink.download = fileName.trim();
+//     downloadLink.click();
+//   }
+// });
+
+
+
+  const recordFilenames = '<%= record.filename %>';
+const downloadAllLink = document.getElementById('downloadAllLink');
+
+const filenames = recordFilenames.split(', ');
+
+downloadAllLink.addEventListener('click', async (event) => {
+  event.preventDefault();
+
+  const zip = new JSZip();
+  
+  for (const fileName of filenames) {
+    const response = await fetch(`/files/${fileName.trim()}`);
+    const blob = await response.blob();
+
+    // Add the file to the zip archive
+    zip.file(fileName.trim(), blob);
+  }
+
+  // Generate the zip archive
+  const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+  // Create a download link for the zip archive
+  const downloadLink = document.createElement('a');
+  downloadLink.href = URL.createObjectURL(zipBlob);
+  downloadLink.download = '<%= record.orderId %>.zip'; // Change the zip filename as needed
+
+  // Append the link to the document and trigger the click event
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink); // Clean up after download
+});
+
+  </script>
+
+<script>
+  document.getElementById("processedAccount").addEventListener("change", function() {
+    var otherInputWrapper = document.getElementById("otherInputWrapper");
+    var otherAccountInput = document.getElementById("otherAccount");
+    
+    if (this.value === "Other") {
+      otherInputWrapper.style.display = "block";
+      otherAccountInput.setAttribute("required", "required");
+    } else {
+      otherInputWrapper.style.display = "none";
+      otherAccountInput.removeAttribute("required");
+    }
+  });
+  </script>
+  <!-- Refurbed Script........................................ -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const cancelButton = document.getElementById("refurbed");
+      const modal = document.getElementById("refurbedmodel");
+      const form = document.getElementById("myForm1");
+      const closeBtn = modal.querySelector(".close");
+    
+      cancelButton.addEventListener("click", function () {
+        modal.style.display = "block";
+      });
+    
+      closeBtn.addEventListener("click", function () {
+        modal.style.display = "none";
+      });
+    
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+    
+        const id = cancelButton.getAttribute("data-id");
+        const canceltype = document.getElementById("canceltype").value;
+        
+       
+        const fee = document.getElementById("fee").value;
+        const refundamount = document.getElementById("refundamount").value;
+        const shippingcharge = document.getElementById("shippingcharge").value;
+        const amazonfee = document.getElementById("amazonfee").value;
+        const extrafee = document.getElementById("extrafee").value;
+       
+        sendDataToBackend(id, canceltype,fee,refundamount,shippingcharge,amazonfee,extrafee);
+      });
+    
+      function sendDataToBackend(id, canceltype,fee,refundamount,shippingcharge,amazonfee,extrafee) {
+        // Replace with your backend URL
+        const url = "/employee/refurb";
+    
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            
+            id:id,
+            
+            
+            canceltype:canceltype,
+            fee:fee,
+            refundamount:refundamount,
+            shippingcharge:shippingcharge,
+            amazonfee:amazonfee,
+            extrafee:extrafee,
+          
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status) {
+              alert(data.alertMessage);
+              window.location.href = "/employee/";
+            } else {
+              alert("An error occurred: " + data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error sending data to backend:", error);
+          });
+      }
+    });
+    </script>
+
+<!-- script For Mark As Cancel.............................. -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const cancelButton = document.getElementById("cancelled2");
+    const modal = document.getElementById("myModal123");
+    const form = document.getElementById("myForm");
+    const closeBtn = modal.querySelector(".close");
+  
+    cancelButton.addEventListener("click", function () {
+      modal.style.display = "block";
+    });
+  
+    closeBtn.addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+  
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+  
+      const id = cancelButton.getAttribute("data-id");
+      // const canceltype = document.getElementById("canceltype").value;
+      
+      const rfc = document.getElementById("rfc").value;
+      const commentcancellation = document.getElementById("commentcancellation").value;
+      // const fee = document.getElementById("fee").value;
+      // const refundamount = document.getElementById("refundamount").value;
+      // const shippingcharge = document.getElementById("shippingcharge").value;
+      // const amazonfee = document.getElementById("amazonfee").value;
+      // const extrafee = document.getElementById("extrafee").value;
+  
+      sendDataToBackend("cancelled", id, rfc, commentcancellation);
+    });
+  
+    function sendDataToBackend(value, id, rfc, commentcancellation) {
+      // Replace with your backend URL
+      const url = "/employee/updateStatus";
+  
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          value:value,
+          id:id,
+          // canceltype:canceltype,
+          rfc:rfc,
+          commentcancellation:commentcancellation,
+          // fee:fee,
+          // refundamount:refundamount,
+          // shippingcharge:shippingcharge,
+          // amazonfee:amazonfee,
+          // extrafee:extrafee,
+        // , canceltype,fee,refundamount,shippingcharge,amazonfee,extrafee
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status) {
+            alert(data.alertMessage);
+            window.location.href = "/employee/";
+          } else {
+            alert("An error occurred: " + data.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
+    }
+  });
+  </script>
+  
+  
+  
+  </body>
+</html>

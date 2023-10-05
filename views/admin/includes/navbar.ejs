@@ -1,0 +1,29 @@
+<div class="navbar-custom">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <a class="btn btn-primary  navbar-brand" href="#" role="button">Order</a>
+            <span class="navbar-toggler-icon"></span>
+
+            <a class="btn btn-primary navbar-brand" href="/history">History</a>
+            <span class="navbar-toggler-icon"></span>
+
+            <a class="btn btn-primary  navbar-brand" href="/reg">User</a>
+            <span class="navbar-toggler-icon"></span>
+
+            <div class="navbar-brand ms-auto">
+                <div style="float-left">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <a class="navbar-brand" href="route('logout')"
+                            onclick="event.preventDefault();
+                            this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </a>
+                    </form>
+                </div>
+
+        </nav>
+        <div class="clearfix"></div>
+    </div>
+</div>

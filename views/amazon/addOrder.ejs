@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Twitter -->
+  <meta name="twitter:site" content="@themepixels">
+  <meta name="twitter:creator" content="@themepixels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ComtanixCMS">
+  <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+  <!-- Facebook -->
+  <meta property="og:url" content="http://themepixels.me/dashforge">
+  <meta property="og:title" content="ComtanixCMS">
+
+  <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="600">
+
+  <!-- Meta -->
+  <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+  <meta name="author" content="ThemePixels">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+  <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
+  <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+  <title>Employee Dashboard | ComtanixCMS</title>
+
+  <!-- vendor css -->
+  <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
+
+  <!-- DashForge CSS -->
+  <link rel="stylesheet" href="/assets/css/dashforge.css">
+  <!--<link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
+</head>
+
+<body class="page-profile">
+
+  <%- include('../employee/includes/header', {page : "dashboard" }) %>
+  
+    <div class="content content-fixed">
+      <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+          <div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+              </ol>
+            </nav>
+            <h4 class="mg-b-0 tx-spacing--1">Add Order with utmost care</h4>
+          </div>
+          <!-- <div class="d-none d-md-block">
+            
+            <a href="/employee/listings/disti/generate/report"
+              class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"><i data-feather="save"
+                class="wd-10 mg-r-5"></i> Add File</a>
+          </div> -->
+        </div>
+
+        <div class="row row-xs">
+          <div class="col-sm-12 col-lg-12">
+            
+            <div class="card card-body">
+              <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body pd-y-20 pd-x-25">
+                  <div data-label="Example" class="df-example ">
+                    <form action="/employee/addFile" method="post" enctype="multipart/form-data">
+                      <input type="file" 
+                      class="filepond"
+                      name="files" multiple accept=".pdf" />
+                        <input type="hidden" id="filenameInput" name="filename" required>
+                    </form>
+               
+                  </div><!-- df-example -->
+                </div>
+              </div>
+            </div>
+              <form id="myForm" method="post" action="/employee/addOrderProcess">
+                <div class="col-12 mb-3">
+                  <label for="orderId">AmazonComment</label>
+                  <textarea name="comments" class="form-control" value="<%= order?.amazonComments%>" placeholder="Leave a comment here"
+                    id="floatingTextarea2" style="height: 100%" required><%= order?.amazonComments%></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="col-6 mb-3">
+                    <label for="status">Amazon Account</label>
+                    <select class="form-control" name="amazonAccount" id="status">
+                      <option value="<%= order?.amazonAccount%>"><%= order?.amazonAccount%></option>
+                      <option value="vCloudTech">vCloud Tech</option>
+                      <option value="vCloudChoice">vCloud Choice</option>
+                    </select>
+                  </div>
+                  
+                  <div class="col-6 mb-3">
+                    <label for="orderId">Order ID</label>
+                    <input type="text" name="orderId" class="form-control" value="<%= orderid ? orderid : '' %>" id="orderId" required />
+                  </div>
+                  
+                
+                </div>
+
+                <div class="form-row">
+                  
+                  <div class="col-3 mb-3">
+                    <label for="orderDate">Order Date</label>
+                    <input type="text" name="orderDate" class="form-control"  value="<%=order?.orderDate%>" id="orderDate" required />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="deliverBy">Purchase Date</label>
+                    <input type="text" name="purchaseDate" class="form-control" value="<%=order?.purchaseDate%>" id="purchaseDate" required />
+                  </div>
+                 
+               
+                  <div class="col-3 mb-3">
+                    <label for="shipBy">Ship By</label>
+                    <input type="text" name="shipBy" value="<%=order?.shipBy%>" class="form-control" id="shipBy" required />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="deliverBy">Deliver By</label>
+                    <input type="text" name="deliverBy" class="form-control" value="<%=order?.deliverBy%>"  id="deliverBy" required />
+                  </div>
+                
+
+                </div>
+                <div class="form-row">
+                  
+                  <div class="col-6 mb-3">
+                    <label for="contactBuyer">Contact Buyer</label>
+                    <input type="text" name="contactBuyer" value="<%=order?.contactBuyer%>" class="form-control" id="contactBuyer" required />
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label for="status">Customer Type</label>
+                    <select name="customerType" class="form-control" id="status">
+                      <option value="<%=order?.customerType%>"><%=order?.customerType%></option>
+                      <option value="Amazon">Amazon</option>
+                      <option value="AmazonIndividual">Amazon Individual</option>
+                      <option value="AmazonBusiness">Amazon Business</option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="d-none d-md-block" style="width: 100%">
+                <a href="javascript://void(0)" id="addAmazonBtn" class="btn btn-primary" style="float: right">Add</a>
+              </div>
+            </div>
+            <div id="AmazonDiv">
+              
+            </div>
+            <hr />
+            <div class="form-row">
+              <div class="col-12 mb-3">
+                <label for="shippingAddress">Shipping Address</label>
+                <textarea name="shippingAddress" class="form-control" placeholder="Shipping Address"  value=""
+                  id="floatingTextarea2" required><%=order?.shippingAddress%></textarea>
+              </div>
+
+              <div class="col-3 mb-3">
+                <label for="status">Address Type</label>
+                <select name="addressType" class="form-control" id="status" required>
+                  <option value="<%=order?.customerType%>"><%=order?.addressType%></option>
+                  <option value="Residential">Residential</option>
+                  <option value="Commercial">Commercial</option>
+                </select>
+              </div>
+              <div class="col-3 mb-3">
+                <label for="phone">Phone</label>
+                <input name="phone" type="text" class="form-control"  value="<%=order?.phone%>" id="phone" required />
+              </div>
+              <div class="col-3 mb-3">
+                <label for="companyPhone">Company Phone</label>
+                <input type="text" name="companyPhone" class="form-control"   value="<%=order?.companyPhone%>" id="companyPhone"  />
+              </div>
+              <div class="col-3 mb-3">
+                <label for="email">Email</label>
+                <input name="email" type="email" class="form-control" value="<%=order?.email%>" id="email"  />
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" type="submit">Submit</button>
+
+            </form>
+
+          </div>
+
+
+        </div>
+
+
+      </div><!-- container -->
+    </div><!-- content -->
+
+
+
+    <script src="/lib/chart.js/Chart.bundle.min.js"></script>
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
+<script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
+<script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
+<script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
+    <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <!--<script src="/lib/feather-icons/feather.min.js"></script>
+    <script src="/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.stack.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.resize.js"></script>
+     <script src="/assets/js/dashforge.js"></script>
+    <script src="/assets/js/dashforge.sampledata.js"></script>
+    <script src="/assets/js/dashboard-two.js"></script> -->
+
+    <!-- append theme customizer -->
+    <!-- <script src="/lib/js-cookie/js.cookie.js"></script>
+    <script src="/assets/js/dashforge.settings.js"></script>
+    -->
+    <script>
+      const audio = new Audio('/assets/gud.mp3');
+      $("#addAmazonBtn").on("click", (e) => {
+        e.preventDefault();
+        $("#AmazonDiv").append(` <div class="skuPart"> <div class="form-row">
+          <div class="col-6 mb-3">
+                    <label for="status">Distributor</label>
+                    <select name="distributor[]" class="form-control distributorInput" id="distributor">
+                      <option value="SYChoice">SY Choice</option>
+                      <option value="SYTech">SY Tech</option>
+                      <option value="IGChoice">IG Choice</option>
+                      <option value="IGTech">IG Tech</option>
+                      <option value="DHChoice">DH Choice</option>
+                      <option value="DHTech">DH Tech</option>
+                      <option value="ScansourceChoice">Scansource Choice</option>
+                      <option value="ScansourceTech">Scansource Tech</option>
+                      <option value="888VoipChoice">888Voip Choice</option>
+                      <option value="ASITech">ASI Tech</option>
+                      <option value="TXWH">TX WH</option>
+                    </select>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label for="mfrName">Manufacturer Name</label>
+                    
+                    <input type="text" class="form-control mfrInput" name="mfrName[]" id="mfrName" required>
+                  </div>
+										<div class="col-6 mb-3">
+											<label for="sku">SKU</label>
+											<input type="text" class="form-control skuInput" name="sku[]" id="sku" required>
+										  </div>
+									  <div class="col-6 mb-3">
+										<label for="quantity">Quantity</label>
+										<input type="number" class="form-control quantityInput" name="quantity[]" id="quantity" required>
+									  </div>
+									 
+								
+									</div>
+									
+									<div class="form-row">
+                    <div class="col-3 mb-3">
+										<label for="price">Price</label>
+										<input type="number" class="form-control priceInput" name="price[]" id="price" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="tax">Tax</label>
+										<input type="number" class="form-control taxInput" name="tax[]"id="tax" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="shippingFee">Shipping Fee</label>
+										<input type="number" class="form-control shippingFeeInput" name="shippingFee[]" id="shippingFee" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="amazonFee">Amazon Fee</label>
+										<input type="number" class="form-control amazonFeeInput" name="amazonFee[]" id="amazonFee" required>
+									  </div>
+									  <div class="col-6 mb-3">
+										<label for="mft">Marketplace Facilitator Tax</label>
+										<input type="number" class="form-control mftInput" name="mft[]" id="mft" required>
+									  </div>
+									  <div class="col-6 mb-3">
+										<label for="yourEarning">Your Earning</label>
+										<input type="number" class="form-control yourEarningsInput" name="yourEarning[]" id="yourEarning" required>
+									  </div>
+									</div>
+									
+									<div class="form-row">
+									  <div class="col-4 mb-3">
+										<label for="cost">Cost</label>
+										<input type="number" class="form-control costInput" name="cost[]" id="cost" required>
+									  </div>
+									  <div class="col-4 mb-3">
+										<label for="freightCost">Freight Cost</label>
+										<input type="number" class="form-control freightCostInput" name="freightCost[]" id="freightCost" required>
+									  </div>
+									  <div class="col-4 mb-3">
+										<label for="handlingFee">Handling Fee</label>
+										<input type="number" class="form-control handlingFeeInput" name="handlingFee[]" id="handlingFee" required>
+									  </div>
+									</div>  <div class=" row col-3 mb-3 ">
+                    <div class="d-none d-md-block" style="width: 100%">
+                      <a
+                        href="javascript://void(0)"
+                        id=""
+                        class="deleteSku btn btn-danger"
+                        style="float: left"
+                        >Delete</a
+                      >
+                    </div>
+                  </div> <hr></div>`);
+      });
+
+      
+  
+      $(document).ready(function () {
+  $("#myForm").submit(function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    // Serialize the form data
+    const formData = $(this).serialize();
+    const formDataObject = Object.fromEntries(new URLSearchParams(formData));
+    let distributor= ''
+    let mfrName = ''
+    let skus = ''
+    let quantity = ''
+    let price = ''
+    let tax = ''
+    let amazonFee = ''
+    let shippingFee = ''
+    let mft = ''
+    let cost = ''
+    let freightCost = ''
+    let yourEarnings = ''
+    let handlingFee = ''
+
+
+    $(".distributorInput").each(function(index, element) {
+      distributor += $(element).val()+'|';
+    });
+    distributor = distributor.slice(0, -1);
+    distributor = distributor.replace(/,/g, "");
+    
+    $(".mfrInput").each(function(index, element) {
+      mfrName += $(element).val()+'|';
+    });
+    mfrName = mfrName.slice(0, -1);
+    mfrName = mfrName.replace(/,/g, "");
+    $(".skuInput").each(function(index, element) {
+      skus += $(element).val()+'|';
+    });
+    skus = skus.slice(0, -1);
+    skus = skus.replace(/,/g, "");
+    $(".quantityInput").each(function(index, element) {
+      quantity += $(element).val()+'|';
+    });
+    quantity = quantity.slice(0, -1);
+    quantity = quantity.replace(/,/g, "");
+    $(".priceInput").each(function(index, element) {
+      price += $(element).val()+'|';
+    });
+    price = price.slice(0, -1);
+    price = price.replace(/,/g, "");
+    $(".taxInput").each(function(index, element) {
+      tax += $(element).val()+'|';
+    });
+    tax = tax.slice(0, -1);
+    tax = tax.replace(/,/g, "");
+    $(".amazonFeeInput").each(function(index, element) {
+      amazonFee += $(element).val()+'|';
+    });
+    amazonFee = amazonFee.slice(0, -1);
+    amazonFee = amazonFee.replace(/,/g, "");
+    $(".shippingFeeInput").each(function(index, element) {
+      shippingFee += $(element).val()+'|';
+    });
+    shippingFee = shippingFee.slice(0, -1);
+    shippingFee = shippingFee.replace(/,/g, "");
+    $(".mftInput").each(function(index, element) {
+      mft += $(element).val()+'|';
+    });
+    mft = mft.slice(0, -1);
+    mft = mft.replace(/,/g, "");
+    $(".costInput").each(function(index, element) {
+      cost += $(element).val()+'|';
+    });
+    cost = cost.slice(0, -1);
+    cost = cost.replace(/,/g, "");
+    $(".freightCostInput").each(function(index, element) {
+      freightCost += $(element).val()+'|';
+    });
+    freightCost = freightCost.slice(0, -1);
+    freightCost=freightCost.replace(/,/g, "");
+    $(".handlingFeeInput").each(function(index, element) {
+      handlingFee += $(element).val()+'|';
+    });
+    handlingFee = handlingFee.slice(0, -1);
+    handlingFee=handlingFee.replace(/,/g, "");
+    $(".yourEarningsInput").each(function(index, element) {
+      yourEarnings += $(element).val()+'|';
+    });
+    yourEarnings = yourEarnings.slice(0, -1);
+    yourEarnings=yourEarnings.replace(/,/g, "");
+    // Send the data using AJAX
+    
+    $.ajax({
+    url: '/employee/addOrderProcess',
+    method: 'POST',
+    data: {
+        ...formDataObject,
+        distributor: distributor,
+        mfrName: mfrName,
+        skus: skus,
+        quantity: quantity,
+        price: price,
+        tax: tax,
+        amazonFee: amazonFee,
+        shippingFee: shippingFee,
+        mft: mft,
+        cost: cost,
+        freightCost: freightCost,
+        yourEarnings: yourEarnings,
+        handlingFee: handlingFee,
+        filename: $('#filenameInput').val() 
+    },
+    success: function(response) {
+        // Handle the response from the server
+        var orderId = response.orderId;
+        var amazonUserId = response.amazonUserId;
+        console.log(orderId,amazonUserId)
+
+        // Send email using JavaScript's built-in `fetch` or other libraries
+        fetch('/employee/sendEmailAmazon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                orderId: orderId,
+                amazonUserId: amazonUserId
+            })
+        }).then(function(response) {
+
+            if (response.ok) {
+              audio.volume = 1;
+              audio.play();
+                alert("Record Added Successfully and Email Sent");
+            } else {
+                alert("Record Added Successfully but Email Sending Failed");
+            }
+            window.location.href = "/employee";
+        }).catch(function(error) {
+          alert(JSON.stringify(error));
+        });
+    },
+    error: function(error) {
+        alert(JSON.stringify(error));
+    }
+});
+});
+      $(document).on("click",".deleteSku",function(){
+        $(this).closest(".skuPart").remove()
+      })   
+    });
+    
+       </script>
+       <script>
+       
+        FilePond.registerPlugin(
+        
+        // encodes the file as base64 data
+        FilePondPluginFileEncode,
+        
+        // validates the size of the file
+        FilePondPluginFileValidateSize,
+        
+        // corrects mobile image orientation
+        FilePondPluginImageExifOrientation,
+        
+        // previews dropped images
+        FilePondPluginImagePreview
+      );
+      
+      // Select the file input and use create() to turn it into a pond
+      FilePond.create(
+        document.querySelector('input[type="file"]')
+      );
+      
+  //     FilePond.setOptions({
+  //         server: '/employee/addFile',
+         
+  // //         onprocessfile: (fieldName, file, metadata, load, error, progress, abort) => {
+  // //       const response = JSON.parse(file.serverId);
+  // //       const filename = response.filename;
+  // //  // Set the filename as the value of the hidden input field
+  // //  const filenameInput = document.getElementById('filenameInput');
+  // //       if (filenameInput) {
+  // //           filenameInput.value = filename;
+  // //       } else {
+  // //           console.error('Hidden input field not found.');
+  // //       }
+
+      
+  // //       // Continue with the default process, call the 'load' function
+  // //       load(response);
+  // //   }
+  //     });
+      
+  const uploadedFilesResponses = [];
+  FilePond.setOptions({
+  server: {
+    process: {
+      url: '/employee/addFile',
+      method: 'POST',
+      withCredentials: false, // Adjust this according to your needs
+      headers: {}, // You can add custom headers here if required
+      onload: (response) => {
+        const responseData = JSON.parse(response);
+        uploadedFilesResponses.push(responseData); // Store the entire response
+        
+        const fileNamesArray = uploadedFilesResponses.map(response => response.fileNamesString);
+
+// Join the values with a comma
+const mergedFileNames = fileNamesArray.join(', ');
+
+const filenameInput = document.getElementById('filenameInput');
+const previousValue = filenameInput.value; // Store the initial value
+
+// Assign the merged file names value to the input element
+filenameInput.value = mergedFileNames;
+
+// Check if the value of the input is updated
+
+console.log('Final value of filenameInput:', filenameInput.value);
+
+        // You can now use the responseData as needed in your frontend
+      },
+      onerror: (error) => {
+        console.log('Server error:', error);
+      },
+    },
+  },
+});
+      </script>
+      
+</body>
+
+</html>
