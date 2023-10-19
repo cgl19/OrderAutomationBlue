@@ -45,7 +45,7 @@
     <% if(role == 'admin'){ %>
         <%- include("admin/includes/header", {page : "Profile"}) %>
     <% }else if(role =='employee'){ %>
-        <%- include("employee/includes/header", {page : "Profile"}) %>
+        <%- include("./includes/header", {page : "Profile"}) %>
     <% } %>
 
     <div class="content content-fixed content-auth-alt">

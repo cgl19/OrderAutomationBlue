@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Twitter -->
+  <meta name="twitter:site" content="@themepixels">
+  <meta name="twitter:creator" content="@themepixels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ComtanixCMS">
+  <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+  <!-- Facebook -->
+  <meta property="og:url" content="http://themepixels.me/dashforge">
+  <meta property="og:title" content="ComtanixCMS">
+
+  <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="600">
+
+  <!-- Meta -->
+  <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+  <meta name="author" content="ThemePixels">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+  <title>Employee Dashboard | ComtanixCMS</title>
+
+  <!-- vendor css -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+  <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
+
+  <!-- DashForge CSS -->
+  <link rel="stylesheet" href="/assets/css/dashforge.css">
+  <!--<link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
+</head>
+
+<body class="page-profile">
+
+  <%- include('../includes/header', {page : "dashboard" }) %>
+
+    <div class="content content-fixed">
+      <div class="container-fluidpd-x-0 pd-lg-x-10 pd-xl-x-0">
+          <div
+            class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30"
+          >
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="#">Orders</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Process Orders
+                  </li>
+                </ol>
+              </nav>
+              <h4 class=" text-info mg-b-0 tx-spacing--1">Admin>Order Detail</h4>
+            </div>
+            <div class="d-none d-md-block">
+              <!-- <button class="btn btn-sm pd-x-15 btn-white btn-uppercase" id="email-button">
+                <i data-feather="mail" class="wd-10 mg-r-5"></i> Email
+              </button> -->
+              <button class="btn btn-lg pd-x-15 btn-info btn-uppercase mg-l-5" onclick="window.print()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
+                  <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
+                  <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                </svg>
+                <i data-feather="printer" class="wd-10 mg-r-5"></i> Print
+              </button>
+              <!-- <button
+                class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"
+              >
+                <i data-feather="file" class="wd-10 mg-r-5"></i> Generate Report
+              </button> -->
+            </div>
+          </div>
+
+          <div class="row row-xs">
+            <div class="col-sm-12 col-lg-12">
+              <div class="card card-body">
+              
+                  <div class="col-12 mb-3">
+                    <label for="floatingTextarea2">AmazonComment</label>
+                    <span class="input-group-text input-field-append cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                    <textarea
+                      name="Comments"
+                      class="form-control"
+                      placeholder="Leave a comment here"
+                      id="floatingTextarea2"
+                      value=""
+                      style="height: 100%" disabled
+                    ><%= record?.amazonComments%>
+                  </textarea>
+                  </div>
+                  <div class="form-row">
+                    <div class="col-6 mb-3">
+                      <label for="status">Amazon Account</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input type="text" class="form-control" value="<%= record?.amazonAccount%>" id="status" disabled>
+                        
+                      </select>
+                    </div>
+					
+            
+                    <div class="col-6 mb-3">
+                      <label for="orderId">Order ID</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="orderId"
+                        value="<%= record?.orderId%>"
+                        required disabled
+                        />
+                      </div>
+                      
+                      <div class="col-3 mb-3">
+                        <label for="orderDate">Order Date</label>
+                        <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="orderDate"
+                     
+                          value="<%= record?.orderDate%>"
+                          required disabled
+                        />
+                      </div>
+                    <div class="col-3 mb-3">
+                      <label for="shipBy">Ship By</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="shipBy"
+                        value="<%= record?.shipBy%>"
+                        required disabled
+                      />
+                    </div>
+                    
+                  </div>
+
+                  <div class="form-row">
+					<div class="col-3 mb-3">
+                      <label for="deliverBy">Deliver By</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="deliverBy"
+                        value="<%= record?.deliverBy%>"
+                        required disabled
+                      />
+                    </div>
+						<div class="col-3 mb-3">
+						  <label for="deliverBy">Purchase Date</label>
+						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+							id="purchaseDate"
+              value="<%= record.purchaseDate%>"
+            
+							required disabled
+						  />
+						</div>
+                    <div class="col-3 mb-3">
+                      <label for="contactBuyer">Contact Buyer</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="contactBuyer"
+                        value="<%= record?.contactBuyer%>"
+                    
+                        required disabled
+                      /> 
+                    </div>
+                    <div class="col-3 mb-3">
+						<label for="status">Customer Type</label>
+						<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						<input type="text" value="<%= record?.customerType %>" class="form-control" id="status" disabled>
+            
+					  </div>
+                   
+				</div>
+				<div class="form-row">
+					<div class="col-3 mb-3">
+						<label for="status">Distributor</label>
+						<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						<select class="form-control" id="status" disabled>
+						  <option value="pending" selected><%= record?.distributor %></option>
+						</select>
+					  </div>
+                    <div class="col-3 mb-3">
+                      <label for="mfrName">Manufacturer Name</label>
+                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="mfrName"
+                      
+                        value="<%= record .mfrName%>"
+                        required disabled
+                      />
+                    </div>
+				</div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="d-none d-md-block" style="width: 100%">
+                     
+                      
+                    </div>
+                  </div>
+                  <div id="AmazonDiv">
+                    <% for(i=0;i<record?.sku.split(",").length;i++){%>
+
+                      <div class="form-row">
+                        <div class="col-3 mb-3">
+                          <label for="sku">SKU</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="sku"
+                            value="<%=record?.sku.split('|')[i] %>"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+
+                          <label for="quantity">Quantity</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.quantity?.split('|')[i] %>"
+                            id="quantity"
+                            required
+                            disabled
+                          />
+                        </div>
+  
+                        <div class="col-3 mb-3">
+                          <label for="price">Price</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.price?.split('|')[i] %>"
+                            id="price"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="tax">Tax</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.tax?.split('|')[i] %>"
+                            id="tax"
+                            required
+                            disabled
+                          />
+                        </div>
+                      </div>
+  
+                      <div class="form-row">
+                        <div class="col-3 mb-3">
+                          <label for="shippingFee">Shipping Fee</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            value="<%=record?.shippingFee?.split('|')[i] %>"
+                            class="form-control"
+                            id="shippingFee"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="amazonFee">Amazon Fee</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            value="<%=record?.amazonFee?.split('|')[i] %>"
+                            class="form-control"
+                            id="amazonFee"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="mft">MFT</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.mft?.split('|')[i] %>"
+                            id="mft"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="yourEarning">Your Earning</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            value="<%=record?.yourEarning?.split('|')[i] %>"
+                            id="yourEarning"
+                            required
+                            disabled
+                          />
+                        </div>
+                      </div>
+  
+                      <div class="form-row">
+                        <div class="col-3 mb-3">
+                          <label for="cost">Cost</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            
+                            value="<%=record?.cost?.split('|')[i] %>" 
+                            id="cost"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="freightCost">Freight Cost</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            
+                            value="<%=record?.freightCost?.split('|')[i] %>"
+                            id="freightCost"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="handlingFee">Handling Fee</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            
+                            value="<%=record?.handlingFee?.split('|')[i] %>"
+                            id="handlingFee"
+                            required
+                            disabled
+                          />
+                        </div>
+                        <div class="col-3 mb-3">
+                          <label for="gmd">GMD</label>
+                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+                          <input
+                            type="text"
+                            class="form-control"
+                            disabled
+                            value="<%= (
+                              (+record?.yourEarning?.split('|')[i]) -
+                              (+record?.handlingFee?.split('|')[i]) -
+                              (+record?.freightCost?.split('|')[i]) -
+                              (+record?.cost?.split('|')[i])
+                            ).toFixed(2)  %>"
+                            id="handlingFee"
+                            required
+                          />
+                        </div>
+                        <hr>
+                      </div>
+                      <hr />
+                      <%}%>
+                  </div>
+          
+					<div class="form-row">
+						<div class="col-12 mb-3">
+						  <label for="shippingAddress">Shipping Address</label>
+              <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+              
+						  <textarea
+                      name="Comments"
+                      class="form-control"
+                      placeholder="Shipping Address"
+                      id="floatingTextarea2" 
+                      disabled
+                  
+                      
+                    ><%= record?.shippingAddress%></textarea>
+						</div>
+						
+							<div class="col-3 mb-3">
+								<label for="status">Address Type</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+								<select class="form-control" id="status" disabled>
+								  <option  selected><%=record?.addressType%></option>
+								  
+                  
+								</select>
+							  </div>
+						<div class="col-4 mb-3">
+						  <label for="phone">Phone</label>
+              <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+              value="<%=record?.phone%>"
+							id="phone"
+							required
+              disabled
+						  />
+						</div>
+						<div class="col-4 mb-3">
+						  <label for="companyPhone">Company Phone</label>
+						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+							id="companyPhone"
+              value="<%=record?.companyPhone%>"
+							required
+              disabled
+						  />
+						</div>
+					  </div>
+					  <div class="form-row">
+						<div class="col-12mb-3">
+						  <label for="email">Email</label>
+						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+							id="email"
+              value="<%=record?.email%>"
+							required
+              disabled
+						  />
+						</div>
+						
+					  </div>
+            <hr>
+           
+					
+          
+            
+            <div class="row">
+              <div class="col-4 mb-3">
+                <label for="companyPhone">Po Number</label>
+  
+                <input type="text" class="form-control" id="po" name="po" value="<%=record?.poNumber%>" disabled />
+              </div>
+              <div class="col-4 mb-3">
+                <label for="paymentTerm">Payment Terms</label>
+                <select name="payment" class="form-control" id="payment" disabled>
+                  <option value="<%=record?.paymentTerm%>">
+                    <%=record?.paymentTerm%>
+                  </option>
+                  <option value="net30">Net30</option>
+                  <option value="dllNet30">DLL Net30</option>
+                  <option value="npNet45">North Point Net45</option>
+                  <option value="dnhCreditCard">DnH Credit Card</option>
+                </select>
+              </div>
+              <div class="col-4 mb-3">
+                <label for="processedAccount">Processed Account</label>
+                <select name="processedAccount" class="form-control" id="processedAccount" disabled>
+                    <option value="<%= record?.processedAccount %>">
+                        <%= record?.processedAccount %>
+                    </option>
+                    <option value="Choice">Choice</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Texas Warehouse">Texas Warehouse</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            </div>
+  
+  
+            <div class="row" id="otherAccountRow" style="display: none;">
+              <div class="col-12 mb-3" >
+                  <label for="otherAccount">Other Account</label>
+                  <input type="text" class="form-control" id="otherAccount" name="otherAccount" value="Enter other account" disabled style="border: 3px solid red;" />
+              </div>
+          </div>
+  
+  
+         
+  
+  
+  
+  
+  
+  
+  
+            <!-- <div class="row">
+              <div class="col-4 mb-3">
+                <label for="invoiceNo">Invoice No</label>
+                <input type="text" class="form-control" id="invoiceNo" name="invoiceNo" value="<%=record.invoiceNo%>"
+                  required />
+              </div>
+              <div class="col-4 mb-3">
+                <label for="billNo">Bill No</label>
+                <input type="text" class="form-control" id="billNo" name="billNo" value="<%=record.billNo%>" required />
+              </div>
+              <div class="col-4 mb-3" id="otherInputWrapper" style="display: none;">
+                <label for="otherAccount" style="color:rgb(54, 70, 242)">Other Account</label>
+                <input style="border: 3px solid rgb(54, 70, 242);" type="text" class="form-control" id="otherAccount"
+                  name="otherAccount" value="<%=record.otherAccount%>" />
+              </div>
+            </div> -->
+  
+  
+  
+  
+            <!-- starts here -->
+  
+  
+            <div class="row">
+  
+  
+              <!-- <div class="col-4 mb-3">
+    <label for="poDate">Po Date</label>
+    <input
+      type="date"
+      class="form-control"
+      id="poDate"
+      name="poDate"
+      value=""
+      
+    />
+  </div> -->
+              <div class="col-4 mb-3">
+                <label for="verification">Verification</label>
+                <select name="verification" class="form-control" id="verification" disabled>
+  
+                  <option value="<%=record?.verificationStatus%>"><%=record?.verificationStatus%></option>
+                  <option value="verified">Verified</option>
+                  <option value="not-verified">Not Verified</option>
+                </select>
+              </div>
+              <div class="col-4 mb-3">
+                <label for="trackingNo">Tracking No</label>
+                <input type="text" class="form-control" id="trackingNo" name="trackingNo"value="<%=record?.trackingNo%>" disabled/>
+              </div>
+              <div class="col-4 mb-3">
+                <label for="orderDate">Order Date</label>
+                <input type="date" class="form-control" id="orderDateAccount" name="orderDateAccount" value="<%=record?.orderDateAccount%>" disabled/>
+              </div>
+            </div>
+  
+  
+  
+            <!-- row second -->
+  
+            <div class="row">
+  
+              <div class="col-4 mb-3">
+                <label for="invoiceDate">Invoice Date</label>
+                <input type="date" class="form-control" id="invoiceDate" name="invoiceDate" value="<%=record?.invoiceDate%>" disabled />
+              </div>
+              <div class="col-4 mb-3">
+                <!-- using bill date as deliver date -->
+                <label for="billDate">Deliver Date</label>
+                <input type="date" class="form-control" id="billDate" name="billDate" value="<%=record?.billDate%>"disabled />
+              </div>
+              <div class="col-4 mb-3">
+                <label for="shippingDiscount">Shipping Discount</label>
+                <input type="text" class="form-control" id="shippingDiscount" name="shippingDiscount" value="<%=record?.shippingDiscount%>"disabled  />
+              </div>
+            </div>
+  
+  
+  
+            <!-- third -->
+  
+            <div class="row">
+  
+              <div class="col-4 mb-3">
+                <label for="insurance">Insurance </label>
+                <input type="text" class="form-control" id="insurance" name="insurance" value="<%=record?.insurance%>" disabled/>
+              </div>
+              <div class="col-4 mb-3">
+                <label for="salesTax">Sales Tax</label>
+                <input type="text" class="form-control" id="salesTax" name="salesTax" value="<%=record?.saleTax%>" disabled  />
+              </div>
+              <div class="col-4 mb-3">
+                <label for="creditMemo">Credit Memo</label>
+                <input type="text" class="form-control" id="creditMemo" name="creditMemo" value="<%=record?.creditMemo%>" disabled />
+              </div>
+            </div>
+  
+  
+            <!-- fourth -->
+            <div class="row">
+              <div class="col-4 mb-3">
+                <label for="invoiceNo">Invoice No</label>
+                <input type="text" class="form-control" id="invoiceNo" name="invoiceNo" value="<%=record?.invoiceNo%>"
+                disabled />
+              </div>
+              <div class="col-4 mb-3">
+                <label for="billNo">Bill No</label>
+                <input type="text" class="form-control" id="billNo" name="billNo" value="<%=record?.billNo%>" disabled />
+              </div>
+              <div class="col-4 mb-3" id="otherPaymentField" >
+                <label for="poSixSeries"   style="color:rgb(54, 70, 242)">Six Series Po</label>
+                
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sixSeries"
+                  name="sixSeries"
+                  value="<%=record?.poSixSeries%> "disabled
+                />
+              </div>
+            </div>
+            </div>
+  
+            <div class="row">
+  
+              <div class="col-6 mb-3">
+                <label for="miscFee">Misc Fee </label>
+                <input type="text" class="form-control" id="miscFee" name="miscFee" value="<%=record?.miscFee%>" disabled />
+              </div>
+              <div class="col-6 mb-3">
+                <label for="resoldRevenue">Signature Fee</label>
+                <input type="text" class="form-control" id="resoldRevenue" name="resoldRevenue" value="<%=record?.resoldRevenue%>" disabled />
+              </div>
+  
+            </div>
+            
+           
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+            <!-- end here here -->
+  
+  
+  
+  
+  
+  
+            <div class="col-12 mb-3">
+              <label for="floatingTextarea2">Comment</label>
+  
+              <textarea class="form-control" placeholder="Leave a comment here" id="accountComments"
+                name="accountComments" value="<%=record?.accountComments%>"   style="height: 100%" disabled><%=record?.accountComments%></textarea>
+            </div></div><br> 
+            <div class="col-12 mb-3">
+						  <label for="ads">Created Date</label>
+						 
+						  <input
+							type="text"
+							class="form-control"
+							id="po" name="po"
+							required
+              value="<%=record?.createdAt%>"
+              disabled
+              
+						  />
+						</div>
+            <div class="col-12 mb-3">
+						  <label for="ads">inProgressDate</label>
+						 
+						  <input
+							type="text"
+							class="form-control"
+							id="po" name="po"
+							required
+              value="<%=record?.inProgressDate%>"
+              disabled
+              
+						  />
+						</div>
+            <div class="col-12 mb-3">
+						  <label for="ads">Complete/Cancel Date</label>
+						 
+						  <input
+							type="text"
+							class="form-control"
+							id="po" name="po"
+							required
+              value="<%=record?.updatedAt%>"
+              disabled
+              
+						  />
+						</div>
+           
+            
+          
+          
+                  </div>
+                
+                  
+              </div>
+            </div>
+          </div>
+          <!-- row -->
+        </div>
+        <!-- container -->
+      </div>
+    </div>
+    <!-- content -->
+
+    <script src="../../lib/jquery/jquery.min.js"></script>
+    <script src="../../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+      toastr.options = {
+      "closeButton": true,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-bottom-right",
+      "preventDuplicates": true,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "2000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+    </script>
+    <script>
+      $("#addAmazonBtn").on("click", (e) => {
+        e.preventDefault();
+        $("#AmazonDiv").prepend(` <div class="skuPart"> <div class="form-row">
+										<div class="col-3 mb-3">
+											<label for="sku">SKU</label>
+											<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+											<input type="text" class="form-control" id="sku" required> 
+										  </div>
+									  <div class="col-3 mb-3">
+										<label for="quantity">Quantity</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="quantity" required > 
+									  </div>
+									 
+									  <div class="col-3 mb-3">
+										<label for="price">Price</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="price" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="tax">Tax</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="tax" required>
+									  </div>
+									</div>
+									
+									<div class="form-row">
+									  <div class="col-3 mb-3">
+										<label for="shippingFee">Shipping Fee</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="shippingFee" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="amazonFee">Amazon Fee</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="amazonFee" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="mft">MFT</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="mft" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="yourEarning">Your Earning</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="yourEarning" required>
+									  </div>
+									</div>
+									
+									<div class="form-row">
+									  <div class="col-3 mb-3">
+										<label for="cost">Cost</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="cost" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="freightCost">Freight Cost</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="freightCost" required>
+									  </div>
+									  <div class="col-3 mb-3">
+										<label for="handlingFee">Handling Fee</label>
+										<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
+										<input type="text" class="form-control" id="handlingFee" required>
+									  </div>
+									</div>  <div class=" row col-3 mb-3 ">
+                    <div class="d-none d-md-block" style="width: 100%">
+                      <a
+                        href="javascript://void(0)"
+                        id=""
+                        class="btn btn-danger delete-row"
+                        style="float: left"
+                        >Delete</a
+                      >
+                    </div>
+                  </div> </div><hr>`);
+      });
+
+    
+
+ $(document).ready(function() {
+  // Function to remove the clicked row
+  function removeRow(element) {
+    $(element).closest(".skuPart").remove();
+  }
+
+  // Attach click event to delete buttons
+  $(document).on("click", ".delete-row", function() {
+    removeRow(this);
+  });
+
+ 
+});
+
+ $(document).ready(function() {
+    // ... Existing code to prepend new form rows ...
+
+    // Function to copy field value to clipboard
+    function copyFieldValue(element) {
+      let inputField = $(element).siblings('input')
+      if(inputField.length){
+        const fieldValue = inputField.val();
+        copyToClipboard(fieldValue);
+      }else{
+        let inputField = $(element).siblings('select')
+        if(inputField.length){
+          const fieldValue = inputField.val();
+          copyToClipboard(fieldValue);
+        }else{
+          let inputField = $(element).siblings('textarea')
+          const fieldValue = inputField.val();
+          copyToClipboard(fieldValue);
+        }
+
+      }
+      
+      // alert(`${inputField.attr("id")} value copied: ${fieldValue}`);
+    }
+
+    // Attach click event to copy icon buttons
+    $(document).on("click", ".cpBtn", function() {
+      copyFieldValue(this);
+    });
+
+    // Function to copy text to clipboard
+    function copyToClipboard(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      
+        
+      toastr["success"](" value Copied successfully.")
+  
+      
+     
+      
+    }
+    
+  });
+
+// document.querySelectorAll(".far fa-copy").forEach(copyLinkContainer=>{
+//    const inputField=copyLinkContainer.querySelector(".border-0");
+//    const fieldvalue=copyLinkContainer.querySelector(".form-control");
+//    const text= inputField.value();
+   
+//    inputField.removeEventListener("focus",()=>inputField.select());
+//    fieldvalue.removeEventListener("click",()=>inputField.select());
+// })
+
+
+
+    </script>
+    <script>
+      const cancelButton = document.getElementById("cancelled");
+      const completeButton = document.getElementById("completed");
+      const orderForm = document.getElementById("orderForm");
+  
+      cancelButton.addEventListener("click", function() {
+          updateStatus("cancelled");
+      });
+  
+      completeButton.addEventListener("click", function() {
+          updateStatus("completed");
+      });
+  
+      function updateStatus(newStatus) {
+          const formData = new FormData(orderForm);
+          const orderId = formData.get("orderId");
+          const po = formData.get("po");
+          const comments = formData.get("comments");
+  
+          // Send the status, PO, comments, and orderId to the server
+          fetch("/employee/updateRecordAccount", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                  orderId: orderId,
+                  status: newStatus,
+                  po: po,
+                  comments: comments
+              })
+          })
+          .then(response => response.json()) // Parse the JSON response
+          .then(data => {
+    if (data.status) {
+        // Save the orderId, userId, and status
+        const orderid = data.orderId;
+        const userid = data.accountUserId;
+        const status = data.updatedStatus;
+
+        // Perform the first AJAX call to update the record
+
+        // Perform the second AJAX call to send the variables for nodemail
+        $.ajax({
+            url: '/employee/sendEmailAccount', // Replace with your actual endpoint
+            method: 'POST',
+            data: {
+                orderid: orderid,
+                userid: userid,
+                status: status
+            },
+            success: function(response) {
+                // Handle the response from the server
+
+                // Once the email sending AJAX call is successful, show the success alert
+                alert('Email sent and record updated successfully');
+                window.location.href = '/employee/account';
+            },
+            error: function(error) {
+                alert('Error sending email and updating record');
+            }
+        });
+    } else {
+        alert('Not Successful');
+    }
+})
+.catch(error => {
+    console.error('Error updating status:', error);
+});
+      }
+
+
+
+
+
+
+      document.getElementById('email-button').addEventListener('click', function() {
+    const pageContent = document.documentElement.outerHTML;
+    const emailBody = encodeURIComponent(pageContent);
+    
+    const emailLink = `mailto:?subject=Check%20Out%20This%20Page&body=${emailBody}`;
+    
+    window.location.href = emailLink;
+});
+  </script>
+  
+  </body>
+</html>

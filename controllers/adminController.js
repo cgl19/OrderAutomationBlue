@@ -266,7 +266,7 @@ exports.employees = async (req, res) => {
 
 	console.log(employees)
 	res.render("admin/viewEmployees", {
-		
+
 		employees: employees,
 		error_message: req.flash("error_message") || "",
 		success_message: req.flash("success_message") || "",
@@ -312,6 +312,171 @@ exports.addEmployeesProcess = async (req, res) => {
 		return;
 	}
 };
+
+
+exports.editRecord = async (req, res) => {
+	const id = req.params.id
+	const record = await Orders.findAll({
+		where: {
+			[Op.and]: [
+				{
+					id
+				},
+				// {
+				// 	accountUserId:req.session.user.id,
+				// }
+			]
+		},
+
+	});
+	//console.log(record[0])
+	const user = req.session.user
+	res.render("admin/editOrder", { user, record: record.length ? record[0] : {} })
+};
+
+
+
+/////////////////to update from edit form verification:verification,
+
+exports.adminEditOrder = async (req, res) => {
+	try {
+		const {
+			orderId,
+			amazonComments,
+			amazonAccount,
+			orderDate,
+			shipBy,
+			deliverBy,
+			purchaseDate,
+			contactBuyer,
+			customerType,
+			distributor,
+			mfrName,
+			sku,
+			quantity,
+			price,
+			tax,
+			shippingFee,
+			amazonFee,
+			mft,
+			yourEarning,
+			cost,
+			freightCost,
+			handlingFee,
+			shippingAddress,
+			addressType,
+			phone,
+			companyPhone,
+			email,
+			sixSeries,
+
+			status,
+			po,
+			payment,
+			processedAccount,
+			invoiceNo,
+			billNo,
+			trackingNo,
+			invoiceDate,
+			billDate,
+			shippingDiscount,
+			insurance,
+			salesTax,
+			creditMemo,
+			miscFee,
+			resoldRevenue,
+			verification,
+			id,
+			orderDateAccount,
+			accountComments } = req.body;
+		const updatedOrder = await Orders.update(
+			{
+				orderId,
+				amazonComments,
+				accountComments,
+				amazonAccount,
+				orderDate,
+				shipBy,
+				deliverBy,
+				purchaseDate,
+				contactBuyer,
+				customerType,
+				distributor,
+				mfrName: mfrName,
+				sku,
+				quantity,
+				price,
+				tax,
+				shippingFee,
+				amazonFee,
+				mft,
+				yourEarning,
+				cost,
+				freightCost,
+				handlingFee,
+				shippingAddress,
+				addressType,
+				phone,
+				companyPhone,
+				email,
+
+
+				status: status,
+				poNumber: po,
+				paymentTerm: payment,
+
+				payment,
+				processedAccount: processedAccount,
+				invoiceNo: invoiceNo,
+				billNo: billNo,
+
+				trackingNo: trackingNo,
+				invoiceDate: invoiceDate,
+				billDate: billDate,
+				shippingDiscount,
+				insurance: insurance,
+				saleTax: salesTax,
+				creditMemo: creditMemo,
+				miscFee: miscFee,
+				resoldRevenue: resoldRevenue,
+				verificationStatus: verification,
+				poSixSeries: sixSeries,
+				orderDateAccount: orderDateAccount
+			},
+			{
+				where: {
+					id: id // Replace someValue with the value you're looking for
+				},
+				returning: true,
+			}
+		);
+
+		res.redirect("/admin/orders")
+		// The rupdate was successful (updated 1 record)
+
+
+	} catch (error) {
+		console.error(error);
+		// return res.status(500).json({ status: false, error: "Error updating order" });
+		res.render("error_view/editError");
+	}
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.editEmployeesProcess = async (req, res) => {
 	if (req.session.user.role == "admin") {
@@ -428,13 +593,13 @@ exports.assignTaskToEmployeesProcess = async (req, res) => {
 
 
 exports.employeeDetails = async (req, res) => {
-	const userId=req.params.id;
+	const userId = req.params.id;
 	console.log('ffffffffffffff')
-	const employeeData= await Users.findByPk(userId)
-		
+	const employeeData = await Users.findByPk(userId)
 
-       console.log(employeeData)
-	res.render("admin/employeeDetails", {employeeData:employeeData});
+
+	console.log(employeeData)
+	res.render("admin/employeeDetails", { employeeData: employeeData });
 };
 
 
@@ -447,9 +612,45 @@ exports.employeeDetails = async (req, res) => {
 
 
 exports.orders = async (req, res) => {
+	let pendingOrders = await Orders.findAll({where:{status : 'pending'}, attributes : ['id']})
+	pendingOrders = pendingOrders.length
 
-	res.render("admin/viewOrders")
+	let completedOrders = await Orders.findAll({where:{status : 'completed'}, attributes : ['id']})
+	completedOrders = completedOrders.length
+
+	let cancelledOrders = await Orders.findAll({where:{status : 'cancelled'}, attributes : ['id']})
+	cancelledOrders = cancelledOrders.length
+
+
+	// Get the current date
+	const currentDate = new Date();
+
+	// Set the start and end time for the current date
+	currentDate.setHours(0, 0, 0, 0); // Start of the day
+	const nextDay = new Date(currentDate);
+	nextDay.setDate(currentDate.getDate() + 1); // End of the day (start of the next day)
+
+	let todaypendingOrders = await Orders.findAll({where:{status : 'pending',createdAt: {
+		[Op.between]: [currentDate, nextDay],
+	},}, attributes : ['id']})
+	todaypendingOrders = todaypendingOrders.length
+
+		let todaycompletedOrders = await Orders.findAll({where:{status : 'completed',createdAt: {
+			[Op.between]: [currentDate, nextDay],
+		},}, attributes : ['id']})
+		todaycompletedOrders = todaycompletedOrders.length
+
+		let todaycancelledOrders = await Orders.findAll({where:{status : 'cancelled',createdAt: {
+			[Op.between]: [currentDate, nextDay],
+		},}, attributes : ['id']})
+		todaycancelledOrders = todaycancelledOrders.length
+
+	res.render("admin/viewOrders",{pendingOrders,completedOrders,cancelledOrders,todaycancelledOrders, todaycompletedOrders, todaypendingOrders})
 };
+
+
+
+
 
 exports.orderPagination = async (req, res) => {
 	const { iDisplayLength, sEcho, sSearch, iDisplayStart } = JSON.parse(
@@ -478,14 +679,20 @@ exports.orderPagination = async (req, res) => {
 					{ email: { [Op.substring]: sSearch } },
 					{ createdAt: { [Op.substring]: sSearch } },
 					{ status: { [Op.substring]: sSearch } },
+					{
+						'$amazonUser.name$': { [Op.substring]: sSearch }
+					},
+					{
+					'$accountUser.name$': { [Op.substring]: sSearch }
+					}
 				],
-				
-			},include : [
+
+			}, include: [
 				{
 					model: Users,
 					as: 'amazonUser', // Replace with the appropriate association alias
 					attributes: ['name']
-				},{
+				}, {
 					model: Users,
 					as: 'accountUser', // Replace with the appropriate association alias
 					attributes: ['name']
@@ -515,16 +722,29 @@ exports.orderPagination = async (req, res) => {
 
 					dataObj.status = data[i].status ? data[i].status : ""
 
-					dataObj.createdAt = data[i].createdAt ? data[i].createdAt : ""
+					if(data[i]?.createdAt){
+						const date = new Date(data[i]?.createdAt); // Replace with your date
+						const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+						const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
-					
-					dataObj.edit = `<a class="btn btn-primary" href="/employee/editOrderAccount/${data[i].id}">Edit</a>`
-					
-					dataObj.details = `<a class="btn btn-primary" href="/employee/amazonOrderDetail/${data[i].id}">Details</a> `
-					
+						const formattedDate = date.toLocaleDateString(undefined, dateOptions);
+						const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
+
+						const formattedDateTime = `${formattedDate} ${formattedTime}`;
+						dataObj.createdAt = formattedDateTime
+					}else{
+						dataObj.createdAt = ''
+					}
+
+
+					dataObj.action = `<div class="d-flex">
+					<a class="btn btn-sm btn-dark" href="/admin/orders/${data[i].id}">Details</a>
+					<a class="btn btn-sm btn-success mx-1" href="/admin/editOrder/${data[i].id}">Edit</a>
+					<a class="btn btn-sm btn-danger" href="/admin/deleteOrder/${data[i].id}">Delete</a>
+				</div>`
 					dataObj.amazonUserName = data[i]?.amazonUser?.name || "";
 					dataObj.accountUserName = data[i]?.accountUser?.name || "";
-	
+
 					dataObj.createdBy = dataObj.amazonUserName ? dataObj.amazonUserName : "";
 					dataObj.processedBy = dataObj.accountUserName ? dataObj.accountUserName : "";
 
@@ -617,15 +837,30 @@ exports.orderPagination = async (req, res) => {
 
 					dataObj.status = data[i].status ? data[i].status : ""
 
-					dataObj.createdAt = data[i].createdAt ? data[i].createdAt : ""
+					if(data[i]?.createdAt){
+						const date = new Date(data[i]?.createdAt); // Replace with your date
+						const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+						const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
-					dataObj.details = `<a class="btn btn-primary" href="/admin/orders/${data[i].id}">Details</a>`
-					dataObj.edit = `<a class="btn btn-primary" href="/employee/editOrderAccount/${data[i].id}">Edit</a>`
+						const formattedDate = date.toLocaleDateString(undefined, dateOptions);
+						const formattedTime = date.toLocaleTimeString(undefined, timeOptions);
+
+						const formattedDateTime = `${formattedDate} ${formattedTime}`;
+						dataObj.createdAt = formattedDateTime
+					}else{
+						dataObj.createdAt = ''
+					}
+
+					dataObj.action = `<div class="d-flex">
+					<a class="btn btn-sm btn-dark" href="/admin/orders/${data[i].id}">Details</a>
+					<a class="btn btn-sm btn-success mx-1" href="/admin/editOrder/${data[i].id}">Edit</a>
+					<a class="btn btn-sm btn-danger" href="/admin/deleteOrder/${data[i].id}">Delete</a>
+				</div>`
+					// dataObj.edit = `<a class="btn btn-sm btn-success" href="/admin/editOrder/${data[i].id}">Edit</a>`
+					// dataObj.delete = `<a class="btn btn-sm btn-warning" href="/admin/deleteOrder/${data[i].id}">Delete</a>`
 
 					dataObj.createdBy = dataObj.amazonUserName ? dataObj.amazonUserName : "";
 					dataObj.processedBy = dataObj.accountUserName ? dataObj.accountUserName : "";
-
-
 					skodaJsonDataArr.push(dataObj);
 				}
 				response = skodaJsonDataArr;
@@ -670,6 +905,44 @@ exports.orderPagination = async (req, res) => {
 };
 
 
+
+
+
+exports.deleteOrder = async (req, res) => {
+	const id = req.params.id;
+	try {
+		const order = await Orders.findByPk(id);
+
+		if (order) {
+			await Orders.destroy({ where: { id: id } });
+			console.log(`Order with ID ${id} has been deleted.`);
+		} else {
+			console.log(`Order with ID ${id} not found.`);
+		}
+
+		// Redirect to the admin/orders page
+		res.redirect('/admin/orders');
+	} catch (error) {
+		console.error(`Error while deleting order: ${error}`);
+		// Handle the error, you can choose to redirect to an error page or send an error response.
+		res.status(500).send('Internal Server Error');
+	}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 exports.ordersDetailAdmin = async (req, res) => {
 	const orderId = req.params.id;
 
@@ -691,7 +964,7 @@ exports.ordersDetailAdmin = async (req, res) => {
 	console.log(record[0])
 
 
-	res.render("orderViewAdmin", { record: record.length ? record[0] : {} })
+	res.render("admin/orderDetail", { record: record.length ? record[0] : {} })
 
 };
 
@@ -706,333 +979,333 @@ exports.exportOrders = async (req, res) => {
 	if (employees.includes('all') && status.includes('all')) {
 		// If both employees and status are 'all'
 		conditions.createdAt = {
-		  [Op.between]: [fromDate, toDate],
+			[Op.between]: [fromDate, toDate],
 		};
-	  }
-	  else if(employees.includes('all') && !status.includes('all') ){
-		conditions =  {
-			createdAt : {
+	}
+	else if (employees.includes('all') && !status.includes('all')) {
+		conditions = {
+			createdAt: {
 				[Op.between]: [fromDate, toDate],
 			},
-			[Op.or]  : {
-				amazonUserId : {[Op.in] : employees},
-				accountUserId : {[Op.in] : employees},
+			[Op.or]: {
+				amazonUserId: { [Op.in]: employees },
+				accountUserId: { [Op.in]: employees },
 			},
-			status : {
-				[Op.in] : status
+			status: {
+				[Op.in]: status
 			}
 		}
-	  }
-	  else if(!employees.includes('all') && status.includes('all')){
-		conditions =  {
-			createdAt : {
+	}
+	else if (!employees.includes('all') && status.includes('all')) {
+		conditions = {
+			createdAt: {
 				[Op.between]: [fromDate, toDate],
 			},
-			[Op.or]  : {
-				amazonUserId : {[Op.in] : employees},
-				accountUserId : {[Op.in] : employees},
+			[Op.or]: {
+				amazonUserId: { [Op.in]: employees },
+				accountUserId: { [Op.in]: employees },
 			},
 		}
-	  }
-	  else if(!employees.includes('all') && !status.includes('all')){
-		conditions =  {
-			createdAt : {
+	}
+	else if (!employees.includes('all') && !status.includes('all')) {
+		conditions = {
+			createdAt: {
 				[Op.between]: [fromDate, toDate],
 			},
-			[Op.or]  : {
-				amazonUserId : {[Op.in] : employees},
-				accountUserId : {[Op.in] : employees},
+			[Op.or]: {
+				amazonUserId: { [Op.in]: employees },
+				accountUserId: { [Op.in]: employees },
 			},
-			status : {
-				[Op.in] : status
+			status: {
+				[Op.in]: status
 			}
 		}
-	  }
+	}
 	try {
 
 		console.log(conditions)
-		if(conditions){
-			
-		
-		const exportOrders = await Orders.findAll({
-			attributes: [
-				"id", // Include any other attributes you need in this array
-				"poDate",
-				"deliverBy",
-				"deliveredDate",
-				"trackingNo",
-				"accountComments",
-				"verificationStatus",
-				"processedAccount",
-				"poSixSeries",
-				"poNumber",
-				"status",
-				"orderId",
-				"sku",
-				"invoiceNo",
-				"billNo",
-				"shippingAddress",
-				"mfrName",
-				"distributor",
-				"paymentTerm",
-				"cost",
-				"shippingDiscount",
-				"handlingFee",
-				"saleTax",
-				"insurance",
-				"creditMemo",
-				"miscFee",
-				"resoldRevenue",
-			  ],
-			where:   conditions,
-			include: [
-				{
-					model: Users,
-					as: 'accountUser',
-				},
-				{
-					model: Users,
-					as: 'amazonUser',
-				},
-
-				
-			],
+		if (conditions) {
 
 
-			// ... include options
-		});
+			const exportOrders = await Orders.findAll({
+				attributes: [
+					"id", // Include any other attributes you need in this array
+					"poDate",
+					"deliverBy",
+					"deliveredDate",
+					"trackingNo",
+					"accountComments",
+					"verificationStatus",
+					"processedAccount",
+					"poSixSeries",
+					"poNumber",
+					"status",
+					"orderId",
+					"sku",
+					"invoiceNo",
+					"billNo",
+					"shippingAddress",
+					"mfrName",
+					"distributor",
+					"paymentTerm",
+					"cost",
+					"shippingDiscount",
+					"handlingFee",
+					"saleTax",
+					"insurance",
+					"creditMemo",
+					"miscFee",
+					"resoldRevenue",
+				],
+				where: conditions,
+				include: [
+					{
+						model: Users,
+						as: 'accountUser',
+					},
+					{
+						model: Users,
+						as: 'amazonUser',
+					},
 
 
-
-		const generateRowsForOneOrder = (order) => {
-		
-			console.log("++++",order)
-			const rows = [];
-			const skus = order.sku.split('|');
-			console.log("===========================",skus)
-		  
-			for (let index = 0; index < skus.length; index++) {
-			  let row = '';
-			  for (const key in order) {
-				if (order.hasOwnProperty(key) && key !== 'id'   ) {
-				  if (key === "sku") {
-					console.log("there every where")
-					row += skus[index] + "#&a";
-				  } 
-				  
-				  else if (key === "accountUser") {
-					console.log("hereeee")
-					row += order?.accountUser?.dataValues?.name + "#&a";
-				  }
-				  else if (key === "amazonUser") {
-					console.log("hereeee")
-					row += order?.amazonUser?.dataValues?.name + "#&a";
-				  }
-				  else if (key === "quantity") {
-					
-					row += order.quantity.split('|')[index] + "#&a";
-				  }
-				  else if (key === "price") {
-					row += order.price.split('|')[index] + "#&a";
-				  }
-				  else if (key === "cost") {
-					console.log("shapaatar gang")
-					row += order.cost.split('|')[index] + "#&a";
-				  }
-				  else if (key === "tax") {
-					row += order.tax.split('|')[index] + "#&a";
-				  }
-				  else if (key === "shippingFee") {
-					row += order.shippingFee.split('|')[index] + "#&a";
-				  }
-				  else if (key === "handlingFee") {
-					row += order.handlingFee.split('|')[index] + "#&a";
-				  }
-				  else if (key === "mft") {
-					row += order.mft.split('|')[index] + "#&a";
-				  } else if (key === "freightCost") {
-					row += order.freightCost.split('|')[index] + "#&a";
-				  }
-				  else if (key === "amazonFee") {
-					row += order.amazonFee.split('|')[index] + "#&a";
-				  }
-				  else if (key === "yourEarning") {
-					row += order.yourEarning.split('|')[index] + "#&a";
-				  }
-		  
-				  else {
-		  
-					row += order[key] + "#&a";
-				  }
-				}
-			  }
-			
-			  rows.push(row);
-			}
-		  
-			return rows;
-		  };
-		  
-		 
-		  function generateHeadersForExportFile(order) {
-			let headers = [];
-			for (const key in order) {
-			  if (order.hasOwnProperty(key) && key !== 'id') {
-				headers.push({ header: key, key: key });
-			  }
-			}
-		//   console.log(headers)
-		headers=  [
-			{ header: 'po Date', key: 'poDate' },
-			{ header: 'deliverBy', key: 'deliverBy' },
-			{ header: 'deliveredDate', key: 'deliveredDate' },
-			{ header: 'trackingNo', key: 'trackingNo' },
-			{ header: 'accountComments', key: 'accountComments' },
-			{ header: 'verificationStatus', key: 'verificationStatus' },
-			
-			{ header: 'processedAccount', key: 'processedAccount' },
-			{ header: 'poSixSeries', key: 'poSixSeries' },
-			{ header: 'poNumber', key: 'poNumber' },
-			{ header: 'status', key: 'status' },
-			{ header: 'orderId', key: 'orderId' },
-			{ header: 'sku', key: 'sku' },
-			{ header: 'invoiceNo', key: 'invoiceNo' },
-			{ header: 'billNo', key: 'billNo' },
-			{ header: 'shippingAddress', key: 'shippingAddress' },
-			{ header: 'mfrName', key: 'mfrName' },
-			{ header: 'distributor', key: 'distributor' },
-			{ header: 'paymentTerm', key: 'paymentTerm' },
-			{ header: 'cost', key: 'cost' },
-			{ header: 'shippingDiscount', key: 'shippingDiscount' },
-			{ header: 'handlingFee', key: 'handlingFee' },
-			{ header: 'saleTax', key: 'saleTax' },
-			{ header: 'insurance', key: 'insurance' },
-			{ header: 'creditMemo', key: 'creditMemo' },
-			{ header: 'miscFee', key: 'miscFee' },
-			{ header: 'Signature Fee', key: 'resoldRevenue' },
-			{ header: 'Purchasing Rep', key: 'accountUser' },
-			{ header: 'Amazon Rep', key: 'amazonUser' },
-		
-			{ header: 'Outbound Shipping', key: 'Outbound Shipping' },
-			{ header: 'Net Outbound Shipping (for QB)', key: 'Net Outbound Shipping (for QB)' }
-		  ]
-			return headers;
-		  }
+				],
 
 
-
-
-
-		const workbook = new excel.Workbook();
-		workbook.creator = 'Your Name';
-		workbook.lastModifiedBy = 'Your Name';
-		workbook.created = new Date();
-		workbook.modified = new Date();
-
-		const worksheet = workbook.addWorksheet('Sheet 1');
-
-		const headers = generateHeadersForExportFile(exportOrders[0]?.dataValues)
-	
-		worksheet.columns = headers;
-		const filePath = path.join(__dirname, '../export/admin', 'file.xlsx');
-		//fs.writeFileSync(filePath,'')
-		for (let index = 0; index < exportOrders.length; index++) {
-			const order = exportOrders[index];
-			const dataValues = order.dataValues;
-		  
-			let concatenatedString = ''; // Reset for each order
-			let rows; // Reset for each order
-		  
-			rows = await generateRowsForOneOrder(dataValues);
-			console.log(rows, 'data rows');
-		  
-			for (let index = 0; index < rows.length; index++) {
-			  const splitArray = rows[index].split('#&a');
-			  // splitArray.shift();
-		  
-			  worksheet.addRow(splitArray);
-			}
-		  }
-		
-		
-		workbook.xlsx.writeFile(filePath)
-			.then(() => {
-				console.log('Excel file created successfully.');
-			})
-			.catch((error) => {
-				console.error('Error creating Excel file:', error);
+				// ... include options
 			});
 
 
-		}
+
+			const generateRowsForOneOrder = (order) => {
+
+				console.log("++++", order)
+				const rows = [];
+				const skus = order.sku.split('|');
+				console.log("===========================", skus)
+
+				for (let index = 0; index < skus.length; index++) {
+					let row = '';
+					for (const key in order) {
+						if (order.hasOwnProperty(key) && key !== 'id') {
+							if (key === "sku") {
+								console.log("there every where")
+								row += skus[index] + "#&a";
+							}
+
+							else if (key === "accountUser") {
+								console.log("hereeee")
+								row += order?.accountUser?.dataValues?.name + "#&a";
+							}
+							else if (key === "amazonUser") {
+								console.log("hereeee")
+								row += order?.amazonUser?.dataValues?.name + "#&a";
+							}
+							else if (key === "quantity") {
+
+								row += order.quantity.split('|')[index] + "#&a";
+							}
+							else if (key === "price") {
+								row += order.price.split('|')[index] + "#&a";
+							}
+							else if (key === "cost") {
+								console.log("shapaatar gang")
+								row += order.cost.split('|')[index] + "#&a";
+							}
+							else if (key === "tax") {
+								row += order.tax.split('|')[index] + "#&a";
+							}
+							else if (key === "shippingFee") {
+								row += order.shippingFee.split('|')[index] + "#&a";
+							}
+							else if (key === "handlingFee") {
+								row += order.handlingFee.split('|')[index] + "#&a";
+							}
+							else if (key === "mft") {
+								row += order.mft.split('|')[index] + "#&a";
+							} else if (key === "freightCost") {
+								row += order.freightCost.split('|')[index] + "#&a";
+							}
+							else if (key === "amazonFee") {
+								row += order.amazonFee.split('|')[index] + "#&a";
+							}
+							else if (key === "yourEarning") {
+								row += order.yourEarning.split('|')[index] + "#&a";
+							}
+
+							else {
+
+								row += order[key] + "#&a";
+							}
+						}
+					}
+
+					rows.push(row);
+				}
+
+				return rows;
+			};
+
+
+			function generateHeadersForExportFile(order) {
+				let headers = [];
+				for (const key in order) {
+					if (order.hasOwnProperty(key) && key !== 'id') {
+						headers.push({ header: key, key: key });
+					}
+				}
+				//   console.log(headers)
+				headers = [
+					{ header: 'po Date', key: 'poDate' },
+					{ header: 'deliverBy', key: 'deliverBy' },
+					{ header: 'deliveredDate', key: 'deliveredDate' },
+					{ header: 'trackingNo', key: 'trackingNo' },
+					{ header: 'accountComments', key: 'accountComments' },
+					{ header: 'verificationStatus', key: 'verificationStatus' },
+
+					{ header: 'processedAccount', key: 'processedAccount' },
+					{ header: 'poSixSeries', key: 'poSixSeries' },
+					{ header: 'poNumber', key: 'poNumber' },
+					{ header: 'status', key: 'status' },
+					{ header: 'orderId', key: 'orderId' },
+					{ header: 'sku', key: 'sku' },
+					{ header: 'invoiceNo', key: 'invoiceNo' },
+					{ header: 'billNo', key: 'billNo' },
+					{ header: 'shippingAddress', key: 'shippingAddress' },
+					{ header: 'mfrName', key: 'mfrName' },
+					{ header: 'distributor', key: 'distributor' },
+					{ header: 'paymentTerm', key: 'paymentTerm' },
+					{ header: 'cost', key: 'cost' },
+					{ header: 'shippingDiscount', key: 'shippingDiscount' },
+					{ header: 'handlingFee', key: 'handlingFee' },
+					{ header: 'saleTax', key: 'saleTax' },
+					{ header: 'insurance', key: 'insurance' },
+					{ header: 'creditMemo', key: 'creditMemo' },
+					{ header: 'miscFee', key: 'miscFee' },
+					{ header: 'Signature Fee', key: 'resoldRevenue' },
+					{ header: 'Purchasing Rep', key: 'accountUser' },
+					{ header: 'Amazon Rep', key: 'amazonUser' },
+
+					{ header: 'Outbound Shipping', key: 'Outbound Shipping' },
+					{ header: 'Net Outbound Shipping (for QB)', key: 'Net Outbound Shipping (for QB)' }
+				]
+				return headers;
+			}
+
+
+
+
+
+			const workbook = new excel.Workbook();
+			workbook.creator = 'Your Name';
+			workbook.lastModifiedBy = 'Your Name';
+			workbook.created = new Date();
+			workbook.modified = new Date();
+
+			const worksheet = workbook.addWorksheet('Sheet 1');
+
+			const headers = generateHeadersForExportFile(exportOrders[0]?.dataValues)
+
+			worksheet.columns = headers;
+			const filePath = path.join(__dirname, '../export/admin', 'file.xlsx');
+			//fs.writeFileSync(filePath,'')
+			for (let index = 0; index < exportOrders.length; index++) {
+				const order = exportOrders[index];
+				const dataValues = order.dataValues;
+
+				let concatenatedString = ''; // Reset for each order
+				let rows; // Reset for each order
+
+				rows = await generateRowsForOneOrder(dataValues);
+				console.log(rows, 'data rows');
+
+				for (let index = 0; index < rows.length; index++) {
+					const splitArray = rows[index].split('#&a');
+					// splitArray.shift();
+
+					worksheet.addRow(splitArray);
+				}
+			}
+
+
+			workbook.xlsx.writeFile(filePath)
+				.then(() => {
+					console.log('Excel file created successfully.');
+				})
+				.catch((error) => {
+					console.error('Error creating Excel file:', error);
+				});
+
 
 		}
 
+	}
 
-		// Calculate process time for each order and modify the exportOrders
-		// 	  const modifiedOrders = exportOrders.map(order => {
-		// 		const modifiedOrder = { ...order.dataValues };
 
-		// 		if (modifiedOrder.accountUser) {
-		// 		  modifiedOrder.accountUser = modifiedOrder.accountUser.dataValues.name;
-		// 		}
+	// Calculate process time for each order and modify the exportOrders
+	// 	  const modifiedOrders = exportOrders.map(order => {
+	// 		const modifiedOrder = { ...order.dataValues };
 
-		// 		if (modifiedOrder.amazonUser) { 
-		// 		  modifiedOrder.amazonUser = modifiedOrder.amazonUser.dataValues.name;
-		// 		}
+	// 		if (modifiedOrder.accountUser) {
+	// 		  modifiedOrder.accountUser = modifiedOrder.accountUser.dataValues.name;
+	// 		}
 
-		// 		if (modifiedOrder.inProgressDate && modifiedOrder.completeOrCancelDate) {
-		// 		  const processTime = modifiedOrder.completeOrCancelDate - modifiedOrder.inProgressDate;
-		// 		  modifiedOrder.processTimeInMinutes = processTime / (1000 * 60); // Calculate process time in minutes
-		// 		}
+	// 		if (modifiedOrder.amazonUser) { 
+	// 		  modifiedOrder.amazonUser = modifiedOrder.amazonUser.dataValues.name;
+	// 		}
 
-		// 		return modifiedOrder;
-		// 	  });
+	// 		if (modifiedOrder.inProgressDate && modifiedOrder.completeOrCancelDate) {
+	// 		  const processTime = modifiedOrder.completeOrCancelDate - modifiedOrder.inProgressDate;
+	// 		  modifiedOrder.processTimeInMinutes = processTime / (1000 * 60); // Calculate process time in minutes
+	// 		}
 
-		// 	  // Define the export directory
-		// 	  const exportDir = path.join(__dirname, '..', 'export');
-		// 	  if (!fs.existsSync(exportDir)) {
-		// 		fs.mkdirSync(exportDir);
-		// 	  }
+	// 		return modifiedOrder;
+	// 	  });
 
-		// 	  // Define the CSV file path
-		// 	  const csvFilePath = path.join(exportDir, `orders_${Date.now()}.csv`);
+	// 	  // Define the export directory
+	// 	  const exportDir = path.join(__dirname, '..', 'export');
+	// 	  if (!fs.existsSync(exportDir)) {
+	// 		fs.mkdirSync(exportDir);
+	// 	  }
 
-		// 	  // Extract column names from the modifiedOrders object and remove empty keys
-		// 	  const columnNames = Object.keys(modifiedOrders[0]).filter(key => key);
-		//   console.log(columnNames);
-		// 	  // Define the CSV writer with the extracted column names as header
-		// 	  const csvWriter = await createObjectCsvWriter({
-		// 		path: csvFilePath,
-		// 		header: [
-		// 		  ...columnNames.filter(key => key !== 'amazonUserId' && key !== 'accountUserId'),
-		// 		  { id: 'processTimeInMinutes', title: 'Process Time (minutes)' }, // Add process time header
-		// 		],
-		// 	  });
+	// 	  // Define the CSV file path
+	// 	  const csvFilePath = path.join(exportDir, `orders_${Date.now()}.csv`);
 
-		// 	  // Write the header row to the CSV file
-		// 	  await csvWriter.writeRecords([{}]);
+	// 	  // Extract column names from the modifiedOrders object and remove empty keys
+	// 	  const columnNames = Object.keys(modifiedOrders[0]).filter(key => key);
+	//   console.log(columnNames);
+	// 	  // Define the CSV writer with the extracted column names as header
+	// 	  const csvWriter = await createObjectCsvWriter({
+	// 		path: csvFilePath,
+	// 		header: [
+	// 		  ...columnNames.filter(key => key !== 'amazonUserId' && key !== 'accountUserId'),
+	// 		  { id: 'processTimeInMinutes', title: 'Process Time (minutes)' }, // Add process time header
+	// 		],
+	// 	  });
 
-		// 	  // Write the modified orders with the process times to the CSV file
-		// 	  await csvWriter.writeRecords(modifiedOrders);
+	// 	  // Write the header row to the CSV file
+	// 	  await csvWriter.writeRecords([{}]);
 
-		// 	  // Set headers for the download response
-		// 	  res.setHeader('Content-Disposition', `attachment; filename=${path.basename(csvFilePath)}`);
-		// 	  res.setHeader('Content-Type', 'text/csv');
+	// 	  // Write the modified orders with the process times to the CSV file
+	// 	  await csvWriter.writeRecords(modifiedOrders);
 
-		// 	  // Stream the file to the response
-		// 	  const fileStream = fs.createReadStream(csvFilePath);
-		// 	  fileStream.pipe(res);
+	// 	  // Set headers for the download response
+	// 	  res.setHeader('Content-Disposition', `attachment; filename=${path.basename(csvFilePath)}`);
+	// 	  res.setHeader('Content-Type', 'text/csv');
 
-		// 	  // After sending the response, delete the CSV file
-		// 	  fileStream.on('end', () => {
-		// 		fs.unlink(csvFilePath, err => {
-		// 		  if (err) {
-		// 			console.error('Error deleting CSV file:', err);
-		// 		  }
-		// 		});
-		// 	  });
-	
+	// 	  // Stream the file to the response
+	// 	  const fileStream = fs.createReadStream(csvFilePath);
+	// 	  fileStream.pipe(res);
+
+	// 	  // After sending the response, delete the CSV file
+	// 	  fileStream.on('end', () => {
+	// 		fs.unlink(csvFilePath, err => {
+	// 		  if (err) {
+	// 			console.error('Error deleting CSV file:', err);
+	// 		  }
+	// 		});
+	// 	  });
+
 	catch (error) {
 		console.error('Error exporting orders:', error);
 		res.status(500).send('An error occurred while exporting orders.');
@@ -1062,511 +1335,520 @@ exports.downloadCsv = (req, res) => {
 
 
 
-exports.newFilter= async(req,res)=>{
+exports.newFilter = async (req, res) => {
 
 	// let { fromDate, toDate, employees, status,mfr,sku,disti } = req.body;
 	try {
 		console.log(req.body);
-	let { fromDate, toDate, employeesfilter, statusfilter,sku,mfr,disti } = req.body;
+		let { fromDate, toDate, employeesfilter, statusfilter, sku, mfr, disti } = req.body;
 
-	toDate = new Date(new Date(toDate).setHours(23, 59, 59))
-	var conditions = {createdAt : {
-		[Op.between]: [fromDate, toDate],
-	}};
+		toDate = new Date(new Date(toDate).setHours(23, 59, 59))
+		var conditions = {
+			createdAt: {
+				[Op.between]: [fromDate, toDate],
+			}
+		};
 
-	  
-	
-	
-		if(statusfilter){
-			conditions = {...conditions,status : {
-				[Op.in] : statusfilter,
-			}}
+
+
+
+		if (statusfilter) {
+			conditions = {
+				...conditions, status: {
+					[Op.in]: statusfilter,
+				}
+			}
 		}
-		if(employeesfilter){
-			conditions = {...conditions,[Op.or]  : {
-				amazonUserId : {[Op.in] : employeesfilter},
-				accountUserId : {[Op.in] : employeesfilter},
-			}}
+		if (employeesfilter) {
+			conditions = {
+				...conditions, [Op.or]: {
+					amazonUserId: { [Op.in]: employeesfilter },
+					accountUserId: { [Op.in]: employeesfilter },
+				}
+			}
 		}
-		if(sku){
-			conditions = {...conditions, sku : {
-				[Op.substring] : sku
-			}}
+		if (sku) {
+			conditions = {
+				...conditions, sku: {
+					[Op.substring]: sku
+				}
+			}
 		}
-		if(mfr){
-			conditions = {...conditions, mfrName : {
-				[Op.substring] : mfr
-			}}
+		if (mfr) {
+			conditions = {
+				...conditions, mfrName: {
+					[Op.substring]: mfr
+				}
+			}
 		}
-		if(disti){
-			if(disti.length > 0){
-				conditions. distributor =  {
-					[Op.in] : disti
+		if (disti) {
+			if (disti.length > 0) {
+				conditions.distributor = {
+					[Op.in]: disti
 				}
 			}
 
 		}
 		console.log(conditions)
-		
-		if(conditions){
-			
-		
-		const orders = await Orders.findAll({
-			attributes: [
-				"id", // Include any other attributes you need in this array
-				"poDate",
-				"deliverBy",
-				"deliveredDate",
-				"trackingNo",
-				"accountComments",
-				"verificationStatus",
-				"processedAccount",
-				"poSixSeries",
-				"poNumber",
-				"status",
-				"orderId",
-				"sku",
-				"invoiceNo",
-				"billNo",
-				"shippingAddress",
-				"mfrName",
-				"distributor",
-				"paymentTerm",
-				"cost",
-				"shippingDiscount",
-				"handlingFee",
-				"saleTax",
-				"insurance",
-				"creditMemo",
-				"miscFee",
-				"resoldRevenue",
-				
-				// ... Include other attributes you need
-			  ],
-			where:  conditions,
-			include: [
-				{
-					model: Users,
-					as: 'accountUser',
-				},
-				{
-					model: Users,
-					as: 'amazonUser',
-				},
 
-				
-			],
+		if (conditions) {
 
 
-			// ... include options
-		});
-
-
-
-
-		
-		console.log(orders,'====================================================================================')
-		const orders1 = await Orders.findAll({where : {...conditions}});
-    const allSkus = orders1.flatMap((order) => order?.sku?.split('|'));
-    const allMfr = orders1.flatMap((order) => order?.mfrName?.split('|'));
-    const allDisti = orders1.flatMap((order) => order?.distributor?.split('|'));
-
-    // Group the SKUs and count the number of orders for each SKU
-    const skuCounts = {};
-allSkus.forEach((sku) => {
-  const skuKey = sku.toUpperCase(); // Convert to uppercase
-  if (skuCounts[skuKey]) {
-    skuCounts[skuKey]++;
-  } else {
-    skuCounts[skuKey] = 1;
-  }
-});
-
-// Convert the counts into an array of objects
-const skuCountArray = Object.entries(skuCounts).map(([sku, count]) => ({ sku, count }));
-
-// Sort the results in descending order based on the number of orders
-skuCountArray.sort((a, b) => b.count - a.count);
-    const top10Sku = skuCountArray
-    // Print the sorted results
-    top10Sku.forEach((skuCount) => {
-      console.log(`SKU: ${skuCount.sku}, Number of Orders: ${skuCount.count}`);
-    });
-    
-    
-    const mfrCounts = {};
-orders1.forEach((order) => {
-  const mfrName = order.mfrName.toUpperCase(); // Convert to uppercase
- // Convert to uppercase
-  if (mfrCounts[mfrName]) {
-    mfrCounts[mfrName]++;
-  } else {
-    mfrCounts[mfrName] = 1;
-  }
-});
-
-// Convert the counts into an array of objects
-const mfrCountArray = Object.entries(mfrCounts).map(([mfrName, count]) => ({
-  mfrName,
-  count,
-}));
-
-// Sort the results in descending order based on the number of orders
-mfrCountArray.sort((a, b) => b.count - a.count);
-    const top10Manufacturers = mfrCountArray
-	let choiceCount ;
-	let techCount;
-    // Print the sorted results
-    top10Manufacturers.forEach((mfrCount) => {
-		console.log(`Manufacturer: ${mfrCount.mfrName}, Number of Orders: ${mfrCount.count}`);
-		
-    });
-    const distiCounts = {};
-    allDisti.forEach((distributor) => {
-      if (distiCounts[distributor]) {
-        distiCounts[distributor]++;
-      } else {
-        distiCounts[distributor] = 1;
-      }
-    });
-
-    // Convert the counts into an array of objects
-    const distributorCountArray = Object.entries(distiCounts).map(([distributor, count]) => ({ distributor, count }));
-
-    // Sort the results in descending order based on the number of orders
-    distributorCountArray.sort((a, b) => b.count - a.count);
-    const top10disti = distributorCountArray
-
-    // Print the sorted results
-    // top10disti.forEach((distiCount) => {
-	// 	if (distiCount.distributor.includes("Choice")) {
-	// 	  choiceCount = distiCount.count + choiceCount;
-	// 	} else if (distiCount.distributor.includes("Tech")) {
-	// 	  techCount = distiCount.count + techCount;;
-	// 	}
-	//   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-		let employeesData = []
-	
-		let employees = await Users.findAll({
-			where: {
-				role: 'employee',
-			},
-			include: [
-				{
-					model: Powers,
-				}
-	
-			]
-		});
-	
-		const today = new Date();
-		today.setHours(0, 0, 0, 0); // Set time to the start of the day
-	
-		for (let index = 0; index < employees.length; index++) {
-			console.log("new", employees[index].id)
-	
-			let totalOrders = await Orders.count({
-				where: {
-					[Op.and]: [
-						{
-							accountUserId: employees[index].id
-	
-						},
-						{
-	
-							[Op.or]: [
-								{
-									status: 'completed'
-								},
-								{
-									status: 'cancelled'
-								}
-							]
-	
-						}
-					]
-	
-				}
-			})
-	
-			console.log(employees[index].id, totalOrders)
-	
-			let totalAmzOrders = await Orders.count({
-				where: {
-					[Op.and]: [
-						{
-							[Op.or]: [
-								{
-									amazonUserId: employees[index].id
-								},
-							]
-						},
-					]
-	
-				}
-	
-			})
-	
-			let totalTodayOrders = await Orders.count({
-				where: {
-					[Op.and]: [
-						{
-							[Op.or]: [
-								{
-									accountUserId: employees[index].id
-								},
-	
-							]
-	
-	
-						},
-	
-						{
-	
-	
-							[Op.or]: [
-								{
-									status: 'completed'
-								},
-								{
-									status: 'cancelled'
-								}
-							]
-	
-	
-						},
-						{
-							completeOrCancelDate: {
-								[Op.gte]: today // Only consider orders from today onwards
-							}
-						}
-					]
-				}
-	
-			})
-	
-			let totalAmzTodayOrders = await Orders.count({
-				where: {
-					[Op.and]: [
-						{
-							[Op.or]: [
-								{
-									amazonUserId: employees[index].id
-								},
-							]
-						},
-						{
-							createdAt: {
-								[Op.gte]: today,
-							}
-						}
-					]
-				}
-	
-			})
-	
-	
-	
-	
-	
-			const average = await Orders.findOne({
+			const orders = await Orders.findAll({
 				attributes: [
-					[
-						literal('AVG(TIMESTAMPDIFF(SECOND, inProgressDate, completeOrCancelDate))'),
-						'averageProcessingTimeInSeconds'
-					],
+					"id", // Include any other attributes you need in this array
+					"poDate",
+					"deliverBy",
+					"deliveredDate",
+					"trackingNo",
+					"accountComments",
+					"verificationStatus",
+					"processedAccount",
+					"poSixSeries",
+					"poNumber",
+					"status",
+					"orderId",
+					"sku",
+					"invoiceNo",
+					"billNo",
+					"shippingAddress",
+					"mfrName",
+					"distributor",
+					"paymentTerm",
+					"cost",
+					"shippingDiscount",
+					"handlingFee",
+					"saleTax",
+					"insurance",
+					"creditMemo",
+					"miscFee",
+					"resoldRevenue",
+
+					// ... Include other attributes you need
 				],
-				where: {
-					accountUserId: employees[index].id,
-					status: ['cancelled', 'completed'],
-				},
-				raw: true,
-			});
-	
-			console.log(employees[index].Powers[0].name)
-			let emp = {
-				id: employees[index].id,
-				name: employees[index].name,
-				powers: employees[index]?.Powers[0]?.name,
-				totalOrders: employees[index]?.Powers[0]?.name != "Accounts" ? totalOrders : totalAmzOrders,
-				totalTodayOrders: employees[index]?.Powers[0]?.name != "Accounts" ? totalTodayOrders : totalAmzTodayOrders,
-				average: average.averageProcessingTimeInSeconds
-			}
-	
-			employeesData.push(emp)
-	
-	
-		}
-		console.log(employeesData)
-	
-		const todaysOrderCount = await Orders.count({
-			where: {
-				createdAt: {
-					[Op.between]: [today, new Date()],
-				},
-			},
-		});
-		console.log(todaysOrderCount)
-	
-		async function getAllOrdersCount() {
-			try {
-				const totalCount = await Orders.count();
-				return totalCount;
-			} catch (error) {
-				console.error('Error fetching total order count:', error);
-				throw error;
-			}
-		}
-	
-		// Call the function to get the count of all orders
-		getAllOrdersCount()
-			.then(totalCount => {
-				console.log('Total order count:', totalCount);
-			})
-			.catch(error => {
-				// Handle errors
-			});
-	
-		async function getThisWeeksOrders() {
-			try {
-				const currentDate = new Date();
-	
-				// Calculate the start of the week (Monday)
-				const startOfWeek = new Date(currentDate);
-				startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1);
-				startOfWeek.setHours(0, 0, 0, 0);
-	
-				// Calculate the end of the week (Sunday)
-				const endOfWeek = new Date(currentDate);
-				endOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay() + 1));
-				endOfWeek.setHours(23, 59, 59, 999);
-	
-				const ordersThisWeek = await Orders.count({
-					where: {
-						createdAt: {
-							[Op.between]: [startOfWeek, endOfWeek],
-						},
+				where: conditions,
+				include: [
+					{
+						model: Users,
+						as: 'accountUser',
 					},
-				});
-				console.log(ordersThisWeek);
-				return ordersThisWeek;
-			} catch (error) {
-				console.error("Error fetching this week's orders:", error);
-				throw error;
-			}
-		}
-	
-		// Call the function to get orders created between Monday and Sunday of the current week
-		getThisWeeksOrders()
-			.then(ordersThisWeek => {
-				console.log("Orders created this week:", ordersThisWeek);
-			})
-			.catch(error => {
-				// Handle errors
+					{
+						model: Users,
+						as: 'amazonUser',
+					},
+
+
+				],
+
+
+				// ... include options
 			});
-	
-	
-	
-	
-
-
-	
 
 
 
 
 
+			console.log(orders, '====================================================================================')
+			const orders1 = await Orders.findAll({ where: { ...conditions } });
+			const allSkus = orders1.flatMap((order) => order?.sku?.split('|'));
+			const allMfr = orders1.flatMap((order) => order?.mfrName?.split('|'));
+			const allDisti = orders1.flatMap((order) => order?.distributor?.split('|'));
+
+			// Group the SKUs and count the number of orders for each SKU
+			const skuCounts = {};
+			allSkus.forEach((sku) => {
+				const skuKey = sku.toUpperCase(); // Convert to uppercase
+				if (skuCounts[skuKey]) {
+					skuCounts[skuKey]++;
+				} else {
+					skuCounts[skuKey] = 1;
+				}
+			});
+
+			// Convert the counts into an array of objects
+			const skuCountArray = Object.entries(skuCounts).map(([sku, count]) => ({ sku, count }));
+
+			// Sort the results in descending order based on the number of orders
+			skuCountArray.sort((a, b) => b.count - a.count);
+			const top10Sku = skuCountArray
+			// Print the sorted results
+			top10Sku.forEach((skuCount) => {
+				console.log(`SKU: ${skuCount.sku}, Number of Orders: ${skuCount.count}`);
+			});
 
 
-			console.log("_______________________________________________",employeesData)
-			console.log("_______________________________________________++++++++++++++++++",orders)
-		res.render('admin/orderfilter', {employeesData,orders,top10Sku,top10Manufacturers,top10disti, toDate, fromDate, mfr, disti })
-		}else{
-			res.render('admin/orderfilter', {orders : []})
+			const mfrCounts = {};
+			orders1.forEach((order) => {
+				const mfrName = order.mfrName.toUpperCase(); // Convert to uppercase
+				// Convert to uppercase
+				if (mfrCounts[mfrName]) {
+					mfrCounts[mfrName]++;
+				} else {
+					mfrCounts[mfrName] = 1;
+				}
+			});
+
+			// Convert the counts into an array of objects
+			const mfrCountArray = Object.entries(mfrCounts).map(([mfrName, count]) => ({
+				mfrName,
+				count,
+			}));
+
+			// Sort the results in descending order based on the number of orders
+			mfrCountArray.sort((a, b) => b.count - a.count);
+			const top10Manufacturers = mfrCountArray
+			let choiceCount;
+			let techCount;
+			// Print the sorted results
+			top10Manufacturers.forEach((mfrCount) => {
+				console.log(`Manufacturer: ${mfrCount.mfrName}, Number of Orders: ${mfrCount.count}`);
+
+			});
+			const distiCounts = {};
+			allDisti.forEach((distributor) => {
+				if (distiCounts[distributor]) {
+					distiCounts[distributor]++;
+				} else {
+					distiCounts[distributor] = 1;
+				}
+			});
+
+			// Convert the counts into an array of objects
+			const distributorCountArray = Object.entries(distiCounts).map(([distributor, count]) => ({ distributor, count }));
+
+			// Sort the results in descending order based on the number of orders
+			distributorCountArray.sort((a, b) => b.count - a.count);
+			const top10disti = distributorCountArray
+
+			// Print the sorted results
+			// top10disti.forEach((distiCount) => {
+			// 	if (distiCount.distributor.includes("Choice")) {
+			// 	  choiceCount = distiCount.count + choiceCount;
+			// 	} else if (distiCount.distributor.includes("Tech")) {
+			// 	  techCount = distiCount.count + techCount;;
+			// 	}
+			//   });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			let employeesData = []
+
+			let employees = await Users.findAll({
+				where: {
+					role: 'employee',
+				},
+				include: [
+					{
+						model: Powers,
+					}
+
+				]
+			});
+
+			const today = new Date();
+			today.setHours(0, 0, 0, 0); // Set time to the start of the day
+
+			for (let index = 0; index < employees.length; index++) {
+				console.log("new", employees[index].id)
+
+				let totalOrders = await Orders.count({
+					where: {
+						[Op.and]: [
+							{
+								accountUserId: employees[index].id
+
+							},
+							{
+
+								[Op.or]: [
+									{
+										status: 'completed'
+									},
+									{
+										status: 'cancelled'
+									}
+								]
+
+							}
+						]
+
+					}
+				})
+
+				console.log(employees[index].id, totalOrders)
+
+				let totalAmzOrders = await Orders.count({
+					where: {
+						[Op.and]: [
+							{
+								[Op.or]: [
+									{
+										amazonUserId: employees[index].id
+									},
+								]
+							},
+						]
+
+					}
+
+				})
+
+				let totalTodayOrders = await Orders.count({
+					where: {
+						[Op.and]: [
+							{
+								[Op.or]: [
+									{
+										accountUserId: employees[index].id
+									},
+
+								]
+
+
+							},
+
+							{
+
+
+								[Op.or]: [
+									{
+										status: 'completed'
+									},
+									{
+										status: 'cancelled'
+									}
+								]
+
+
+							},
+							{
+								completeOrCancelDate: {
+									[Op.gte]: today // Only consider orders from today onwards
+								}
+							}
+						]
+					}
+
+				})
+
+				let totalAmzTodayOrders = await Orders.count({
+					where: {
+						[Op.and]: [
+							{
+								[Op.or]: [
+									{
+										amazonUserId: employees[index].id
+									},
+								]
+							},
+							{
+								createdAt: {
+									[Op.gte]: today,
+								}
+							}
+						]
+					}
+
+				})
+
+
+
+
+
+				const average = await Orders.findOne({
+					attributes: [
+						[
+							literal('AVG(TIMESTAMPDIFF(SECOND, inProgressDate, completeOrCancelDate))'),
+							'averageProcessingTimeInSeconds'
+						],
+					],
+					where: {
+						accountUserId: employees[index].id,
+						status: ['cancelled', 'completed'],
+					},
+					raw: true,
+				});
+
+				console.log(employees[index].Powers[0].name)
+				let emp = {
+					id: employees[index].id,
+					name: employees[index].name,
+					powers: employees[index]?.Powers[0]?.name,
+					totalOrders: employees[index]?.Powers[0]?.name != "Accounts" ? totalOrders : totalAmzOrders,
+					totalTodayOrders: employees[index]?.Powers[0]?.name != "Accounts" ? totalTodayOrders : totalAmzTodayOrders,
+					average: average.averageProcessingTimeInSeconds
+				}
+
+				employeesData.push(emp)
+
+
+			}
+			console.log(employeesData)
+
+			const todaysOrderCount = await Orders.count({
+				where: {
+					createdAt: {
+						[Op.between]: [today, new Date()],
+					},
+				},
+			});
+			console.log(todaysOrderCount)
+
+			async function getAllOrdersCount() {
+				try {
+					const totalCount = await Orders.count();
+					return totalCount;
+				} catch (error) {
+					console.error('Error fetching total order count:', error);
+					throw error;
+				}
+			}
+
+			// Call the function to get the count of all orders
+			getAllOrdersCount()
+				.then(totalCount => {
+					console.log('Total order count:', totalCount);
+				})
+				.catch(error => {
+					// Handle errors
+				});
+
+			async function getThisWeeksOrders() {
+				try {
+					const currentDate = new Date();
+
+					// Calculate the start of the week (Monday)
+					const startOfWeek = new Date(currentDate);
+					startOfWeek.setDate(currentDate.getDate() - currentDate.getDay() + 1);
+					startOfWeek.setHours(0, 0, 0, 0);
+
+					// Calculate the end of the week (Sunday)
+					const endOfWeek = new Date(currentDate);
+					endOfWeek.setDate(currentDate.getDate() + (6 - currentDate.getDay() + 1));
+					endOfWeek.setHours(23, 59, 59, 999);
+
+					const ordersThisWeek = await Orders.count({
+						where: {
+							createdAt: {
+								[Op.between]: [startOfWeek, endOfWeek],
+							},
+						},
+					});
+					console.log(ordersThisWeek);
+					return ordersThisWeek;
+				} catch (error) {
+					console.error("Error fetching this week's orders:", error);
+					throw error;
+				}
+			}
+
+			// Call the function to get orders created between Monday and Sunday of the current week
+			getThisWeeksOrders()
+				.then(ordersThisWeek => {
+					console.log("Orders created this week:", ordersThisWeek);
+				})
+				.catch(error => {
+					// Handle errors
+				});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			console.log("_______________________________________________", employeesData)
+			console.log("_______________________________________________++++++++++++++++++", orders)
+			res.render('admin/orderfilter', { employeesData, orders, top10Sku, top10Manufacturers, top10disti, toDate, fromDate, mfr, disti })
+		} else {
+			res.render('admin/orderfilter', { orders: [] })
 		}
 
 	} catch (error) {
 		console.log(error)
-		res.render('admin/orderfilter', {orders : [],error})
+		res.render('admin/orderfilter', { orders: [], error })
 	}
 }
 
-   

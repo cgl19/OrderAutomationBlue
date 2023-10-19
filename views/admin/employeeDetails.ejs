@@ -1,136 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
 
-    <!-- Twitter -->
-    <meta name="twitter:site" content="@themepixels">
-    <meta name="twitter:creator" content="@themepixels">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DashForge">
-    <meta name="twitter:description" content="Responsive Bootstrap 4 Dashboard Template">
-    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Facebook -->
-    <meta property="og:url" content="http://themepixels.me/dashforge">
-    <meta property="og:title" content="DashForge">
-    <meta property="og:description" content="Responsive Bootstrap 4 Dashboard Template">
+  <!-- Twitter -->
+  <meta name="twitter:site" content="@themepixels">
+  <meta name="twitter:creator" content="@themepixels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DashForge">
+  <meta name="twitter:description" content="Responsive Bootstrap 4 Dashboard Template">
+  <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
 
-    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
-    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="600">
+  <!-- Facebook -->
+  <meta property="og:url" content="http://themepixels.me/dashforge">
+  <meta property="og:title" content="DashForge">
+  <meta property="og:description" content="Responsive Bootstrap 4 Dashboard Template">
 
-    <!-- Meta -->
-    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
-    <meta name="author" content="ThemePixels">
+  <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="600">
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+  <!-- Meta -->
+  <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+  <meta name="author" content="ThemePixels">
 
-    <title>Assigned Vendors List | ComtanixCMS</title>
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
 
-    <!-- vendor css -->
-    <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-    <link href="/lib/typicons.font/typicons.css" rel="stylesheet">
-    
-    <!-- DashForge CSS -->
-    <link rel="stylesheet" href="/assets/css/dashforge.css">
-    <link rel="stylesheet" href="/assets/css/dashforge.dashboard.css">
-    <link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css'>
-    <link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css'>
-    <link rel='stylesheet' href='https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css'>
-    <style>
-     
-.dt-buttons {
-	margin-bottom: 10px;
-  margin-left: 200px;
-}
-.dt-buttons.btn-group{
-	float: left;
-}
-.dataTables_filter {
-  position: absolute;
-	float: right;
-  right: 30px;
-	margin-top: 4px;
-	text-align: left;
-}
-.dataTables_info {
-	float: right;
-}
-.dataTables_length{
-	left:30px;
-  position: absolute;
-	margin-top: 4px;
-}
-.dataTables_paginate{
-  float: right !important;
-}
-input {
-      height:28px !important;
-      margin-right:2px;
-      width : 150px !important
+  <title>Assigned Vendors List | ComtanixCMS</title>
+
+  <!-- vendor css -->
+  <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="/lib/typicons.font/typicons.css" rel="stylesheet">
+
+  <!-- DashForge CSS -->
+  <link rel="stylesheet" href="/assets/css/dashforge.css">
+  <link rel="stylesheet" href="/assets/css/dashforge.dashboard.css">
+  <link rel='stylesheet' href='https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css'>
+  <link rel='stylesheet' href='https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css'>
+  <style>
+    .dt-buttons {
+      margin-bottom: 10px;
+      margin-left: 200px;
     }
+
+    .dt-buttons.btn-group {
+      float: left;
+    }
+
+    .dataTables_filter {
+      position: absolute;
+      float: right;
+      right: 30px;
+      margin-top: 4px;
+      text-align: left;
+    }
+
+    .dataTables_info {
+      float: right;
+    }
+
+    .dataTables_length {
+      left: 30px;
+      position: absolute;
+      margin-top: 4px;
+    }
+
+    .dataTables_paginate {
+      float: right !important;
+    }
+
+    input {
+      height: 28px !important;
+      margin-right: 2px;
+      width: 150px !important
+    }
+
     select {
-      height:35px !important;
-      margin-right:2px;
+      height: 35px !important;
+      margin-right: 2px;
     }
-    tr > td >select {
-      width : 150px !important
+
+    tr>td>select {
+      width: 150px !important
     }
+
     td {
       text-align: left !important;
       vertical-align: middle !important;
     }
-    table.dataTable thead .sorting { background: url('/images/sort_both.png') no-repeat center right; }
-    table.dataTable thead .sorting_asc { background: url('/images/sort_asc.png') no-repeat center right; }
-    table.dataTable thead .sorting_desc { background: url('/images/sort_desc.png') no-repeat center right; }
 
-    table.dataTable thead .sorting_asc_disabled { background: url('/images/sort_asc_disabled.png') no-repeat center right; }
-    table.dataTable thead .sorting_desc_disabled { background: url('/images/sort_desc_disabled.png') no-repeat center right; }
-    .sorting::after  {
-      content : none !important
+    table.dataTable thead .sorting {
+      background: url('/images/sort_both.png') no-repeat center right;
     }
-    .sorting::before  {
-      content : none !important
+
+    table.dataTable thead .sorting_asc {
+      background: url('/images/sort_asc.png') no-repeat center right;
     }
+
+    table.dataTable thead .sorting_desc {
+      background: url('/images/sort_desc.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_asc_disabled {
+      background: url('/images/sort_asc_disabled.png') no-repeat center right;
+    }
+
+    table.dataTable thead .sorting_desc_disabled {
+      background: url('/images/sort_desc_disabled.png') no-repeat center right;
+    }
+
+    .sorting::after {
+      content: none !important
+    }
+
+    .sorting::before {
+      content: none !important
+    }
+
     .sorting_asc::before {
-      content : none !important
+      content: none !important
     }
+
     .sorting_asc::after {
-      content : none !important
+      content: none !important
     }
+
     .sorting_desc::after {
-      content : none !important
+      content: none !important
     }
-    .dataTables_paginate{
-      float  : right !important
+
+    .dataTables_paginate {
+      float: right !important
     }
+
     .fg-toolbar {
-      width : 100% !important
+      width: 100% !important
     }
 
-    .dt-button-collection > li.active {
-      background-color : #0168fa !important;
-      color : white !important;
-      margin-bottom : 3px;
-      padding : 5px
+    .dt-button-collection>li.active {
+      background-color: #0168fa !important;
+      color: white !important;
+      margin-bottom: 3px;
+      padding: 5px
     }
 
-    .dt-button-collection > li.active > a {
-      color : white !important
+    .dt-button-collection>li.active>a {
+      color: white !important
     }
-    </style>
-  </head>
-  <body class="page-profile">
+  </style>
+</head>
 
-    <%- include('includes/header',{page : "vendors"}) %>
+<body class="page-profile">
+
+  <%- include('includes/header',{page : "vendors" }) %>
 
     <div class="content content-fixed">
       <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
@@ -159,27 +190,27 @@ input {
                         <th>Email</th>
                         <th>Status</th>
                         <th>role</th>
-                        
+
                       </tr>
                     </thead>
                     <tbody>
-                     <tr>
-                      <td>
-                        <%=employeeData.id%>
-                      </td>
-                      <td>
-                        <%=employeeData.name%>
-                      </td>
-                      <td>
-                        <%=employeeData.email%>
-                      </td>
-                      <td>
-                        <%=employeeData.status%>
-                      </td>
-                      <td>
-                        <%=employeeData.role%>
-                      </td>
-                     </tr>
+                      <tr>
+                        <td>
+                          <%=employeeData.id%>
+                        </td>
+                        <td>
+                          <%=employeeData.name%>
+                        </td>
+                        <td>
+                          <%=employeeData.email%>
+                        </td>
+                        <td>
+                          <%=employeeData.status%>
+                        </td>
+                        <td>
+                          <%=employeeData.role%>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div><!-- df-example -->
@@ -188,25 +219,26 @@ input {
           </div>
         </div><!-- row -->
 
-        
 
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-    <script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
-    <script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
-    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
-    <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
-    <script src='https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js'></script>
-    <script src="/lib/feather-icons/feather.min.js"></script>
-    <script src="/assets/js/pages/admin/vendors.js"></script>
-    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/e1e3b00885.js" crossorigin="anonymous"></script>
-    
-  </body>
+
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+        <script src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>
+        <script src='https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js'></script>
+        <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js'></script>
+        <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js'></script>
+        <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js'></script>
+        <script src='https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js'></script>
+        <script src='https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js'></script>
+        <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js'></script>
+        <script src='https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js'></script>
+        <script src='https://cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js'></script>
+        <script src="/lib/feather-icons/feather.min.js"></script>
+        <script src="/assets/js/pages/admin/vendors.js"></script>
+        <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="https://kit.fontawesome.com/e1e3b00885.js" crossorigin="anonymous"></script>
+
+</body>
+
 </html>

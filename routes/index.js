@@ -4,6 +4,7 @@ const authRouter = require("./auth.routes");
 const adminRouter = require("./admin.routes");
 const employeeRouter = require("./employee.routes");
 const amazonRouter = require("./amazon.routes");
+const accountRouter = require("./account.routes");
 const db = require("../models");
 const {
 	Users,
@@ -94,5 +95,6 @@ app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/employee", employeeRouter);
 app.use("/amazon",amazonRouter);
+app.use("/account",accountRouter);
 
 module.exports = app;

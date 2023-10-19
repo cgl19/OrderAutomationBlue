@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .error-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #d9534f; /* Red color for error title */
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        .error-code {
+            font-weight: bold;
+            color: #d9534f; /* Red color for error code */
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Error</h1>
+        <p>An error occurred while updating the record.</p>
+        <p>Error Code: <span class="error-code">500</span></p>
+    </div>
+
+    
+ 
+
+    <script>
+        // Add a timed redirect after 5 seconds
+        setTimeout(function() {
+            window.location.href = document.referrer; // Redirect to the previous page
+        }, 5000); // 5000 milliseconds (5 seconds)
+    </script>
+</body>
+</html>

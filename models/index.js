@@ -24,8 +24,8 @@ const db = {};
 // });
 
 
-const sequelize = new Sequelize('orderAutomationRefactor', 'orderAutomationRefactor', 'refactor@123', {
-	host: "127.0.0.1",
+const sequelize = new Sequelize('orderautomationrefactor', 'root', '', {
+	host: "localhost",
 	dialect: "mysql",
 	dialectOptions: {
 		options: {

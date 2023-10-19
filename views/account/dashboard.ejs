@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Twitter -->
+  <meta name="twitter:site" content="@themepixels">
+  <meta name="twitter:creator" content="@themepixels">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ComtanixCMS">
+  <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+  <!-- Facebook -->
+  <meta property="og:url" content="http://themepixels.me/dashforge">
+  <meta property="og:title" content="ComtanixCMS">
+
+  <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="600">
+
+  <!-- Meta -->
+  <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+  <meta name="author" content="ThemePixels">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+  <title>Employee Dashboard | ComtanixCMS</title>
+
+  <!-- vendor css -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/dashforge.css">
+
+  <style>
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* Dull background */
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loader {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      /* Change position to absolute */
+      top: 50%;
+      /* Center vertically */
+      left: 50%;
+      /* Center horizontally */
+      transform: translate(-50%, -50%);
+      /* Adjust centering */
+    }
+
+    .loading-text {
+      font-size: 16px;
+      color: #ffffff;
+      margin-top: 10px;
+    }
+
+    /* Center the spinner */
+    .spinner-border {
+      display: inline-block;
+      width: 3rem;
+      height: 3rem;
+      vertical-align: text-bottom;
+      border: 0.25em solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spinner-border 0.75s linear infinite;
+    }
+
+    .select2-container {
+      z-index: 10000000000000000000 !important
+    }
+
+    .select2-dropdown {
+      z-index: 10000000000000000000 !important
+    }
+
+    @keyframes spinner-border {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #notification {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      z-index: 9999;
+    }
+
+    #notificationSound {
+      display: none;
+    }
+  </style>
+
+</head>
+
+<body class="page-profile">
+  
+
+  <%- include('../includes/header', {page : "dashboard" }) %>
+    <div id="loader" class="loader-container">
+      <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <p class="loading-text">Generating Report... Please wait...</p>
+      </div>
+    </div>
+    <!-- Loader ended here -->
+
+    <div id="notification" style="display: none;">
+      <!-- Your notification content here -->
+    </div>
+
+    <audio id="notificationSound">
+      <source src="notification.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+
+    <div class="content content-fixed">
+      <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+          <div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+             
+              </ol>
+            </nav>
+            <h4 class="mg-b-0 tx-spacing--1" style="color: crimson;"><b>Welcome to Dashboard</b></h4>
+          </div>
+          <div class="d-none d-md-block">
+
+            <button type="button" id="export-btn" class="btn btn-info shadow  rounded" data-toggle="modal" data-target="#myModal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
+              </svg>
+           
+              Export Orders
+            </button>
+          </div>
+
+        </div>
+        
+         
+        
+        <div class="row row-xs">
+          <div class="col-lg-12 col-md-12 mg-t-10">
+            <h3 class="text-info">Orders</h3>
+            <div class="row" style="margin-bottom:20px">
+              <div class="col-4 shadow p-3 mb-5 bg-white rounded">
+                <div class="card" style="background-color: <%= pendingCount>0 ? '#00b8d4' : 'white' %>;">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <b><span class=" text-uppercase fs-12 fw-bold" style="color: black;">Total Remaining
+                            Orders</span></b>
+                        <h3 class="mb-0" style="color: black;">
+                          <%=pendingCount%>
+                        </h3>
+                      </div>
+                      <div class="align-self-center flex-shrink-0">
+                        <div id="today-revenue-chart" class="apex-charts"></div>
+                        <span class="text-success fw-bold fs-13">
+                          <i class='uil uil-arrow-up'></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4 shadow p-3 mb-5 bg-white rounded">
+                <div class="card" style="background-color: <%= pendingOrder.length>0 ? '#00b8d4' : 'white' %>;">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <b><span class=" text-uppercase fs-12 fw-bold" style="color: black;">Total Assigned
+                            Orders</span></b>
+                        <h3 class="mb-0" style="color: black;">
+                          <%= pendingOrder.length %>
+                        </h3>
+                      </div>
+                      <div class="align-self-center flex-shrink-0">
+                        <div id="today-revenue-chart" class="apex-charts"></div>
+                        <span class="text-success fw-bold fs-13">
+                          <i class='uil uil-arrow-up'></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4 shadow p-3 mb-5 bg-white rounded">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <span class="text-muted text-uppercase fs-12 fw-bold" style="color: black;">Total Completed
+                          Orders</span>
+                        <h3 class="mb-0">
+                          <%= completedOrderCount %>
+                        </h3>
+                      </div>
+                      <div class="align-self-center flex-shrink-0">
+                        <div id="today-revenue-chart" class="apex-charts"></div>
+                        <span class="text-success fw-bold fs-13">
+                          <i class='uil uil-arrow-up'></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <% if (statusMessage ) { %>
+          <div class="alert alert-danger">
+              <%= statusMessage %>
+          </div>
+      <% } %>
+        <div class="row shadow p-3 mb-5 bg-white rounded">
+          <div class="col-12" style="margin-top:20px">
+            <h3 class="text-info bg-white rounded">Pending Orders</h3>
+            <table id="pendingTable" class="display shadow p-3 mb-5 bg-white rounded">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>PO NO</th>
+                  <th>Email</th>
+
+                  <th>Created By</th>
+
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Details</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% pendingOrder.forEach(order=> { %>
+                  <tr>
+                    <td>
+                      <%= order.orderId %>
+                    </td>
+                    <td>
+                      <%= order.amazonUserId %>
+                    </td>
+                    <td>
+                      <%= order.email %>
+                    </td>
+
+                    <td>
+                      <%= order.amazonUser?.name %>
+                    </td>
+
+                    <td>
+                      <%= order.status %>
+
+                    </td>
+                    <td>
+                      <%= order.createdAt%>
+
+                    </td>
+                    <td><a href="/account/detailsOrderAccount/<%= order.id %>" class="status-button"
+                        data-order-id="<%= order.id %>">View Details</a></td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+            </table>
+            <br> <br>
+          </div>
+       
+          <div class="col-12" style="margin-top:20px">
+         
+            <h3 class="text-info">Completed Orders</h3>
+            <table id="example2" class="table hover shadow p-3 mb-5 bg-white rounded">
+              <thead>
+                <tr>
+
+
+                  <th>Order ID</th>
+                  <th>PO NO</th>
+                  <th>Email</th>
+                  <th>Created By</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Details</th>
+
+
+
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+
+
+
+
+      </div><!-- container -->
+    </div><!-- content -->
+    <div class="modal fade shadow p-3 mb-5 bg-white rounded" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title shadow p-3 mb-5 bg-white rounded" id="myModalLabel">Export Data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="exportForm">
+              <div class="form-group">
+                <label for="fromDate">From Date</label>
+                <input type="date" class="form-control" id="fromDate" name="fromDate" required>
+              </div>
+              <div class="form-group">
+                <label for="toDate">To Date</label>
+                <input type="date" class="form-control" id="toDate" name="toDate" required>
+              </div>
+              <div class="form-group">
+                <% if (userPowers.some(power=> power.dataValues.name === 'AccountsWithReporting')) { %>
+
+                  <label for="employees">Employees</label>
+                  <select class="form-control select2 parent_filter_select2" id="selectEmp" name="employees[]"
+                    multiple="multiple" required>
+                    <option value="" disa>Select Employees</option>
+                    <!-- Add employee options here -->
+                    <% employeesData.forEach(employee=> { %>
+                      <option value="<%= employee.id %>">
+                        <%= employee.name %>
+                      </option>
+
+                      <% }); %>
+                  </select>
+
+              </div>
+              <% } else { %>
+                <label for="employees">Employees</label>
+                <select class="form-control select2" id="selectEmp" name="employees[]" multiple="multiple" required>
+                  <option value="" disabled>Select Employees</option>
+                  <!-- Add employee options here -->
+
+                  <option value="<%= user.id %>">
+                    <%= user.name %>
+                  </option>
+
+
+                </select>
+                <% } %>
+                  <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control select2" name="status[]" multiple="multiple" id="selectStatus">
+                      <option value="completed">Completed</option>
+                      <option value="cancelled">Cancelled</option>
+                      <option value="in-progress">In-Progress</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-dark" id="exportButton">Export</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/worker-polyfill/1.0.1/worker-polyfill.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#ordersTable').DataTable();
+      });
+
+      $(document).ready(function () {
+        $('#pendingTable').DataTable();
+      });
+    </script>
+    <script>
+      function fetchData() {
+        fetch("/account/orderRefresh", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ key: "value" }) // Replace with your data
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            console.log("++++++++++")
+            return response.json();
+          })
+          .then(data => {
+            // Handle the response data
+            console.log(data);
+            if (data.status) {
+              location.reload();
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the fetch
+            console.error("Fetch error:", error);
+          });
+      }
+      const interval = 5000; // 10 seconds in milliseconds
+      <% if (pendingOrder.length == 0) { %>
+        setInterval(fetchData, interval);
+  <%}%>
+    </script>
+    <script>
+
+
+        document.getElementById('exportButton').addEventListener('click', function () {
+          const form = document.getElementById('exportForm');
+          if (form.checkValidity()) {
+            $('#myModal').modal('hide');
+            $('#loader').show();
+
+            let status = $('#selectStatus').val();
+            let formData = {
+              fromDate: form.fromDate.value,
+              toDate: form.toDate.value,
+              employees: $('#selectEmp').val(),
+              status: [...status],
+            };
+
+
+            // Iterate over each Select2-enhanced element with the class 'select2'
+
+            console.log(formData)
+
+            setTimeout(function () {
+              $('#loader').hide();
+
+              $.ajax({
+                type: 'POST',
+                url: '/account/order/exports',
+                data: formData,
+                success: function (response) {
+                  // Call the downloadCsv function here
+                  console.log('Export success:', response);
+                },
+                error: function (error) {
+                  console.error('Export error:', error);
+                }
+              });
+            }, 5000);
+          }
+        });
+
+
+
+
+
+
+
+      //this function is respnsible for the download the exported data of csv 
+      //this function will runs when you submit the Modal for exporting data 
+      // exportButton it is the id of the Button inside the ExportModal 
+
+      document.getElementById("exportButton").addEventListener("click", function () {
+        setTimeout(function () {
+          // This code will be executed after 10 seconds
+          downloadCsv();
+        }, 7000); // 10000 milliseconds = 10 seconds
+      });
+
+      function downloadCsv() {
+        $.ajax({
+          url: '/account/order/download',
+          method: 'GET',
+          xhrFields: {
+            responseType: 'blob'
+          },
+          success: function (data) {
+            const blob = new Blob([data], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'file.xlsx';
+            link.click();
+          },
+          error: function (error) {
+            console.error('Error downloading excel:', error);
+          },
+        });
+      }
+
+      //dwonload csv functionality ended here 
+    </script>
+    <script>
+
+
+      let table = $('#example2').DataTable({
+
+        "dom": '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"Blfr>' +
+          't' +
+          '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>',
+        "paging": true,
+
+        "autoWidth": false,
+        "ordering": false,
+        "fixedHeader": true,
+        "buttons": [
+          'colvis',
+        ]
+        ,
+        "searching": true,
+        "serverSide": true,
+        "oLanguage": {
+          "sInfoFiltered": " ",
+          "sInfo": "Showing _START_ to _END_ of total _TOTAL_ ",
+          "sInfoEmpty": "No result found",
+          "sZeroRecords": "No results were found for your search",
+          "oPaginate": {
+            "sNext": "Next",
+            "sPrevious": "Previous"
+          },
+          "sSearch": "Search"
+        },//"deferLoading": 0,
+        "sAjaxSource": '/account/orders/paginate',
+        "fnServerData": function (sSource, aoData, fnCallback) {
+          $.ajax({
+            "dataType": 'json',
+            "type": "post",
+            "url": sSource,
+            "data": aoData,
+            "success": function (data) {
+              fnCallback(data);
+            }
+          });
+        },
+        "aoColumnDefs": [],
+        "aoColumns": [
+          { mData: 'orderId', 'data': 'orderId' },
+          { mData: 'poNumber', 'data': 'poNumber' },
+          // { mData: 'vendorName', 'data': 'Disti Vendor Name' },
+          { mData: 'email', 'data': 'email' },
+          { mData: 'createdBy', 'data': 'createdBy' },
+
+          { mData: 'status', 'data': 'status' },
+          { mData: 'createdAt', 'data': 'createdAt' },
+          { mData: 'details', 'data': 'details' },
+        ],
+        scroller: {
+          loadingIndicator: true
+        },
+      });
+
+    </script>
+
+    <script>
+      $.fn.select2.amd.define('select2/selectAllAdapter', [
+        'select2/utils',
+        'select2/dropdown',
+        'select2/dropdown/attachBody'
+      ], function (Utils, Dropdown, AttachBody) {
+
+        function SelectAll() { }
+        SelectAll.prototype.render = function (decorated) {
+          var self = this,
+            $rendered = decorated.call(this),
+            $selectAll = $(
+              '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-check-square-o"></i> Select All</button>'
+            ),
+            $unselectAll = $(
+              '<button class="btn btn-xs btn-default" type="button" style="margin-left:6px;"><i class="fa fa-square-o"></i> Unselect All</button>'
+            ),
+            $btnContainer = $('<div style="margin-top:3px; z-index :900000000000000000000000000000000000000000">').append($selectAll).append($unselectAll);
+          if (!this.$element.prop("multiple")) {
+            // this isn't a multi-select -> don't add the buttons!
+            return $rendered;
+          }
+          $rendered.find('.select2-dropdown').prepend($btnContainer);
+          $selectAll.on('click', function (e) {
+            self.$element.find('option').prop("selected", true);
+
+            // Trigger a change event on the select element to reflect the changes
+            self.$element.trigger("change");
+
+            // Close the dropdown
+            self.trigger('close');
+            self.trigger('close');
+          });
+          $unselectAll.on('click', function (e) {
+            self.$element.find('option').prop("selected", false);
+
+            // Trigger a change event on the select element to reflect the changes
+            self.$element.trigger("change");
+
+            // Close the dropdown
+            self.trigger('close');
+            self.trigger('close');
+          });
+          return $rendered;
+        };
+
+        return Utils.Decorate(
+          Utils.Decorate(
+            Dropdown,
+            AttachBody
+          ),
+          SelectAll
+        );
+
+      });
+
+      $(document).ready(function () {
+        $('.select2').select2({
+          width: "100%",
+          "z-index": 10000000,
+          dropdownAdapter: $.fn.select2.amd.require('select2/selectAllAdapter')
+        });
+      });
+    </script>
+
+    <script>
+      function showNotification(message) {
+        const notification = document.getElementById('notification');
+        notification.innerHTML = message;
+        notification.style.display = 'block';
+
+        // Play the notification sound
+        const audio = document.getElementById('notificationSound');
+        audio.play();
+
+        // Automatically hide the notification after a certain time (e.g., 5 seconds)
+        setTimeout(function () {
+          notification.style.display = 'none';
+        }, 5000); // 5000 milliseconds = 5 seconds
+      }
+    </script>
+</body>
+</html>

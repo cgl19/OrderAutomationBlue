@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DashForge">
+    <meta name="twitter:description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="DashForge">
+    <meta property="og:description" content="Responsive Bootstrap 4 Dashboard Template">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
+
+    <title>Profile | ComtanixCMS</title>
+
+    <!-- vendor css -->
+ 
+
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="/assets/css/dashforge.css">
+  </head>
+  <body>
+
+    <% if(role == 'admin'){ %>
+        <%- include("admin/includes/header", {page : "Profile"}) %>
+    <% }else if(role =='employee'){ %>
+        <%- include("employee/includes/header", {page : "Profile"}) %>
+    <% } %>
+
+    <div class="content content-fixed content-auth-alt">
+      <div class="container d-flex justify-content-center ht-100p">
+        <div class="mx-wd-300 wd-sm-450 ht-100p d-flex flex-column align-items-center justify-content-center">
+          <h4 class="tx-20 tx-sm-24">Update Profile</h4>
+          <p class="tx-color-03 mg-b-30 tx-center">Enter new password to change it.</p>
+            <form method="POST" style="width: 100%;" action="/<%= role %>/profile">
+                <% if(error_message != ""){ %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <%= error_message %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %>
+
+                <% if(success_message != ""){ %>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%= success_message %>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <% } %>
+                <p style="text-align: left; display: inline-block;width: 100%;">Name:</p>
+                <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                    <input type="text" name="name" class="form-control wd-sm-250 flex-fill" disabled value="<%= user.name %>" placeholder="Enter name">
+                </div>
+                <p style="text-align: left; display: inline-block;width: 100%;">Email:</p>
+                <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                    <input type="text" name="email" class="form-control wd-sm-250 flex-fill" disabled value="<%= user.email %>" placeholder="Enter email address">
+                </div>
+                <p style="text-align: left; display: inline-block;width: 100%;">Password:</p>
+                <div class="wd-100p d-flex flex-column flex-sm-row mg-b-40">
+                    <input type="password" name="password" class="form-control wd-sm-250 flex-fill" placeholder="Enter Password if you wish to change it.">
+                </div>
+                <button class="btn btn-brand-02 mg-sm-t-0 w-100" type="submit">Reset Password</button>
+            </form>
+          
+        </div>
+      </div><!-- container -->
+    </div><!-- content -->
+
+   
+
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/assets/js/dashforge.js"></script>
+
+    <!-- append theme customizer -->
+  
+   
+  </body>
+</html>

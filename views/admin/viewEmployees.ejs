@@ -129,7 +129,7 @@ input {
 
     <%- include('includes/header' , {page:'employees'}) %>
 
-    <div class="content content-fixed">
+    <div class="content content-fixed ">
       <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
         <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
           <div>
@@ -138,11 +138,16 @@ input {
                 <li class="breadcrumb-item active" aria-current="page">Employees</li>
               </ol>
             </nav>
-            <h4 class="mg-b-0 tx-spacing--1">All Employees</h4>
+            <h4 class="mg-b-0 text-info tx-spacing--1">Admin>All Employees</h4>
           </div>
-          <div class="d-none d-md-block">
-            <a href="#modal2" class="btn btn-primary" data-toggle="modal">Add New Employee</a>
-          </div>
+          <div class="d-none d-md-block bg-info shadow  rounded ">
+            <a href="#modal2" class="btn mx-2 btn-info d-flex align-items-center" data-toggle="modal">
+              
+                Add New Employee
+            </a>
+        </div>
+        
+          
         </div>
 
         <% if(error_message != ""){ %>
@@ -164,10 +169,10 @@ input {
         <% } %>
         <div class="row row-xs">
           <div class="col-lg-12">
-            <div class="card">
+            <div class="card shadow p-3 mb-5 bg-white rounded">
               <div class="card-body pd-y-20 pd-x-25">
                 <div data-label="Example" class="df-example ">
-                  <table id="example2" class="table hover">
+                  <table id="example2" class="table hover ">
                     <thead>
                       <tr>
                         <th>ID</th>

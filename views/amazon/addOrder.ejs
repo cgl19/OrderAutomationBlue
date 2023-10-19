@@ -3,7 +3,7 @@
 
 <head>
 
-  <!-- Required meta tags -->
+  <!--   meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -30,23 +30,18 @@
 
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.png">
-  <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
+  <link rel='stylesheet'
+    href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
   <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
   <title>Employee Dashboard | ComtanixCMS</title>
-
-  <!-- vendor css -->
-  <!-- <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
-    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet"> -->
-
-  <!-- DashForge CSS -->
   <link rel="stylesheet" href="/assets/css/dashforge.css">
   <!--<link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
 </head>
 
 <body class="page-profile">
 
-  <%- include('../employee/includes/header', {page : "dashboard" }) %>
-  
+  <%- include('../includes/header', {page : "dashboard" }) %>
+
     <div class="content content-fixed">
       <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
         <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
@@ -58,90 +53,84 @@
             </nav>
             <h4 class="mg-b-0 tx-spacing--1">Add Order with utmost care</h4>
           </div>
-          <!-- <div class="d-none d-md-block">
-            
-            <a href="/employee/listings/disti/generate/report"
-              class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5"><i data-feather="save"
-                class="wd-10 mg-r-5"></i> Add File</a>
-          </div> -->
+
         </div>
 
         <div class="row row-xs">
           <div class="col-sm-12 col-lg-12">
-            
+
             <div class="card card-body">
               <div class="col-lg-12">
-              <div class="card">
-                <div class="card-body pd-y-20 pd-x-25">
-                  <div data-label="Example" class="df-example ">
-                    <form action="/employee/addFile" method="post" enctype="multipart/form-data">
-                      <input type="file" 
-                      class="filepond"
-                      name="files" multiple accept=".pdf" />
-                        <input type="hidden" id="filenameInput" name="filename" required>
-                    </form>
-               
-                  </div><!-- df-example -->
+                <div class="card">
+                  <div class="card-body pd-y-20 pd-x-25">
+                    <div data-label="Example" class="df-example ">
+                      <form action="/amazon/addFile" method="post" enctype="multipart/form-data">
+                        <input type="file" class="filepond" name="files" multiple accept=".pdf" />
+                        <input type="hidden" id="filenameInput" name="filename"  >
+                      </form>
+
+                    </div><!-- df-example -->
+                  </div>
                 </div>
               </div>
-            </div>
-              <form id="myForm" method="post" action="/employee/addOrderProcess">
+              <form id="myForm" method="post" action="/amazon/addOrderProcess">
                 <div class="col-12 mb-3">
-                  <label for="orderId">AmazonComment</label>
-                  <textarea name="comments" class="form-control" value="<%= order?.amazonComments%>" placeholder="Leave a comment here"
-                    id="floatingTextarea2" style="height: 100%" required><%= order?.amazonComments%></textarea>
+                  <label id="AmazonCommentLable" for="floatingTextarea2">AmazonComment</label>
+                  <textarea name="comments" class="form-control" value="" placeholder="Leave a comment here"
+                    id="floatingTextarea2" style="height: 100%"></textarea>
+                  <span id="amazonComment-error" class="error-message"></span>
                 </div>
                 <div class="form-row">
                   <div class="col-6 mb-3">
-                    <label for="status">Amazon Account</label>
-                    <select class="form-control" name="amazonAccount" id="status">
-                      <option value="<%= order?.amazonAccount%>"><%= order?.amazonAccount%></option>
+                    <label id="AmazonAccountLable" for="status">AmazonAccount</label>
+                    <select class="form-control" name="amazonAccount" id="AmazonAccount">
+
+                      <option value=""></option>
                       <option value="vCloudTech">vCloud Tech</option>
                       <option value="vCloudChoice">vCloud Choice</option>
                     </select>
                   </div>
-                  
+
                   <div class="col-6 mb-3">
-                    <label for="orderId">Order ID</label>
-                    <input type="text" name="orderId" class="form-control" value="<%= orderid ? orderid : '' %>" id="orderId" required />
+                    <label id="orderIdLable" for="orderId">OrderID</label>
+                    <input type="text" name="orderId" id="orderId" class="form-control" value=""  />
                   </div>
-                  
-                
                 </div>
 
                 <div class="form-row">
-                  
                   <div class="col-3 mb-3">
-                    <label for="orderDate">Order Date</label>
-                    <input type="text" name="orderDate" class="form-control"  value="<%=order?.orderDate%>" id="orderDate" required />
+                    <label id="orderDateLable" for="orderDate">Order Date</label>
+                    <input type="date" name="orderDate" class="form-control" value="" id="orderDate" 
+                     />
                   </div>
                   <div class="col-3 mb-3">
-                    <label for="deliverBy">Purchase Date</label>
-                    <input type="text" name="purchaseDate" class="form-control" value="<%=order?.purchaseDate%>" id="purchaseDate" required />
+                    <label id="purchaseDateLable" for="deliverBy">Purchase Date</label>
+                    <input type="date" name="purchaseDate" class="form-control" value="" id="purchaseDate"  />
                   </div>
-                 
-               
+
+
                   <div class="col-3 mb-3">
-                    <label for="shipBy">Ship By</label>
-                    <input type="text" name="shipBy" value="<%=order?.shipBy%>" class="form-control" id="shipBy" required />
+                    <label 
+                    id="shipByLable" for="shipBy">Ship By</label>
+                    <input type="date" name="shipBy" value="" class="form-control" id="shipBy"   />
                   </div>
                   <div class="col-3 mb-3">
-                    <label for="deliverBy">Deliver By</label>
-                    <input type="text" name="deliverBy" class="form-control" value="<%=order?.deliverBy%>"  id="deliverBy" required />
+                    <label id="deliverByLable" for="deliverBy">Deliver By</label>
+                    <input type="text" name="deliverBy" class="form-control" value="" id="deliverBy"   />
                   </div>
-                
+
 
                 </div>
                 <div class="form-row">
-                  
+
                   <div class="col-6 mb-3">
-                    <label for="contactBuyer">Contact Buyer</label>
-                    <input type="text" name="contactBuyer" value="<%=order?.contactBuyer%>" class="form-control" id="contactBuyer" required />
+                    <label id="contactBuyerLable" for="contactBuyer">Contact Buyer</label>
+                    <input type="text" name="contactBuyer" value="" class="form-control" id="contactBuyer"   />
                   </div>
                   <div class="col-6 mb-3">
-                    <label for="status">Customer Type</label>
-                    <select name="customerType" class="form-control" id="status">
-                      <option value="<%=order?.customerType%>"><%=order?.customerType%></option>
+                    <label id="customerTypeLable" for="status">Customer Type</label>
+                    <select name="customerType" class="form-control" id="customerType">
+                      <option value=""></option>
                       <option value="Amazon">Amazon</option>
                       <option value="AmazonIndividual">Amazon Individual</option>
                       <option value="AmazonBusiness">Amazon Business</option>
@@ -156,39 +145,39 @@
               </div>
             </div>
             <div id="AmazonDiv">
-              
+
             </div>
             <hr />
             <div class="form-row">
               <div class="col-12 mb-3">
-                <label for="shippingAddress">Shipping Address</label>
-                <textarea name="shippingAddress" class="form-control" placeholder="Shipping Address"  value=""
-                  id="floatingTextarea2" required><%=order?.shippingAddress%></textarea>
+                <label id="shippingAddressLable" for="shippingAddress">Shipping Address</label>
+                <textarea name="shippingAddress"  class="form-control" placeholder="Shipping Address" value=""
+                  id="shippingAddress"  ></textarea>
               </div>
 
               <div class="col-3 mb-3">
-                <label for="status">Address Type</label>
-                <select name="addressType" class="form-control" id="status" required>
-                  <option value="<%=order?.customerType%>"><%=order?.addressType%></option>
+                <label id="AddressTypeLable" for="status">Address Type</label>
+                <select name="addressType" class="form-control" id="AddressType"  >
+                  <option value=""></option>
                   <option value="Residential">Residential</option>
                   <option value="Commercial">Commercial</option>
                 </select>
               </div>
               <div class="col-3 mb-3">
-                <label for="phone">Phone</label>
-                <input name="phone" type="text" class="form-control"  value="<%=order?.phone%>" id="phone" required />
+                <label id="phoneLable" for="phone">Phone</label>
+                <input name="phone" type="text" class="form-control" value="" id="phone"   />
               </div>
               <div class="col-3 mb-3">
-                <label for="companyPhone">Company Phone</label>
-                <input type="text" name="companyPhone" class="form-control"   value="<%=order?.companyPhone%>" id="companyPhone"  />
+                <label id="companyPhoneLable" for="companyPhone">Company Phone</label>
+                <input type="text" name="companyPhone" class="form-control" value="" id="companyPhone" />
               </div>
               <div class="col-3 mb-3">
-                <label for="email">Email</label>
-                <input name="email" type="email" class="form-control" value="<%=order?.email%>" id="email"  />
+                <label id="emailLable" for="email">Email</label>
+                <input name="email" type="email" class="form-control" value="" id="email" />
               </div>
             </div>
-            
-            <button class="btn btn-primary" type="submit">Submit</button>
+
+            <button id="btn-submit" class="btn btn-primary" type="submit">Submit</button>
 
             </form>
 
@@ -207,32 +196,25 @@
     <script src="/lib/jquery/jquery.min.js"></script>
     <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
-<script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
-<script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
-<script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
+    <script
+      src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
+    <script
+      src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
+    <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
     <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
     <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
-    <!--<script src="/lib/feather-icons/feather.min.js"></script>
-    <script src="/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="/lib/jquery.flot/jquery.flot.js"></script>
-    <script src="/lib/jquery.flot/jquery.flot.stack.js"></script>
-    <script src="/lib/jquery.flot/jquery.flot.resize.js"></script>
-     <script src="/assets/js/dashforge.js"></script>
-    <script src="/assets/js/dashforge.sampledata.js"></script>
-    <script src="/assets/js/dashboard-two.js"></script> -->
 
-    <!-- append theme customizer -->
-    <!-- <script src="/lib/js-cookie/js.cookie.js"></script>
-    <script src="/assets/js/dashforge.settings.js"></script>
-    -->
+
+
+
     <script>
       const audio = new Audio('/assets/gud.mp3');
       $("#addAmazonBtn").on("click", (e) => {
         e.preventDefault();
         $("#AmazonDiv").append(` <div class="skuPart"> <div class="form-row">
           <div class="col-6 mb-3">
-                    <label for="status">Distributor</label>
-                    <select name="distributor[]" class="form-control distributorInput" id="distributor">
+                    <label id= "distributorLable" for="status">Distributor</label>
+                    <select id="distributor" name="distributor[]" class="form-control distributorInput" id="distributor">
                       <option value="SYChoice">SY Choice</option>
                       <option value="SYTech">SY Tech</option>
                       <option value="IGChoice">IG Choice</option>
@@ -247,17 +229,17 @@
                     </select>
                   </div>
                   <div class="col-6 mb-3">
-                    <label for="mfrName">Manufacturer Name</label>
+                    <label id= "mfrLable" for="mfrName">Manufacturer Name</label>
                     
-                    <input type="text" class="form-control mfrInput" name="mfrName[]" id="mfrName" required>
+                    <input type="text" class="form-control mfrInput" name="mfrName[]" id="mfrName"  >
                   </div>
 										<div class="col-6 mb-3">
-											<label for="sku">SKU</label>
-											<input type="text" class="form-control skuInput" name="sku[]" id="sku" required>
+											<label id= "skuLable" for="sku">SKU</label>
+											<input type="text" class="form-control skuInput" name="sku[]" id="sku"  >
 										  </div>
 									  <div class="col-6 mb-3">
-										<label for="quantity">Quantity</label>
-										<input type="number" class="form-control quantityInput" name="quantity[]" id="quantity" required>
+										<label id="quantityLable" for="quantity">Quantity</label>
+										<input type="number" class="form-control quantityInput" name="quantity[]" id="quantity"  >
 									  </div>
 									 
 								
@@ -265,43 +247,43 @@
 									
 									<div class="form-row">
                     <div class="col-3 mb-3">
-										<label for="price">Price</label>
-										<input type="number" class="form-control priceInput" name="price[]" id="price" required>
+										<label id= "priceLable" for="price">Price</label>
+										<input type="number" class="form-control priceInput" name="price[]" id="price"  >
 									  </div>
 									  <div class="col-3 mb-3">
-										<label for="tax">Tax</label>
-										<input type="number" class="form-control taxInput" name="tax[]"id="tax" required>
+										<label id="taxLable" for="tax">Tax</label>
+										<input type="number" class="form-control taxInput" name="tax[]"id="tax"  >
 									  </div>
 									  <div class="col-3 mb-3">
-										<label for="shippingFee">Shipping Fee</label>
-										<input type="number" class="form-control shippingFeeInput" name="shippingFee[]" id="shippingFee" required>
+										<label id= "shippingFeeLable" for="shippingFee">Shipping Fee</label>
+										<input type="number" class="form-control shippingFeeInput" name="shippingFee[]" id="shippingFee"  >
 									  </div>
 									  <div class="col-3 mb-3">
-										<label for="amazonFee">Amazon Fee</label>
-										<input type="number" class="form-control amazonFeeInput" name="amazonFee[]" id="amazonFee" required>
+										<label id="amazonFeeLable" for="amazonFee">Amazon Fee</label>
+										<input type="number" class="form-control amazonFeeInput" name="amazonFee[]" id="amazonFee"  >
 									  </div>
 									  <div class="col-6 mb-3">
-										<label for="mft">Marketplace Facilitator Tax</label>
-										<input type="number" class="form-control mftInput" name="mft[]" id="mft" required>
+										<label id="mftLable" for="mft">Marketplace Facilitator Tax</label>
+										<input type="number" class="form-control mftInput" name="mft[]" id="mft"  >
 									  </div>
 									  <div class="col-6 mb-3">
-										<label for="yourEarning">Your Earning</label>
-										<input type="number" class="form-control yourEarningsInput" name="yourEarning[]" id="yourEarning" required>
+										<label id="yourEarningLable" for="yourEarning">Your Earning</label>
+										<input type="number" class="form-control yourEarningsInput" name="yourEarning[]" id="yourEarning">
 									  </div>
 									</div>
 									
 									<div class="form-row">
 									  <div class="col-4 mb-3">
-										<label for="cost">Cost</label>
-										<input type="number" class="form-control costInput" name="cost[]" id="cost" required>
+										<label id="costLable" for="cost">Cost</label>
+										<input type="number" class="form-control costInput" name="cost[]" id="cost"  >
 									  </div>
 									  <div class="col-4 mb-3">
-										<label for="freightCost">Freight Cost</label>
-										<input type="number" class="form-control freightCostInput" name="freightCost[]" id="freightCost" required>
+										<label id= "freightCostLable"for="freightCost">Freight Cost</label>
+										<input type="number" class="form-control freightCostInput" name="freightCost[]" id="freightCost"  >
 									  </div>
 									  <div class="col-4 mb-3">
-										<label for="handlingFee">Handling Fee</label>
-										<input type="number" class="form-control handlingFeeInput" name="handlingFee[]" id="handlingFee" required>
+										<label id= "handlingFeeLable"for="handlingFee">Handling Fee</label>
+										<input type="number" class="form-control handlingFeeInput" name="handlingFee[]" id="handlingFee"  >
 									  </div>
 									</div>  <div class=" row col-3 mb-3 ">
                     <div class="d-none d-md-block" style="width: 100%">
@@ -316,238 +298,723 @@
                   </div> <hr></div>`);
       });
 
-      
-  
+
+
+
+
       $(document).ready(function () {
-  $("#myForm").submit(function (e) {
-    e.preventDefault(); // Prevent default form submission
+        $("#myForm").submit(function (e) {
+          e.preventDefault(); // Prevent default form submission
+          // Serialize the form data
+          const formData = $(this).serialize();
+          const formDataObject = Object.fromEntries(new URLSearchParams(formData));
+          let distributor = ''
+          let mfrName = ''
+          let skus = ''
+          let quantity = ''
+          let price = ''
+          let tax = ''
+          let amazonFee = ''
+          let shippingFee = ''
+          let mft = ''
+          let cost = ''
+          let freightCost = ''
+          let yourEarnings = ''
+          let handlingFee = ''
 
-    // Serialize the form data
-    const formData = $(this).serialize();
-    const formDataObject = Object.fromEntries(new URLSearchParams(formData));
-    let distributor= ''
-    let mfrName = ''
-    let skus = ''
-    let quantity = ''
-    let price = ''
-    let tax = ''
-    let amazonFee = ''
-    let shippingFee = ''
-    let mft = ''
-    let cost = ''
-    let freightCost = ''
-    let yourEarnings = ''
-    let handlingFee = ''
+          $(".distributorInput").each(function (index, element) {
+            distributor += $(element).val() + '|';
+          });
+          distributor = distributor.slice(0, -1);
+          distributor = distributor.replace(/,/g, "");
+
+          $(".mfrInput").each(function (index, element) {
+            mfrName += $(element).val() + '|';
+          });
+          mfrName = mfrName.slice(0, -1);
+          mfrName = mfrName.replace(/,/g, "");
+          $(".skuInput").each(function (index, element) {
+            skus += $(element).val() + '|';
+          });
+          skus = skus.slice(0, -1);
+          skus = skus.replace(/,/g, "");
+          $(".quantityInput").each(function (index, element) {
+            quantity += $(element).val() + '|';
+          });
+          quantity = quantity.slice(0, -1);
+          quantity = quantity.replace(/,/g, "");
+          $(".priceInput").each(function (index, element) {
+            price += $(element).val() + '|';
+          });
+          price = price.slice(0, -1);
+          price = price.replace(/,/g, "");
+          $(".taxInput").each(function (index, element) {
+            tax += $(element).val() + '|';
+          });
+          tax = tax.slice(0, -1);
+          tax = tax.replace(/,/g, "");
+          $(".amazonFeeInput").each(function (index, element) {
+            amazonFee += $(element).val() + '|';
+          });
+          amazonFee = amazonFee.slice(0, -1);
+          amazonFee = amazonFee.replace(/,/g, "");
+          $(".shippingFeeInput").each(function (index, element) {
+            shippingFee += $(element).val() + '|';
+          });
+          shippingFee = shippingFee.slice(0, -1);
+          shippingFee = shippingFee.replace(/,/g, "");
+          $(".mftInput").each(function (index, element) {
+            mft += $(element).val() + '|';
+          });
+          mft = mft.slice(0, -1);
+          mft = mft.replace(/,/g, "");
+          $(".costInput").each(function (index, element) {
+            cost += $(element).val() + '|';
+          });
+          cost = cost.slice(0, -1);
+          cost = cost.replace(/,/g, "");
+          $(".freightCostInput").each(function (index, element) {
+            freightCost += $(element).val() + '|';
+          });
+          freightCost = freightCost.slice(0, -1);
+          freightCost = freightCost.replace(/,/g, "");
+          $(".handlingFeeInput").each(function (index, element) {
+            handlingFee += $(element).val() + '|';
+          });
+          handlingFee = handlingFee.slice(0, -1);
+          handlingFee = handlingFee.replace(/,/g, "");
+          $(".yourEarningsInput").each(function (index, element) {
+            yourEarnings += $(element).val() + '|';
+          });
+          yourEarnings = yourEarnings.slice(0, -1);
+          yourEarnings = yourEarnings.replace(/,/g, "");
 
 
-    $(".distributorInput").each(function(index, element) {
-      distributor += $(element).val()+'|';
-    });
-    distributor = distributor.slice(0, -1);
-    distributor = distributor.replace(/,/g, "");
-    
-    $(".mfrInput").each(function(index, element) {
-      mfrName += $(element).val()+'|';
-    });
-    mfrName = mfrName.slice(0, -1);
-    mfrName = mfrName.replace(/,/g, "");
-    $(".skuInput").each(function(index, element) {
-      skus += $(element).val()+'|';
-    });
-    skus = skus.slice(0, -1);
-    skus = skus.replace(/,/g, "");
-    $(".quantityInput").each(function(index, element) {
-      quantity += $(element).val()+'|';
-    });
-    quantity = quantity.slice(0, -1);
-    quantity = quantity.replace(/,/g, "");
-    $(".priceInput").each(function(index, element) {
-      price += $(element).val()+'|';
-    });
-    price = price.slice(0, -1);
-    price = price.replace(/,/g, "");
-    $(".taxInput").each(function(index, element) {
-      tax += $(element).val()+'|';
-    });
-    tax = tax.slice(0, -1);
-    tax = tax.replace(/,/g, "");
-    $(".amazonFeeInput").each(function(index, element) {
-      amazonFee += $(element).val()+'|';
-    });
-    amazonFee = amazonFee.slice(0, -1);
-    amazonFee = amazonFee.replace(/,/g, "");
-    $(".shippingFeeInput").each(function(index, element) {
-      shippingFee += $(element).val()+'|';
-    });
-    shippingFee = shippingFee.slice(0, -1);
-    shippingFee = shippingFee.replace(/,/g, "");
-    $(".mftInput").each(function(index, element) {
-      mft += $(element).val()+'|';
-    });
-    mft = mft.slice(0, -1);
-    mft = mft.replace(/,/g, "");
-    $(".costInput").each(function(index, element) {
-      cost += $(element).val()+'|';
-    });
-    cost = cost.slice(0, -1);
-    cost = cost.replace(/,/g, "");
-    $(".freightCostInput").each(function(index, element) {
-      freightCost += $(element).val()+'|';
-    });
-    freightCost = freightCost.slice(0, -1);
-    freightCost=freightCost.replace(/,/g, "");
-    $(".handlingFeeInput").each(function(index, element) {
-      handlingFee += $(element).val()+'|';
-    });
-    handlingFee = handlingFee.slice(0, -1);
-    handlingFee=handlingFee.replace(/,/g, "");
-    $(".yourEarningsInput").each(function(index, element) {
-      yourEarnings += $(element).val()+'|';
-    });
-    yourEarnings = yourEarnings.slice(0, -1);
-    yourEarnings=yourEarnings.replace(/,/g, "");
-    // Send the data using AJAX
-    
-    $.ajax({
-    url: '/employee/addOrderProcess',
-    method: 'POST',
-    data: {
-        ...formDataObject,
-        distributor: distributor,
-        mfrName: mfrName,
-        skus: skus,
-        quantity: quantity,
-        price: price,
-        tax: tax,
-        amazonFee: amazonFee,
-        shippingFee: shippingFee,
-        mft: mft,
-        cost: cost,
-        freightCost: freightCost,
-        yourEarnings: yourEarnings,
-        handlingFee: handlingFee,
-        filename: $('#filenameInput').val() 
-    },
-    success: function(response) {
-        // Handle the response from the server
-        var orderId = response.orderId;
-        var amazonUserId = response.amazonUserId;
-        console.log(orderId,amazonUserId)
 
-        // Send email using JavaScript's built-in `fetch` or other libraries
-        fetch('/employee/sendEmailAmazon', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                orderId: orderId,
-                amazonUserId: amazonUserId
-            })
-        }).then(function(response) {
 
-            if (response.ok) {
-              audio.volume = 1;
-              audio.play();
-                alert("Record Added Successfully and Email Sent");
-            } else {
-                alert("Record Added Successfully but Email Sending Failed");
-            }
-            window.location.href = "/employee";
-        }).catch(function(error) {
-          alert(JSON.stringify(error));
-        });
-    },
-    error: function(error) {
-        alert(JSON.stringify(error));
-    }
-});
-});
-      $(document).on("click",".deleteSku",function(){
-        $(this).closest(".skuPart").remove()
-      })   
-    });
-    
-       </script>
-       <script>
-       
-        FilePond.registerPlugin(
+
+   //form validation 
+          // 1
+          const floatingTextarea2 = document.getElementById('floatingTextarea2').value;
+          const decision1=validCheck(floatingTextarea2);
+          if (!decision1) {
+            const labelElement = document.getElementById('AmazonCommentLable');
+            labelElement.innerText = 'AmazonComment is  *';
+            labelElement.style.color = 'red';
+            isValid = false; 
+          }
+
+        else{
+            const labelElement = document.getElementById('AmazonCommentLable');
+            labelElement.innerText = 'Amazon Comment';
+            labelElement.style.color = 'blue';
+            isValid = true;
+          }
+
+          //2
+          const AmazonAccount = document.getElementById('AmazonAccount').value;
+          const decision2=validCheck(AmazonAccount);
+           if (!decision2) {
+            const labelElement = document.getElementById('AmazonAccountLable');
+            labelElement.innerText = 'AmazonAccount is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('AmazonAccountLable');
+            labelElement.innerText = 'AmazonAccount';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+          // alert(isValid)
+
+
+          const orderId = document.getElementById('orderId').value;
+          const decision3=validCheck(orderId);
+          if (!decision3) {
+            const labelElement = document.getElementById('orderIdLable');
+            labelElement.innerText = 'OrderID is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('orderIdLable');
+            labelElement.innerText = 'OrderID';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //4
+
+
+
+
+
+          const orderDate = document.getElementById('orderDate').value;
+          const decision4=validCheck(orderDate);
+          // alert(decision4);
+          if (!decision4) {
+            const labelElement = document.getElementById('orderDateLable');
+            labelElement.innerText = 'OrderDate is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('orderDateLable');
+            labelElement.innerText = 'orderDate';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+
+
+          //5
+          const purchaseDate = document.getElementById('purchaseDate').value;
+          const decision5=validCheck(purchaseDate);
+          if (!decision5) {
+            const labelElement = document.getElementById('purchaseDateLable');
+            labelElement.innerText = 'PurchaseDate is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('purchaseDateLable');
+            labelElement.innerText = 'PurchaseDate';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+          //6
+          const shipBy = document.getElementById('shipBy').value;
+          const decision6=validCheck(shipBy);
+          if (!decision6) {
+            const labelElement = document.getElementById('shipByLable');
+            labelElement.innerText = 'ShipBy is  *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('shipByLable');
+            labelElement.innerText = 'ShipBy';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+          //7
+          const deliverBy = document.getElementById('deliverBy').value;
+          const decision7=validCheck(deliverBy);
+           if (!decision7) {
+            const labelElement = document.getElementById('deliverByLable');
+            labelElement.innerText = 'deliverBy is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('deliverByLable');
+            labelElement.innerText = 'deliverBy';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+          //8
+          const contactBuyer = document.getElementById('contactBuyer').value;
+          const decision8=validCheck(contactBuyer);
+          if (!decision8) {
+            const labelElement = document.getElementById('contactBuyerLable');
+            labelElement.innerText = 'ContactBuyer is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('contactBuyerLable');
+            labelElement.innerText = 'ContactBuyer';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+          //9
+          const customerType = document.getElementById('customerType').value;
+          const decision9=validCheck(customerType);
+          if (!decision9) {
+            const labelElement = document.getElementById('customerTypeLable');
+            labelElement.innerText = 'CustomerType is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('customerTypeLable');
+            labelElement.innerText = 'CustomerType';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+         // 10
+          const shippingAddress = document.getElementById('shippingAddress').value;
+          const decision10=validCheck(shippingAddress);
+          if (!decision10) {
+            const labelElement = document.getElementById('shippingAddressLable');
+            labelElement.innerText = 'ShippingAddress is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('shippingAddressLable');
+            labelElement.innerText = 'ShippingAddress';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //11
+          const AddressType = document.getElementById('AddressType').value;
+          const decision11=validCheck(AddressType);
+          if (!decision11) {
+            const labelElement = document.getElementById('AddressTypeLable');
+            labelElement.innerText = 'AddressType is  *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('AddressTypeLable');
+            labelElement.innerText = 'AddressType';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+          //12
+          const phone = document.getElementById('phone').value;
+          const decision12=validCheck(phone);
+           if (!decision12) {
+            const labelElement = document.getElementById('phoneLable');
+            labelElement.innerText = 'phone is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('phoneLable');
+            labelElement.innerText = 'phone';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+          //13
+          const companyPhone = document.getElementById('companyPhone').value;
+          const decision13=validCheck(companyPhone);
+          if (!decision13) {
+            const labelElement = document.getElementById('companyPhoneLable');
+            labelElement.innerText = 'CompanyPhone is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('companyPhoneLable');
+            labelElement.innerText = 'CompanyPhone';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+
+          //14
+          const email = document.getElementById('email').value;
+          const decision14=validCheck(email);
+          if (!decision14) {
+            const labelElement = document.getElementById('emailLable');
+            labelElement.innerText = 'Email is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('emailLable');
+            labelElement.innerText = 'Email';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //15
+          const disti = document.getElementById('distributor').value;
+          const decision15=validCheck(disti);
+          if (!decision15) {
+            const labelElement = document.getElementById('distributorLable');
+            labelElement.innerText = 'Distributor is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('distributorLable');
+            labelElement.innerText = 'Distributor';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //16
+          const mfr = document.getElementById('mfrName').value;
+          const decision16=validCheck(mfr);
+          if (!decision16) {
+            const labelElement = document.getElementById('mfrLable');
+            labelElement.innerText = 'Mfr is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('mfrLable');
+            labelElement.innerText = 'Mfr';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+          //17
+          const sku = document.getElementById('sku').value;
+          const decision17=validCheck(sku);
+          if (!decision17) {
+            const labelElement = document.getElementById('skuLable');
+            labelElement.innerText = 'Sku is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('skuLable');
+            labelElement.innerText = 'Sku';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //18
+          const qt = document.getElementById('quantity').value;
+          const decision18=validCheck(qt);
+          if (!decision18) {
+            const labelElement = document.getElementById('quantityLable');
+            labelElement.innerText = 'Quantity is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('quantityLable');
+            labelElement.innerText = 'Quantity';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
         
+          //19
+          const pr = document.getElementById('price').value;
+          const decision19=validCheck(pr);
+          if (!decision19) {
+            const labelElement = document.getElementById('priceLable');
+            labelElement.innerText = 'Price is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('priceLable');
+            labelElement.innerText = 'Price';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //20
+          const tx = document.getElementById('tax').value;
+          const decision20=validCheck(tx);
+          if (!decision20) {
+            const labelElement = document.getElementById('taxLable');
+            labelElement.innerText = 'Tax is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('taxLable');
+            labelElement.innerText = 'Tax';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+        //21
+          const spFee = document.getElementById('shippingFee').value;
+          const decision21=validCheck(spFee);
+          if (!decision21) {
+            const labelElement = document.getElementById('shippingFeeLable');
+            labelElement.innerText = 'shipping Fee is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('shippingFeeLable');
+            labelElement.innerText = 'shipping Fee';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+        
+          //22
+          const amzFee = document.getElementById('amazonFee').value;
+          const decision22=validCheck(amzFee );
+          if (!decision22) {
+            const labelElement = document.getElementById('amazonFeeLable');
+            labelElement.innerText = 'Amazon Fee is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('amazonFeeLable');
+            labelElement.innerText = 'Amazon Fee';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //23
+          const mfT = document.getElementById('mft').value;
+          const decision23=validCheck(mfT);
+          if (!decision23) {
+            const labelElement = document.getElementById('mftLable');
+            labelElement.innerText = 'Marketplace Facilitator Tax is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('mftLable');
+            labelElement.innerText = 'Marketplace Facilitator Tax';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+        
+          //24
+          const yE = document.getElementById('yourEarning').value;
+          const decision24=validCheck(yE);
+          if (!decision24) {
+            const labelElement = document.getElementById('yourEarningLable');
+            labelElement.innerText = 'Your Earning is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('yourEarningLable');
+            labelElement.innerText = 'Your Earning';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+
+          //25
+          const cst = document.getElementById('cost').value;
+          const decision25=validCheck(cst);
+          if (!decision25) {
+            const labelElement = document.getElementById('costLable');
+            labelElement.innerText = 'Cost is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('costLable');
+            labelElement.innerText = 'Cost';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //26
+          const ftCost = document.getElementById('freightCost').value;
+          const decision26=validCheck(ftCost);
+          if (!decision26) {
+            const labelElement = document.getElementById('freightCostLable');
+            labelElement.innerText = 'freightCost is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('freightCostLable');
+            labelElement.innerText = 'freightCost';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+          //27
+          const hCost = document.getElementById('handlingFee').value;
+          const decision27 =validCheck(hCost);
+          if (!decision27) {
+            const labelElement = document.getElementById('handlingFeeLable');
+            labelElement.innerText = 'handlingFee is required *';
+            labelElement.style.color = 'red';
+            isValid = false;
+          }
+          else{
+            const labelElement = document.getElementById('handlingFeeLable');
+            labelElement.innerText = 'handlingFee';
+            labelElement.style.color = 'black';
+            isValid = true;
+          }
+        
+
+
+
+
+          console.log(isValid);
+          if (decision1 && decision2 && decision3 && decision4 && decision5 && decision6 && decision7 && decision8 && decision9 && decision10 && decision11&&decision12&&decision13&& decision14&&decision15 
+          && decision16 && decision17 && decision18 && decision19 && decision20 && decision21 && decision22 && decision23 && decision24 && decision25 && decision26 && decision27)   {
+            // alert("here")
+            doRequest();
+            // doRequest();
+          }
+          else {
+            alert('Fieid Missing')
+            // const btn =document.getElementById("btn-submit").style.display = "none"
+            
+          }
+
+
+          function doRequest() {
+            // if(decision1 && decision2 && decision3 && decision4)
+            $.ajax({
+              url: '/amazon/addOrderProcess',
+              method: 'POST',
+              data: {
+                ...formDataObject,
+                distributor: distributor,
+                mfrName: mfrName,
+                skus: skus,
+                quantity: quantity,
+                price: price,
+                tax: tax,
+                amazonFee: amazonFee,
+                shippingFee: shippingFee,
+                mft: mft,
+                cost: cost,
+                freightCost: freightCost,
+                yourEarnings: yourEarnings,
+                handlingFee: handlingFee,
+                filename: $('#filenameInput').val()
+              },
+              success: function (response) {
+                // Handle the response from the server
+                var orderId = response.orderId;
+                var amazonUserId = response.amazonUserId;
+                console.log(orderId, amazonUserId)
+
+                // Send email using JavaScript's built-in `fetch` or other libraries
+                fetch('/amazon/sendEmailAmazon', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    orderId: orderId,
+                    amazonUserId: amazonUserId
+                  })
+                }).then(function (response) {
+
+                  if (response.ok) {
+                    audio.volume = 1;
+                    audio.play();
+                    alert("Record Added Successfully and Email Sent");
+                  } else {
+                    alert("Record Added Successfully but Email Sending Failed");
+                  }
+                  window.location.href = "/amazon/";
+                }).catch(function (error) {
+                  alert(JSON.stringify(error));
+
+                });
+              },
+              error: function (error) {
+                alert(JSON.stringify(error));
+              }
+            });
+          } //doRequest
+        });
+      });
+
+      $(document).on("click", ".deleteSku", function () {
+        $(this).closest(".skuPart").remove()
+      })
+
+
+      function validCheck(value) {
+        if (value =='') {
+          return false;
+        } 
+        else {
+          return true;
+        }
+      }
+
+
+
+
+
+      // Send the data using AJAX
+
+
+    </script>
+
+    <script>
+
+      FilePond.registerPlugin(
+
         // encodes the file as base64 data
         FilePondPluginFileEncode,
-        
+
         // validates the size of the file
         FilePondPluginFileValidateSize,
-        
+
         // corrects mobile image orientation
         FilePondPluginImageExifOrientation,
-        
+
         // previews dropped images
         FilePondPluginImagePreview
       );
-      
+
       // Select the file input and use create() to turn it into a pond
       FilePond.create(
         document.querySelector('input[type="file"]')
       );
-      
-  //     FilePond.setOptions({
-  //         server: '/employee/addFile',
-         
-  // //         onprocessfile: (fieldName, file, metadata, load, error, progress, abort) => {
-  // //       const response = JSON.parse(file.serverId);
-  // //       const filename = response.filename;
-  // //  // Set the filename as the value of the hidden input field
-  // //  const filenameInput = document.getElementById('filenameInput');
-  // //       if (filenameInput) {
-  // //           filenameInput.value = filename;
-  // //       } else {
-  // //           console.error('Hidden input field not found.');
-  // //       }
 
-      
-  // //       // Continue with the default process, call the 'load' function
-  // //       load(response);
-  // //   }
-  //     });
-      
-  const uploadedFilesResponses = [];
-  FilePond.setOptions({
-  server: {
-    process: {
-      url: '/employee/addFile',
-      method: 'POST',
-      withCredentials: false, // Adjust this according to your needs
-      headers: {}, // You can add custom headers here if required
-      onload: (response) => {
-        const responseData = JSON.parse(response);
-        uploadedFilesResponses.push(responseData); // Store the entire response
-        
-        const fileNamesArray = uploadedFilesResponses.map(response => response.fileNamesString);
+      //     FilePond.setOptions({
+      //         server: '/employee/addFile',
 
-// Join the values with a comma
-const mergedFileNames = fileNamesArray.join(', ');
+      // //         onprocessfile: (fieldName, file, metadata, load, error, progress, abort) => {
+      // //       const response = JSON.parse(file.serverId);
+      // //       const filename = response.filename;
+      // //  // Set the filename as the value of the hidden input field
+      // //  const filenameInput = document.getElementById('filenameInput');
+      // //       if (filenameInput) {
+      // //           filenameInput.value = filename;
+      // //       } else {
+      // //           console.error('Hidden input field not found.');
+      // //       }
 
-const filenameInput = document.getElementById('filenameInput');
-const previousValue = filenameInput.value; // Store the initial value
 
-// Assign the merged file names value to the input element
-filenameInput.value = mergedFileNames;
+      // //       // Continue with the default process, call the 'load' function
+      // //       load(response);
+      // //   }
+      //     });
 
-// Check if the value of the input is updated
+      const uploadedFilesResponses = [];
+      FilePond.setOptions({
+        server: {
+          process: {
+            url: '/amazon/addFile',
+            method: 'POST',
+            withCredentials: false, // Adjust this according to your needs
+            headers: {}, // You can add custom headers here if  
+            onload: (response) => {
+              const responseData = JSON.parse(response);
+              uploadedFilesResponses.push(responseData); // Store the entire response
 
-console.log('Final value of filenameInput:', filenameInput.value);
+              const fileNamesArray = uploadedFilesResponses.map(response => response.fileNamesString);
 
-        // You can now use the responseData as needed in your frontend
-      },
-      onerror: (error) => {
-        console.log('Server error:', error);
-      },
-    },
-  },
-});
-      </script>
-      
+              // Join the values with a comma
+              const mergedFileNames = fileNamesArray.join(', ');
+
+              const filenameInput = document.getElementById('filenameInput');
+              const previousValue = filenameInput.value; // Store the initial value
+
+              // Assign the merged file names value to the input element
+              filenameInput.value = mergedFileNames;
+
+              // Check if the value of the input is updated
+
+              console.log('Final value of filenameInput:', filenameInput.value);
+
+              // You can now use the responseData as needed in your frontend
+            },
+            onerror: (error) => {
+              console.log('Server error:', error);
+            },
+          },
+        },
+      });
+    </script>
+
 </body>
 
 </html>

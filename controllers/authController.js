@@ -9,12 +9,12 @@ exports.root = (req, res) => {
 };
 
 exports.signIn = (req, res) => {
-	res.render("signin");
+	res.render("auth/signin");
 };
 
 exports.signInProcess = async (req, res) => {
 	if (req.body.email === "" || req.body.password === "") {
-		res.render("signin", {
+		res.render("auth/signin", {
 			error: true,
 			message: "Please fill out the complete form.",
 		});
@@ -22,7 +22,7 @@ exports.signInProcess = async (req, res) => {
 	}
 
 	if (!validator.isEmail(req.body.email)) {
-		res.render("signin", {
+		res.render("auth/signin", {
 			error: true,
 			message: "The given email is incorrect.",
 		});
@@ -46,7 +46,7 @@ exports.signInProcess = async (req, res) => {
 		if (user?.password) {
 			if (bcrypt.compareSync(req.body.password, user.password)) {
 				if (user.status != "active") {
-					res.render("signin", {
+					res.render("auth/signin", {
 						error: true,
 						message: "Your account is not active. Please contact support.",
 					});
@@ -61,36 +61,37 @@ exports.signInProcess = async (req, res) => {
 					req.session.powers = powers;
 					if (user.role == "admin") {
 						res.redirect("/admin/");
-					}  else if (user.role == "employee") {
-						if (powers=="amazon"||powers=="AmazonWithReporting") {
-							// prevoius res.redirect("/employee/")
+					} else if (user.role == "employee") {
+						if (powers == "amazon" || powers == "AmazonWithReporting") {
 							res.redirect("/amazon/")
+						} else if (powers == "account" || powers == "AccountWithReporting") {
+							res.redirect("/account/account");
 						} else {
-							res.redirect("/employee/account")
+							res.redirect("/account/account")
 						}
-						
-						
+
+
 					} else {
-						res.render("signin", {
+						res.render("auth/signin", {
 							error: true,
 							message: "Incorrect Credentials.",
 						});
 					}
 				}
 			} else {
-				res.render("signin", {
+				res.render("auth/signin", {
 					error: true,
 					message: "Incorrect Credentials.",
 				});
 			}
 		} else {
-			res.render("signin", {
+			res.render("auth/signin", {
 				error: true,
 				message: "You have to signup first.",
 			});
 		}
 	} else {
-		res.render("signin", { error: true, message: "Incorrect Credentials." });
+		res.render("auth/signin", { error: true, message: "Incorrect Credentials." });
 	}
 };
 
@@ -167,9 +168,10 @@ exports.forgetPassProcess = async (req, res) => {
 
 exports.profile = async (req, res) => {
 	let role = req.originalUrl.split("/")[1];
+	const user=await req.session.user;
 
 	res.render("profile", {
-		role,
+		role,user,
 		error_message: req.flash("error_message") || "",
 		success_message: req.flash("success_message") || "",
 	});

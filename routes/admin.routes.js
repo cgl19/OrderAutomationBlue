@@ -66,7 +66,7 @@ router.post(
 
 router.post(
 	"/orders/paginate",
-	AuthMiddleware.redirectToSigninIfNotAuthenticated,
+	//AuthMiddleware.redirectToSigninIfNotAuthenticated,
 	AdminController.orderPagination
 );
 
@@ -75,6 +75,26 @@ router.get(
 	AuthMiddleware.redirectToSigninIfNotAuthenticated,
 	AdminController.orders
 );
+
+
+router.get(
+	"/editOrder/:id",
+	 AuthMiddleware.redirectToSigninIfNotAuthenticated,
+	 AdminController.editRecord
+);
+router.post(
+	"/editOrder",
+	AuthMiddleware.redirectToSigninIfNotAuthenticated,
+	AdminController.adminEditOrder
+);
+
+
+router.get(
+	"/deleteOrder/:id",
+	AuthMiddleware.redirectToSigninIfNotAuthenticated,
+	AdminController.deleteOrder
+	);
+
 
 router.get(
 	"/orders/download",	
