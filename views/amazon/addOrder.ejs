@@ -3,6 +3,10 @@
 
 <head>
 
+
+  <style>
+   
+  </style>
   <!--   meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -41,8 +45,10 @@
 <body class="page-profile">
 
   <%- include('../includes/header', {page : "dashboard" }) %>
-
+  
+  
     <div class="content content-fixed">
+    
       <div class="container-fluid pd-x-0 pd-lg-x-10 pd-xl-x-0">
         <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
           <div>
@@ -57,6 +63,7 @@
         </div>
 
         <div class="row row-xs">
+         
           <div class="col-sm-12 col-lg-12">
 
             <div class="card card-body">
@@ -491,7 +498,7 @@
           const decision6=validCheck(shipBy);
           if (!decision6) {
             const labelElement = document.getElementById('shipByLable');
-            labelElement.innerText = 'ShipBy is  *';
+            labelElement.innerText = 'ShipBy is required *';
             labelElement.style.color = 'red';
             isValid = false;
           }
@@ -846,7 +853,7 @@
             // doRequest();
           }
           else {
-            alert('Fieid Missing')
+            alert('Please fill out all required fields')
             // const btn =document.getElementById("btn-submit").style.display = "none"
             
           }
@@ -1013,6 +1020,19 @@
           },
         },
       });
+
+
+
+
+
+
+
+
+
+
+      // scroll btn
+
+    
     </script>
 
 </body>

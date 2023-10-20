@@ -30,9 +30,9 @@
         <div class="avatar avatar-sm"><img src="https://picsum.photos/500" class="rounded-circle" alt=""></div>
       </a><!-- dropdown-link -->
       <div class="dropdown-menu dropdown-menu-right tx-13">
-        <h6 class="tx-semibold mg-b-5"><%= user.name %></h6>
+        <h6 class="tx-semibold mg-b-5"><%= user?.name %></h6>
         <p class="mg-b-25 tx-12 tx-color-03">Administrator</p>
-        <a href="/<%= user.role %>/profile" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
+        <a href="/<%= user?.role %>/profile" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
         
         <div class="dropdown-divider"></div>
         <a href="/auth/logout" class="dropdown-item"><i data-feather="log-out"></i> Sign Out</a>

@@ -15,7 +15,7 @@
           <a href="/employee" class="nav-link"><i data-feather="pie-chart"></i> Dashboard</a>
         </li>
         
-        <% if (powers.includes('Amazon')|| powers.includes('AmazonWithReporting')) { %>
+        <% if (powers?.includes('Amazon')|| powers?.includes('AmazonWithReporting')) { %>
         
         
         <li class="nav-item <%= page == 'distiListing' ? 'active' : '' %>">
@@ -25,7 +25,7 @@
 
         <% }  %>
 
-        <% if (powers.includes('Accounts')||powers.includes('AccountsWithReporting')){ %>
+        <% if (powers?.includes('Accounts')||powers?.includes('AccountsWithReporting')){ %>
         
         
           <!-- <li class="nav-item <%= page == 'distiListing' ? 'active' : '' %>">
@@ -41,9 +41,9 @@
           <div class="avatar avatar-sm"><img src="https://picsum.photos/200" class="rounded-circle" alt=""></div>
         </a><!-- dropdown-link -->
         <div class="dropdown-menu dropdown-menu-right tx-13">
-          <h6 class="tx-semibold mg-b-5"><%= user.name %></h6>
-          <p class="mg-b-25 tx-12 tx-color-03" style=""><%= (user.role).toUpperCase()  %></p>
-          <a href="/<%= user.role %>/profile" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
+          <h6 class="tx-semibold mg-b-5"><%= user?.name %></h6>
+          <p class="mg-b-25 tx-12 tx-color-03" style=""><%= (user?.role)?.toUpperCase()  %></p>
+          <a href="/<%= user?.role %>/profile" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
           <div class="dropdown-divider"></div>
           <a href="/auth/logout" class="dropdown-item"><i data-feather="log-out"></i>Sign Out</a>
         </div><!-- dropdown-menu -->

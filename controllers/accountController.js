@@ -199,9 +199,10 @@ exports.updateOrderAccount = async (req, res) => {
 			}
 		});
 		if (record) {
-			if (record.poDate === null && !poNumber) {
+			if (record.poDate === null && !po) {
 				record.poDate = new Date().toISOString();
 			}
+
 			// Update the record with the new data
 			record.status = status;
 			record.poNumber = po;
@@ -220,12 +221,26 @@ exports.updateOrderAccount = async (req, res) => {
 				accountUserId: record.accountUserId, // Include the accountUserId in the response
 				updatedStatus: status
 			});
-		} else {
+		}
+		
+		else {
 			res.status(404).json({ status: false, message: "Order not found" });
 		}
-	} catch (error) {
-		console.error("Error updating order:", error);
-		res.status(500).json({ message: "An error occurred while updating the order" });
+	}
+	
+	catch (error) {
+		// console.log('ooooooooooooooooooooooooooooooooooo')
+		// console.log(error.original.sqlMessage)
+		// console.log('ooooooooooooooooooooooooooooooooooo')
+		var errorMsg;
+		//console.error("Error updating order:", error);
+		if (error.original.sqlMessage) {
+			 errorMsg= error.original.sqlMessage;
+		  } 
+		  else {
+		     errorMsg= error.message;
+		  }
+		res.status(500).json({ message: error.message, errorMessage: errorMsg });
 	}
 
 };

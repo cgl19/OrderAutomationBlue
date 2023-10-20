@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,59 +37,96 @@
   <style>
     /* CSS for the modal */
     .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center; /* Vertically center the modal */
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* Vertically center the modal */
     }
 
     .modal-content {
-        background-color: #fff;
-        max-width: 400px;
-        padding: 20px;
-        border-radius: 22px;
-        box-shadow: 0 0 10px rgba(0.5, 0.5, 0.5, 0.5);
+      background-color: #fff;
+      max-width: 400px;
+      padding: 20px;
+      border-radius: 22px;
+      box-shadow: 0 0 10px rgba(0.5, 0.5, 0.5, 0.5);
     }
 
     .close {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 20px;
-        cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
     }
 
     label {
-        font-weight: bold;
+      font-weight: bold;
     }
 
-    select, textarea {
-        width: 100%;
-        padding: 8px;
-        margin: 5px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
     button[type="submit"] {
-        background-color: #007BFF;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
 
     button[type="submit"]:hover {
-        background-color: #0056b3;
+      background-color: #005bbd;
     }
-</style>
+
+
+
+    
+
+    /* CSS for modal */
+
+  </style>
+  <style>
+    .loader {
+      position: absolute;
+      top:30%;
+      left:45%;
+      border: 30px solid #f3f3f3;
+      border-radius: 70%;
+      border-top: 25px solid #d60a0a;
+      width: 200px;
+      height: 200px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 3s linear infinite;
+      z-index: 1;
+      display: none;
+    }
+    
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    </style>
+
   <!-- DashForge CSS -->
   <link rel="stylesheet" href="/assets/css/dashforge.css">
   <!--<link rel="stylesheet" href="/assets/css/dashforge.dashboard.css"> -->
@@ -97,648 +135,495 @@
 <body class="page-profile">
 
   <%- include('../includes/header', {page : "dashboard" }) %>
-      
+
+
+
+
+
+  <div id="successLoader" class="loader"></div>
+
     <div class="content content-fixed">
+   
+   
       <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
-          <div
-            class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30"
-          >
-            <div>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
-                  <li class="breadcrumb-item"><a href="#">Orders</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">
-                    Process Orders
-                  </li>
-                </ol>
-              </nav>
-              <h5 class="mg-b-0 tx-spacing--1 text-info">Account>Process orders</h5>
-            </div>
-            <div class="d-none d-md-block shadow p-3 mb-2 rounded">
-              <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5" onclick="window.print()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
-                  <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
-                  <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                </svg>
-                <i data-feather="printer" class="wd-10 mg-r-5"></i> Print
-              </button>
-              <% if ( record.file!=''){%>
-                
-                
-                <a id="downloadAllLink" class="btn btn-sm pd-x-15 btn-info btn-uppercase mg-l-5" href="#">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
-                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z"/>
-                  </svg>
-                  <i data-feather="download" class="wd-10 mg-r-5"></i> Download All Attached Files
-                </a>
-              <%}%>
-            </div>
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+          <div>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                <li class="breadcrumb-item"><a href="#">Orders</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Process Orders
+                </li>
+              </ol>
+            </nav>
+            <h5 class="mg-b-0 tx-spacing--1 text-info">Account>Process orders</h5>
           </div>
+          <div class="d-none d-md-block shadow p-3 mb-2 rounded">
+            <button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5" onclick="window.print()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                class="bi bi-printer-fill" viewBox="0 0 16 16">
+                <path
+                  d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z" />
+                <path
+                  d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+              </svg>
+              <i data-feather="printer" class="wd-10 mg-r-5"></i> Print
+            </button>
+            <% if ( record.file!='' ){%>
 
-          <div class="row row-xs shadow p-3 mb-5 bg-white rounded">
-            <div class="col-sm-12 col-lg-12">
-              <div class="card card-body">
-              
-                  <div class="col-12 mb-3">
-                    <label for="floatingTextarea2">AmazonComment</label>
-                    <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                    <textarea
-                      name="Comments"
-                      class="form-control"
-                      placeholder="Leave a comment here"
-                      id="floatingTextarea2"
-                      value=""
-                      style="height: 100%" disabled
-                    ><%= record?.amazonComments%>
+
+              <a id="downloadAllLink" class="btn btn-sm pd-x-15 btn-info btn-uppercase mg-l-5" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                  class="bi bi-file-earmark-arrow-down-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-1 4v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 11.293V7.5a.5.5 0 0 1 1 0z" />
+                </svg>
+                <i data-feather="download" class="wd-10 mg-r-5"></i> Download All Attached Files
+              </a>
+              <%}%>
+          </div>
+        </div>
+
+        <div class="row row-xs shadow p-3 mb-5 bg-white rounded">
+          <div class="col-sm-12 col-lg-12">
+            <div class="card card-body">
+
+              <div class="col-12 mb-3">
+                <label for="floatingTextarea2">AmazonComment</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                <textarea name="Comments" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                  value="" style="height: 100%" disabled><%= record?.amazonComments%>
                   </textarea>
-                  </div>
-                  <div class="form-row">
-                    <div class="col-3 mb-3">
-                      <label for="status">Amazon Account</label>
-                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                      <input type="text" class="form-control" value="<%= record?.amazonAccount%>" id="status" disabled>
-                        
-                      </select>
-                    </div>
-					
-            
-                    <div class="col-3 mb-3">
-                      <label for="orderId">Order ID</label>
-                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="orderId"
-                        value="<%= record?.orderId%>"
-                        required disabled
-                        />
-                      </div>
-                      
-                      <div class="col-3 mb-3">
-                        <label for="orderDate">Order Date</label>
-                        <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="orderDate"
-                     
-                          value="<%= record?.orderDate%>"
-                          required disabled
-                        />
-                      </div>
-                    <div class="col-3 mb-3">
-                      <label for="shipBy">Ship By</label>
-                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="shipBy"
-                        value="<%= record?.shipBy%>"
-                        required disabled
-                      />
-                    </div>
-                    
-                  </div>
+              </div>
+              <div class="form-row">
+                <div class="col-3 mb-3">
+                  <label for="status">Amazon Account</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" class="form-control" value="<%= record?.amazonAccount%>" id="status" disabled>
 
-                  <div class="form-row">
-					<div class="col-3 mb-3">
-                      <label for="deliverBy">Deliver By</label>
-                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="deliverBy"
-                        value="<%= record?.deliverBy%>"
-                        required disabled
-                      />
-                    </div>
-						<div class="col-3 mb-3">
-						  <label for="deliverBy">Purchase Date</label>
-						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-						  <input
-							type="text"
-							class="form-control"
-							id="purchaseDate"
-              value="<%= record.purchaseDate%>"
-            
-							required disabled
-						  />
-						</div>
-                    <div class="col-3 mb-3">
-                      <label for="contactBuyer">Contact Buyer</label>
-                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="contactBuyer"
-                        value="<%= record?.contactBuyer%>"
-                    
-                        required disabled
-                      /> 
-                    </div>
-                    <div class="col-3 mb-3">
-						<label for="status">Customer Type</label>
-						<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-						<input type="text" value="<%= record?.customerType %>" class="form-control" id="status" disabled>
-            
-					  </div>
-                   
-				</div>
-				<div class="form-row">
-					<div class="col-3 mb-3">
-						<label for="status">Distributor</label>
-						<span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-						<select class="form-control" id="distributor" disabled>
-						  <option value="<%= record?.distributor %>" selected><%= record?.distributor %></option>
-						</select>
-					  </div>
-                    <div class="col-3 mb-3">
-                      <label for="mfrName">Manufacturer Name</label>
-                      <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="mfrName"
-                      
-                        value="<%= record .mfrName%>"
-                        required disabled
-                      />
-                    </div>
-				</div>
-                  </div>
-                  <hr />
-                  <div class="row">
-                    <div class="d-none d-md-block" style="width: 100%">
-                     
-                      
-                    </div>
-                  </div>
-                  <div id="AmazonDiv">
-                    <% for(i=0;i<record?.sku.split("|").length;i++){%>
-
-                      <div class="form-row">
-                        <div class="col-3 mb-3">
-                          <label for="sku">SKU</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="sku"
-                            value="<%=record?.sku.split("|")[i] %>"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-
-                          <label for="quantity">Quantity</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            value="<%=record?.quantity.split("|")[i] %>"
-                            id="quantity"
-                            required
-                            disabled
-                          />
-                        </div>
-  
-                        <div class="col-3 mb-3">
-                          <label for="price">Price</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            value="<%=record?.price.split("|")[i] %>"
-                            id="price"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-                          <label for="tax">Tax</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            value="<%=record?.tax.split("|")[i] %>"
-                            id="tax"
-                            required
-                            disabled
-                          />
-                        </div>
-                      </div>
-  
-                      <div class="form-row">
-                        <div class="col-3 mb-3">
-                          <label for="shippingFee">Shipping Fee</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            value="<%=record?.shippingFee.split("|")[i] %>"
-                            class="form-control"
-                            id="shippingFee"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-                          <label for="amazonFee">Amazon Fee</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            value="<%=record?.amazonFee.split("|")[i] %>"
-                            class="form-control"
-                            id="amazonFee"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-                          <label for="mft">MFT</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            value="<%=record?.mft.split("|")[i] %>"
-                            id="mft"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-                          <label for="yourEarning">Your Earning</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            value="<%=record?.yourEarning.split("|")[i] %>"
-                            id="yourEarning"
-                            required
-                            disabled
-                          />
-                        </div>
-                      </div>
-  
-                      <div class="form-row">
-                        <div class="col-3 mb-3">
-                          <label for="cost">Cost</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            
-                            value="<%=record?.cost.split("|")[i] %>"
-                            id="cost"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-                          <label for="freightCost">Freight Cost</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            
-                            value="<%=record?.freightCost.split("|")[i] %>"
-                            id="freightCost"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-                          <label for="handlingFee">Handling Fee</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            
-                            value="<%=record?.handlingFee.split("|")[i] %>"
-                            id="handlingFee"
-                            required
-                            disabled
-                          />
-                        </div>
-                        <div class="col-3 mb-3">
-                          <label for="gmd">GMD</label>
-                          <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-                          <input
-                            type="text"
-                            class="form-control"
-                            disabled
-                            value="<%= (+record?.yourEarning.split("|")[i]) - (+ record?.handlingFee.split("|")[i]) - (+ record?.freightCost.split("|")[i]) - (+ record?.cost.split("|")[i])   %>"
-                            id="handlingFee"
-                            required
-                          />
-                        </div>
-                        <hr>
-                      </div>
-                      <hr />
-                      <%}%>
-                  </div>
-          
-					<div class="form-row">
-						<div class="col-12 mb-3">
-						  <label for="shippingAddress">Shipping Address</label>
-              <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-              
-						  <textarea
-                      name="Comments"
-                      class="form-control"
-                      placeholder="Shipping Address"
-                      id="floatingTextarea2" 
-                      disabled
-                  
-                      
-                    ><%= record?.shippingAddress%></textarea>
-						</div>
-						
-							<div class="col-3 mb-3">
-								<label for="status">Address Type</label>
-                <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-								<select class="form-control" id="status" disabled>
-								  <option  selected><%=record?.addressType%></option>
-								  
-                  
-								</select>
-							  </div>
-						<div class="col-4 mb-3">
-						  <label for="phone">Phone</label>
-              <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-						  <input
-							type="text"
-							class="form-control"
-              value="<%=record?.phone%>"
-							id="phone"
-							required
-              disabled
-						  />
-						</div>
-						<div class="col-4 mb-3">
-						  <label for="companyPhone">Company Phone</label>
-						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-						  <input
-							type="text"
-							class="form-control"
-							id="companyPhone"
-              value="<%=record?.companyPhone%>"
-							required
-              disabled
-						  />
-						</div>
-					  </div>
-					  <div class="form-row">
-						<div class="col-4 mb-3">
-						  <label for="email">Email</label>
-						  <span class="input-group-text cpBtn" id="basic-addon1"><i  class="far fa-copy"></i></span>
-						  <input
-							type="text"
-							class="form-control"
-							id="email"
-              value="<%=record?.email%>"
-							required
-              disabled
-						  />
-						</div>
-            
-						
-					  </div>
-            <hr>
-            <% if(record.status!= "completed" && record.status!= "cancelled" && record.status!= "on-hold" ){ %>
-            <form id="orderForm">
-
-              <input type="hidden" id="orderId" name="orderId" value="<%= record?.id %>">
-              <input type="hidden" id="latestNo" name="latestNo" valu="">
-              <div class="row">
-                <div class="col-6 mb-3">
-                  <label for="companyPhone">Po Number</label>
-                  <div class="input-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="po"
-                      name="po"
-                      
-                      value="<%= record?.poNumber%>"
-                      required
-                    />
-                    
-                  </div>
-                </div>
-                <div class="col-6 mb-3">
-                  <label for="paymentTerm">Payment Terms</label>
-                  <select name="payment" class="form-control" id="payment" required>
-                    <option value="">Select Payment Term</option>
-                    <option value="net30">Net30</option>
-                    <option value="dllNet30">DLL Net30</option>
-                    <option value="npNet45">North Point Net45</option>
-                    <option value="dnhCreditCard">DnH Credit Card</option>
-                    
                   </select>
                 </div>
+
+
+                <div class="col-3 mb-3">
+                  <label for="orderId">Order ID</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" class="form-control" id="orderId" value="<%= record?.orderId%>" required
+                    disabled />
+                </div>
+
+                <div class="col-3 mb-3">
+                  <label for="orderDate">Order Date</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" class="form-control" id="orderDate" value="<%= record?.orderDate%>" required
+                    disabled />
+                </div>
+                <div class="col-3 mb-3">
+                  <label for="shipBy">Ship By</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" class="form-control" id="shipBy" value="<%= record?.shipBy%>" required disabled />
+                </div>
+
               </div>
 
+              <div class="form-row">
+                <div class="col-3 mb-3">
+                  <label for="deliverBy">Deliver By</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="date" class="form-control" id="deliverBy" value="<%= record?.deliverBy%>" required
+                    disabled />
+                </div>
+                <div class="col-3 mb-3">
+                  <label for="deliverBy">Purchase Date</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" class="form-control" id="purchaseDate" value="<%= record.purchaseDate%>" required
+                    disabled />
+                </div>
+                <div class="col-3 mb-3">
+                  <label for="contactBuyer">Contact Buyer</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" class="form-control" id="contactBuyer" value="<%= record?.contactBuyer%>" required
+                    disabled />
+                </div>
+                <div class="col-3 mb-3">
+                  <label for="status">Customer Type</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" value="<%= record?.customerType %>" class="form-control" id="status" disabled>
 
+                </div>
 
-           <div class="row">
-  <div class="col-4 mb-3">
-    <label for="processedAccount">Processed Account</label>
-    <select name="processedAccount" class="form-control" id="processedAccount" required>
-      <option value="">Select Processed Account</option>
-      <option value="Choice">Choice</option>
-      <option value="Tech">Tech</option>
-      <option value="Texas Warehouse">Texas Warehouse</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
-  <div class="col-4 mb-3">
-    <label for="invoiceNo">Invoice No</label>
-    <input
-      type="text"
-      class="form-control"
-      id="invoiceNo"
-      name="invoiceNo"
-      
-      required
-    />
-  </div>
-  <div class="col-4 mb-3">
-    <label for="billNo">Bill No</label>
-    <input
-      type="text"
-      class="form-control"
-      id="billNo"
-      name="billNo"
-      
-      required
-    />
-  </div>
-  <div class="col-4 mb-3" id="otherPaymentField" >
-    <label for="poSixSeries"   style="color:rgb(54, 70, 242)">Six Series Po</label>
-    
-    <input
-      type="text"
-      class="form-control"
-      id="sixSeries"
-      name="sixSeries"
-    />
-  </div>
-</div>
-            <div class="col-12 mb-3">
-              <label for="floatingTextarea2">Comment</label>
-              
-              <textarea
-                name="comments"
-                class="form-control"
-                placeholder="Leave a comment here"
-                id="comments" name="comments"
-                style="height: 100%" 
-              ></textarea>
-            </div>
-
-
-
-          
-           
-            <div style="align-items: center; justify-content: center;display: flex; gap: 10px; ">
-					  <button class=" col-2  btn btn-sm btn-danger" id="cancelled" data-id="<%= record?.id %>"> Mark As Cancel</button>
-            <button type="button" class=" btn-sm  col-2  btn btn-success" id="completed" data-id="<%= record?.id %>"> Mark As Completed</button>
-            <button type="button" class=" btn-sm  col-2  btn btn-warning" id="onhold" data-id="<%= record?.id %>"> Mark As On-Hold</button>
-          </div>
-          
-					</form>
-					
-          <%} else{ %>
-            <input type="hidden" id="orderId" name="orderId" value="<%= record?.id %>">
-            <div class="row">
-            <div class="col-6 mb-3">
-						  <label for="companyPhone">Po Number</label>
-						 
-						  <input
-							type="text"
-							class="form-control"
-							id="po" name="po"
-							required
-              value="<%=record.poNumber%>"
-              disabled
-              
-						  />
-						</div>
-            <div class="col-6 mb-3">
-              <label for="paymentTerm">Payment Terms</label>
-              <select name="payment" class="form-control" id="payment" disabled>
-                <option selected><%=record.paymentTerm%></option>
-                
-              </select>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-4 mb-3">
-						  <label for="processedAccount">ProcessedAccount</label>
-						 
-						  <input
-							type="text"
-							class="form-control"
-							id="processedAccount" name="processedAccount"
-							required
-              value="<%=record.processedAccount%>"
-              disabled
-              
-						  />
-						</div>
-            <div class="col-4 mb-3">
-              <label for="invoiceNo">Invoice No</label>
-              <input
-							type="text"
-							class="form-control"
-							id="invoiceNo" name="invoiceNo"
-							required
-              value="<%=record.invoiceNo%>"
-              disabled
-              
-						  />
-            </div>
-            <div class="col-4 mb-3">
-              <label for="billNo">Bill No</label>
-              <input
-							type="text"
-							class="form-control"
-							id="billNo" name="billNo"
-							required
-              value="<%=record.billNo%>"
-              disabled
-              
-						  />
-            </div>
-            
-          </div>
-
-          <div class="col-12 mb-3">
-            <label for="ads">Status</label>
-           
-            <input
-            type="text"
-            class="form-control"
-            id="po" name="po"
-            required
-            value="<%=record.status%>"
-            disabled
-            
-            />
-          </div>
-            <div class="col-12 mb-3">
-              <label for="floatingTextarea2">Comment</label>
-              
-              <textarea
-                name="comments"
-                class="form-control"
-                placeholder="Leave a comment here"
-                id="comments" name="comments"
-                style="height: 100%"
-                
-              disabled 
-              ><%=record.accountComments%></textarea>
-            </div>
-          
-            <div id="myModal123" class="modal">
-              <div class="modal-content"  style="position: flex; left: 35%; top:20%;box-shadow: 0 0 10px rgba(0.5, 0.5, 0.5, 0.5);">
-                <span class="close">&times;</span>
-                <form id="myForm">
-                  <label for="rfc">Reason For Cancellation:</label>
-                    <select id="rfc" name="rfc" >
-                      <option value="disregrad">Disregard</option>
-                      <option value="valid">Valid</option>
-                    
-                    </select><br>
-
-                <label for="commentcancellation">Additional Comment for Cancellation:</label>
-                <textarea id="commentcancellation" name="commentcancellation" rows="4" ></textarea><br>
-            
-                  <button type="submit">Submit</button>
-                </form>
               </div>
-            </div>
-            
-          <div class="row">
-            <div class="col-3"></div>
-            <button class="col-3 d-block mb-2 mx-2 btn btn-danger" id="cancelled2" type="button" data-id="<%= record?.id %>">Mark As Cancel</button>
-            <button class="col-3 d-block mb-2 btn btn-success" id="completed2" type="button" data-id="<%= record?.id %>">Mark As Complete</button>
-            <div class="col-3 mb-5"></div>
-          </div>
-          <%}%>
-                  </div>
-                
+              <div class="form-row">
+                <div class="col-3 mb-3">
+                  <label for="status">Distributor</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <select class="form-control" id="distributor" disabled>
+                    <option value="<%= record?.distributor %>" selected>
+                      <%= record?.distributor %>
+                    </option>
+                  </select>
+                </div>
+                <div class="col-3 mb-3">
+                  <label for="mfrName">Manufacturer Name</label>
+                  <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                  <input type="text" class="form-control" id="mfrName" value="<%= record .mfrName%>" required
+                    disabled />
                 </div>
               </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="d-none d-md-block" style="width: 100%">
+
+
+              </div>
+            </div>
+            <div id="AmazonDiv">
+              <% for(i=0;i<record?.sku.split("|").length;i++){%>
+
+                <div class="form-row">
+                  <div class="col-3 mb-3">
+                    <label for="sku">SKU</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" id="sku" value="<%=record?.sku.split(" |")[i] %>"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+
+                    <label for="quantity">Quantity</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.quantity.split(" |")[i] %>"
+                    id="quantity"
+                    required
+                    disabled
+                    />
+                  </div>
+
+                  <div class="col-3 mb-3">
+                    <label for="price">Price</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.price.split(" |")[i] %>"
+                    id="price"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="tax">Tax</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.tax.split(" |")[i] %>"
+                    id="tax"
+                    required
+                    disabled
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-3 mb-3">
+                    <label for="shippingFee">Shipping Fee</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" value="<%=record?.shippingFee.split(" |")[i] %>"
+                    class="form-control"
+                    id="shippingFee"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="amazonFee">Amazon Fee</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" value="<%=record?.amazonFee.split(" |")[i] %>"
+                    class="form-control"
+                    id="amazonFee"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="mft">MFT</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.mft.split(" |")[i] %>"
+                    id="mft"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="yourEarning">Your Earning</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.yourEarning.split(" |")[i] %>"
+                    id="yourEarning"
+                    required
+                    disabled
+                    />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-3 mb-3">
+                    <label for="cost">Cost</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.cost.split(" |")[i] %>"
+                    id="cost"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="freightCost">Freight Cost</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.freightCost.split(" |")[i] %>"
+                    id="freightCost"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="handlingFee">Handling Fee</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" value="<%=record?.handlingFee.split(" |")[i] %>"
+                    id="handlingFee"
+                    required
+                    disabled
+                    />
+                  </div>
+                  <div class="col-3 mb-3">
+                    <label for="gmd">GMD</label>
+                    <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                    <input type="text" class="form-control" disabled value="<%= (+record?.yourEarning.split(" |")[i]) -
+                      (+ record?.handlingFee.split("|")[i]) - (+ record?.freightCost.split("|")[i]) - (+
+                      record?.cost.split("|")[i]) %>"
+                    id="handlingFee"
+                    required
+                    />
+                  </div>
+                  <hr>
+                </div>
+                <hr />
+                <%}%>
+            </div>
+
+            <div class="form-row">
+              <div class="col-12 mb-3">
+                <label for="shippingAddress">Shipping Address</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+
+                <textarea name="Comments" class="form-control" placeholder="Shipping Address" id="floatingTextarea2"
+                  disabled><%= record?.shippingAddress%></textarea>
+              </div>
+
+              <div class="col-3 mb-3">
+                <label for="status">Address Type</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                <select class="form-control" id="status" disabled>
+                  <option selected>
+                    <%=record?.addressType%>
+                  </option>
+
+
+                </select>
+              </div>
+              <div class="col-4 mb-3">
+                <label for="phone">Phone</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                <input type="text" class="form-control" value="<%=record?.phone%>" id="phone" required disabled />
+              </div>
+              <div class="col-4 mb-3">
+                <label for="companyPhone">Company Phone</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                <input type="text" class="form-control" id="companyPhone" value="<%=record?.companyPhone%>" required
+                  disabled />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-4 mb-3">
+                <label for="email">Email</label>
+                <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
+                <input type="text" class="form-control" id="email" value="<%=record?.email%>" required disabled />
+              </div>
+
+
+            </div>
+            <hr>
+            <% if(record.status!="completed" && record.status!="cancelled" && record.status!="on-hold" ){ %>
+              <form id="orderForm">
+
+                <input type="hidden" id="orderId" name="orderId" value="<%= record?.id %>">
+                <input type="hidden" id="latestNo" name="latestNo" valu="">
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label id="poLable" for="companyPhone">Po Number</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="po" name="po" value="<%= record?.poNumber%>" />
+
+                    </div>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label for="paymentTerm">Payment Terms</label>
+                    <select name="payment" class="form-control" id="payment" required>
+                      <option value="">Select Payment Term</option>
+                      <option value="net30">Net30</option>
+                      <option value="dllNet30">DLL Net30</option>
+                      <option value="npNet45">North Point Net45</option>
+                      <option value="dnhCreditCard">DnH Credit Card</option>
+
+                    </select>
+                  </div>
+                </div>
+
+
+
+                <div class="row">
+                  <div class="col-4 mb-3">
+                    <label for="processedAccount">Processed Account</label>
+                    <select name="processedAccount" class="form-control" id="processedAccount" required>
+                      <option value="">Select Processed Account</option>
+                      <option value="Choice">Choice</option>
+                      <option value="Tech">Tech</option>
+                      <option value="Texas Warehouse">Texas Warehouse</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="invoiceNo">Invoice No</label>
+                    <input type="text" class="form-control" id="invoiceNo" name="invoiceNo" required />
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="billNo">Bill No</label>
+                    <input type="text" class="form-control" id="billNo" name="billNo" required />
+                  </div>
+                  <div class="col-4 mb-3" id="otherPaymentField">
+                    <label for="poSixSeries" style="color:rgb(54, 70, 242)">Six Series Po</label>
+
+                    <input type="text" class="form-control" id="sixSeries" name="sixSeries" />
+                  </div>
+                </div>
+                <div class="col-12 mb-3">
+                  <label for="floatingTextarea2">Comment</label>
+
+                  <textarea name="comments" class="form-control" placeholder="Leave a comment here" id="comments"
+                    name="comments" style="height: 100%"></textarea>
+                </div>
+
+
+
+
+
+                <div style="align-items: center; justify-content: center;display: flex; gap: 10px; ">
+                  <button class=" col-2  btn btn-sm btn-danger" id="cancelled" data-id="<%= record?.id %>"> Mark As
+                    Cancel</button>
+                  <button type="button" class=" btn-sm  col-2  btn btn-success" id="completed"
+                    data-id="<%= record?.id %>"> Mark As Completed</button>
+                  <button type="button" class=" btn-sm  col-2  btn btn-warning" id="onhold" data-id="<%= record?.id %>">
+                    Mark As On-Hold</button>
+                </div>
+
+              </form>
+
+              <%} else{ %>
+                <input type="hidden" id="orderId" name="orderId" value="<%= record?.id %>">
+                <div class="row">
+                  <div class="col-6 mb-3">
+                    <label for="companyPhone">Po Number</label>
+
+                    <input type="text" class="form-control" id="po" name="po" required value="<%=record.poNumber%>"
+                      disabled />
+                  </div>
+                  <div class="col-6 mb-3">
+                    <label for="paymentTerm">Payment Terms</label>
+                    <select name="payment" class="form-control" id="payment" disabled>
+                      <option selected>
+                        <%=record.paymentTerm%>
+                      </option>
+
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-4 mb-3">
+                    <label for="processedAccount">ProcessedAccount</label>
+
+                    <input type="text" class="form-control" id="processedAccount" name="processedAccount" required
+                      value="<%=record.processedAccount%>" disabled />
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="invoiceNo">Invoice No</label>
+                    <input type="text" class="form-control" id="invoiceNo" name="invoiceNo" required
+                      value="<%=record.invoiceNo%>" disabled />
+                  </div>
+                  <div class="col-4 mb-3">
+                    <label for="billNo">Bill No</label>
+                    <input type="text" class="form-control" id="billNo" name="billNo" required
+                      value="<%=record.billNo%>" disabled />
+                  </div>
+
+                </div>
+
+                <div class="col-12 mb-3">
+                  <label for="ads">Status</label>
+
+                  <input type="text" class="form-control" id="po" name="po" required value="<%=record.status%>"
+                    disabled />
+                </div>
+                <div class="col-12 mb-3">
+                  <label for="floatingTextarea2">Comment</label>
+
+                  <textarea name="comments" class="form-control" placeholder="Leave a comment here" id="comments"
+                    name="comments" style="height: 100%" disabled><%=record.accountComments%></textarea>
+                </div>
+
+                <div id="myModal123" class="modal">
+                  <div class="modal-content"
+                    style="position: flex; left: 35%; top:20%;box-shadow: 0 0 10px rgba(0.5, 0.5, 0.5, 0.5);">
+                    <span class="close">&times;</span>
+                    <form id="myForm">
+                      <label for="rfc">Reason For Cancellation:</label>
+                      <select id="rfc" name="rfc">
+                        <option value="disregrad">Disregard</option>
+                        <option value="valid">Valid</option>
+
+                      </select><br>
+
+                      <label for="commentcancellation">Additional Comment for Cancellation:</label>
+                      <textarea id="commentcancellation" name="commentcancellation" rows="4"></textarea><br>
+
+                      <button type="submit">Submit</button>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-3"></div>
+                  <button class="col-3 d-block mb-2 mx-2 btn btn-danger" id="cancelled2" type="button"
+                    data-id="<%= record?.id %>">Mark As Cancel</button>
+                  <button class="col-3 d-block mb-2 btn btn-success" id="completed2" type="button"
+                    data-id="<%= record?.id %>">Mark As Complete</button>
+                  <div class="col-3 mb-5"></div>
+                </div>
+                <%}%>
           </div>
-          <!-- row -->
+
         </div>
-        <!-- container -->
       </div>
     </div>
+    <!-- row -->
+    </div>
+    <!-- container -->
+    </div>
+    </div>
     <!-- content -->
+
+
+
+
+
+
+
+
 
     <script src="../../lib/jquery/jquery.min.js"></script>
     <script src="../../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -749,22 +634,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script>
       toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": true,
-      "positionClass": "toast-bottom-right",
-      "preventDuplicates": true,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "2000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "2000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      }
     </script>
     <script>
       const audio = new Audio('/assets/gud.mp3');
@@ -846,321 +731,248 @@
                   </div> </div><hr>`);
       });
 
-    
 
- $(document).ready(function() {
-  // Function to remove the clicked row
-  function removeRow(element) {
-    $(element).closest(".skuPart").remove();
-  }
 
-  // Attach click event to delete buttons
-  $(document).on("click", ".delete-row", function() {
-    removeRow(this);
-  });
+      $(document).ready(function () {
+        // Function to remove the clicked row
+        function removeRow(element) {
+          $(element).closest(".skuPart").remove();
+        }
+        // Attach click event to delete buttons
+        $(document).on("click", ".delete-row", function () {
+          removeRow(this);
+        });
+      });
 
- 
-});
+      $(document).ready(function () {
+        // ... Existing code to prepend new form rows ...
+        // Function to copy field value to clipboard
+        function copyFieldValue(element) {
+          let inputField = $(element).siblings('input')
+          if (inputField.length) {
+            const fieldValue = inputField.val();
+            copyToClipboard(fieldValue);
+          } else {
+            let inputField = $(element).siblings('select')
+            if (inputField.length) {
+              const fieldValue = inputField.val();
+              copyToClipboard(fieldValue);
+            } else {
+              let inputField = $(element).siblings('textarea')
+              const fieldValue = inputField.val();
+              copyToClipboard(fieldValue);
+            }
 
- $(document).ready(function() {
-    // ... Existing code to prepend new form rows ...
+          }
 
-    // Function to copy field value to clipboard
-    function copyFieldValue(element) {
-      let inputField = $(element).siblings('input')
-      if(inputField.length){
-        const fieldValue = inputField.val();
-        copyToClipboard(fieldValue);
-      }else{
-        let inputField = $(element).siblings('select')
-        if(inputField.length){
-          const fieldValue = inputField.val();
-          copyToClipboard(fieldValue);
-        }else{
-          let inputField = $(element).siblings('textarea')
-          const fieldValue = inputField.val();
-          copyToClipboard(fieldValue);
+          // alert(`${inputField.attr("id")} value copied: ${fieldValue}`);
         }
 
-      }
-      
-      // alert(`${inputField.attr("id")} value copied: ${fieldValue}`);
-    }
+        // Attach click event to copy icon buttons
+        $(document).on("click", ".cpBtn", function () {
+          copyFieldValue(this);
+        });
+        // Function to copy text to clipboard
+        function copyToClipboard(text) {
+          const textArea = document.createElement("textarea");
+          textArea.value = text;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textArea);
+          toastr["success"](" value Copied successfully.")
+        }
 
-    // Attach click event to copy icon buttons
-    $(document).on("click", ".cpBtn", function() {
-      copyFieldValue(this);
-    });
-
-    // Function to copy text to clipboard
-    function copyToClipboard(text) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      
-        
-      toastr["success"](" value Copied successfully.")
-  
-      
-     
-      
-    }
-    
-  });
-
-// document.querySelectorAll(".far fa-copy").forEach(copyLinkContainer=>{
-//    const inputField=copyLinkContainer.querySelector(".border-0");
-//    const fieldvalue=copyLinkContainer.querySelector(".form-control");
-//    const text= inputField.value();
-   
-//    inputField.removeEventListener("focus",()=>inputField.select());
-//    fieldvalue.removeEventListener("click",()=>inputField.select());
-// })
-
-
-
+      });
     </script>
+
+
+
+
+
+
+    <!-- change the status  of the order  Marks as Completed, caoncel, onhold -->
+
     <script>
       const cancelButton = document.getElementById("cancelled");
-     
+
       const completeButton = document.getElementById("completed");
-     
+
       const holdButton = document.getElementById("onhold");
       const orderForm = document.getElementById("orderForm");
-  
-      cancelButton.addEventListener("click", function() {
+      //checking Po while Mark as on Canceled
+      cancelButton.addEventListener("click", function () {
+        const p = document.getElementById('po').value;
+        if (p == '' || p == undefined) {
+          const lableElement = document.getElementById('poLable');
+          lableElement.innerText = "Po Number is required *";
+          lableElement.style.color = 'red';
+          alert("Po Number is required")
+        }
+        else {
           updateStatus("cancelled");
+          window.scrollTo(0, 0);
+        }
+
       });
-      
-  
-      completeButton.addEventListener("click", function() {
+
+
+
+     //checking Po while Mark as on completed
+      completeButton.addEventListener("click", function () {
+        const p = document.getElementById('po').value;
+        if (p == '' || p == undefined) {
+          const lableElement = document.getElementById('poLable');
+          lableElement.innerText = "Po Number is required *";
+          lableElement.style.color = 'red';
+          alert("Po Number is required")
+        }
+        else {
           updateStatus("completed");
+          window.scrollTo(0, 0);
+        }
+
       });
-      holdButton.addEventListener("click", function() {
+            //checking Po while Mark as on Hold
+      holdButton.addEventListener("click", function () {
+        const p = document.getElementById('po').value;
+        if (p == '' || p == undefined) {
+          const lableElement = document.getElementById('poLable');
+          lableElement.innerText = "Po Number is required *";
+          lableElement.style.color = 'red';
+          alert("Po Number is required")
+        }
+        else {
           updateStatus("on-hold");
+          window.scrollTo(0, 0);
+        }
       });
-  
+
+      //updateStatus Func
       function updateStatus(newStatus) {
-          const formData = new FormData(orderForm);
-          const orderId = formData.get("orderId");
-          const po = formData.get("po");
-          const comments = formData.get("comments");
-          const payment = formData.get("payment");
-          const processedAccount = formData.get("processedAccount");
-          const billNo = formData.get("billNo");
-          const invoiceNo = formData.get("invoiceNo");
-         const otherAccount = formData.get("otherAccount");
-         const latestNo = formData.get("latestNo");
-         const sixSeries = formData.get("sixSeries");
-         
-         
-  
-          // Send the status, PO, comments, and orderId to the server
-          fetch("/account/updateRecordAccount", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                  orderId: orderId,
-                  status: newStatus,
-                  po: po,
-                  comments: comments,
-                  payment:payment,
-                  processedAccount:processedAccount,
-                  billNo:billNo,
-                  invoiceNo:invoiceNo,
-                  otherAccount:otherAccount,
-                  latestNo:latestNo,
-                  sixSeries:sixSeries
-              })
+        const formData = new FormData(orderForm);
+        const orderId = formData.get("orderId");
+        const po = formData.get("po");
+        const comments = formData.get("comments");
+        const payment = formData.get("payment");
+        const processedAccount = formData.get("processedAccount");
+        const billNo = formData.get("billNo");
+        const invoiceNo = formData.get("invoiceNo");
+        const otherAccount = formData.get("otherAccount");
+        const latestNo = formData.get("latestNo");
+        const sixSeries = formData.get("sixSeries");
+
+
+
+        // Send the status, PO, comments, and orderId to the server
+        fetch("/account/updateRecordAccount", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            status: newStatus,
+            po: po,
+            comments: comments,
+            payment: payment,
+            processedAccount: processedAccount,
+            billNo: billNo,
+            invoiceNo: invoiceNo,
+            otherAccount: otherAccount,
+            latestNo: latestNo,
+            sixSeries: sixSeries
           })
+        })
           .then(response => response.json()) // Parse the JSON response
           .then(data => {
-    if (data.status) {
-        // Save the orderId, userId, and status
-        const orderid = data.orderId;
-        const userid = data.accountUserId;
-        const status = data.updatedStatus;
-
-        // Perform the first AJAX call to update the record
-
-        // Perform the second AJAX call to send the variables for nodemail
-        $.ajax({
-            url: '/account/sendEmailAccount', // Replace with your actual endpoint
-            method: 'POST',
-            data: {
-                orderid: orderid,
-                userid: userid,
-                status: status
-            },
-            success: function(response) {
-              audio.volume = 1;
-              audio.play();
-                // Handle the response from the server
-
-                // Once the email sending AJAX call is successful, show the success alert
-               setTimeout(()=>{
-                alert('Email sent and record updated successfully');
-                window.location.href = '/account/account';
-               },2000) 
-            },
-            error: function(error) {
-                alert('Error sending email and updating record');
-            }
-        });
-    } else {
-        alert('Not Successful');
-    }
-})
-.catch(error => {
-    console.error('Error updating status:', error);
-});
-      }
-
-
-
-
-
-
-      document.getElementById('email-button').addEventListener('click', function() {
-    const pageContent = document.documentElement.outerHTML;
-    const emailBody = encodeURIComponent(pageContent);
-    
-    const emailLink = `mailto:?subject=Check%20Out%20This%20Page&body=${emailBody}`;
-    
-    window.location.href = emailLink;
-});
-  </script>
-  <script>
-    const completed2Button = document.getElementById("completed2");
-    const id = completed2Button.getAttribute("data-id");
-
-completed2Button.addEventListener("click", function () {
-  sendDataToBackend("completed", id);
-});
-function sendDataToBackend(value, id) {
-  // Replace with your backend URL
-  const url = "/account/updateStatus";
-
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      value: value,
-      id: id,
-    }),
-  })
-  .then((response) => response.json())
-          .then((data) => {
             if (data.status) {
-              alert(data.alertMessage);
-              window.location.href = "/account/account";
-            } else {
-              alert("An error occurred: " + data.message);
+              setTimeout(()=>{
+                const loaderE=document.getElementById('successLoader');
+               loaderE.style.display="block";
+              },2000)              
+              // Save the orderId, userId, and status
+              const orderid = data.orderId;
+              const userid = data.accountUserId;
+              const status = data.updatedStatus;
+
+              // Perform the first AJAX call to update the record
+
+              // Perform the second AJAX call to send the variables for nodemail
+              $.ajax({
+                url: '/account/sendEmailAccount', // Replace with your actual endpoint
+                method: 'POST',
+                data: {
+                  orderid: orderid,
+                  userid: userid,
+                  status: status
+                },
+                success: function (response) {
+                  audio.volume = 1;
+                  audio.play();
+                  // Handle the response from the server
+
+                  // Once the email sending AJAX call is successful, show the success alert
+                  setTimeout(() => {
+                    alert('Email sent and record updated successfully');
+                    const loaderE=document.getElementById('successLoader');
+                     loaderE.style.display="none";
+                    window.location.href = '/account/account';
+                  }, 4000)
+                },
+                error: function (error) {
+                  alert('Error sending email and updating record');
+                }
+              });
+            } 
+            else {
+              const errormsg=data.message+':'+data.errorMessage;
+              const lableElement = document.getElementById('poLable');
+              lableElement.innerText = "Enter Valid Po Number";
+               lableElement.style.color = 'red';
+              alert(errormsg);
+             
             }
           })
-          .catch((error) => {
-            console.error("Error sending data to backend:", error);
+          .catch(error => {
+            console.error('Error updating status:', error);
           });
       }
 
+      document.getElementById('email-button').addEventListener('click', function () {
+        const pageContent = document.documentElement.outerHTML;
+        const emailBody = encodeURIComponent(pageContent);
 
-  </script>
- <script>
-const recordFilenames = '<%= record.filename %>';
-const downloadAllLink = document.getElementById('downloadAllLink');
+        const emailLink = `mailto:?subject=Check%20Out%20This%20Page&body=${emailBody}`;
 
-const filenames = recordFilenames.split(', ');
-
-downloadAllLink.addEventListener('click', async (event) => {
-  event.preventDefault();
-
-  const zip = new JSZip();
-  
-  for (const fileName of filenames) {
-    const response = await fetch(`/files/${fileName.trim()}`);
-    const blob = await response.blob();
-
-    // Add the file to the zip archive
-    zip.file(fileName.trim(), blob);
-  }
-
-  // Generate the zip archive
-  const zipBlob = await zip.generateAsync({ type: 'blob' });
-
-  // Create a download link for the zip archive
-  const downloadLink = document.createElement('a');
-  downloadLink.href = URL.createObjectURL(zipBlob);
-  downloadLink.download = '<%= record.orderId %>.zip'; // Change the zip filename as needed
-
-  // Append the link to the document and trigger the click event
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink); // Clean up after download
-});
- </script>
-
-
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const cancelButton = document.getElementById("cancelled2");
-      const modal = document.getElementById("myModal123");
-      const form = document.getElementById("myForm");
-      const closeBtn = modal.querySelector(".close");
-    
-      cancelButton.addEventListener("click", function () {
-        modal.style.display = "block";
+        window.location.href = emailLink;
       });
-    
-      closeBtn.addEventListener("click", function () {
-        modal.style.display = "none";
+    </script>
+
+
+
+
+
+
+    <script>
+      const completed2Button = document.getElementById("completed2");
+      const id = completed2Button.getAttribute("data-id");
+
+      completed2Button.addEventListener("click", function () {
+        sendDataToBackend("completed", id);
       });
-    
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-    
-        const id = cancelButton.getAttribute("data-id");
-        // const canceltype = document.getElementById("canceltype").value;
-        
-        const rfc = document.getElementById("rfc").value;
-        const commentcancellation = document.getElementById("commentcancellation").value;
-        // const fee = document.getElementById("fee").value;
-        // const refundamount = document.getElementById("refundamount").value;
-        // const shippingcharge = document.getElementById("shippingcharge").value;
-        // const amazonfee = document.getElementById("amazonfee").value;
-        // const extrafee = document.getElementById("extrafee").value;
-    
-        sendDataToBackend("cancelled", id, rfc, commentcancellation);
-      });
-    
-      function sendDataToBackend(value, id, rfc, commentcancellation) {
+      function sendDataToBackend(value, id) {
         // Replace with your backend URL
         const url = "/account/updateStatus";
-    
+
         fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            value:value,
-            id:id,
-            // canceltype:canceltype,
-            rfc:rfc,
-            commentcancellation:commentcancellation,
-            // fee:fee,
-            // refundamount:refundamount,
-            // shippingcharge:shippingcharge,
-            // amazonfee:amazonfee,
-            // extrafee:extrafee,
-          // , canceltype,fee,refundamount,shippingcharge,amazonfee,extrafee
+            value: value,
+            id: id,
           }),
         })
           .then((response) => response.json())
@@ -1176,87 +988,233 @@ downloadAllLink.addEventListener('click', async (event) => {
             console.error("Error sending data to backend:", error);
           });
       }
-    });
+
     </script>
 
 
 
 
-  <script>
-      $.get('/account/genratePo', {orderId : "<%=record.id%>"}).then((res)=>{
-        if(res.status){
+
+
+
+
+
+
+    <!-- //download attachments -->
+
+    <script>
+      const recordFilenames = '<%= record.filename %>';
+      const downloadAllLink = document.getElementById('downloadAllLink');
+
+      const filenames = recordFilenames.split(', ');
+
+      downloadAllLink.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        const zip = new JSZip();
+
+        for (const fileName of filenames) {
+          const response = await fetch(`/files/${fileName.trim()}`);
+          const blob = await response.blob();
+
+          // Add the file to the zip archive
+          zip.file(fileName.trim(), blob);
+        }
+
+        // Generate the zip archive
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+        // Create a download link for the zip archive
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(zipBlob);
+        downloadLink.download = '<%= record.orderId %>.zip'; // Change the zip filename as needed
+
+        // Append the link to the document and trigger the click event
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink); // Clean up after download
+      });
+    </script>
+
+
+
+
+
+
+
+
+
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cancelButton = document.getElementById("cancelled2");
+        const modal = document.getElementById("myModal123");
+        const form = document.getElementById("myForm");
+        const closeBtn = modal.querySelector(".close");
+
+        cancelButton.addEventListener("click", function () {
+          modal.style.display = "block";
+        });
+
+        closeBtn.addEventListener("click", function () {
+          modal.style.display = "none";
+        });
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const id = cancelButton.getAttribute("data-id");
+          // const canceltype = document.getElementById("canceltype").value;
+
+          const rfc = document.getElementById("rfc").value;
+          const commentcancellation = document.getElementById("commentcancellation").value;
+    
+
+          sendDataToBackend("cancelled", id, rfc, commentcancellation);
+        });
+
+        function sendDataToBackend(value, id, rfc, commentcancellation) {
+          // Replace with your backend URL
+          const url = "/account/updateStatus";
+
+          fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              value: value,
+              id: id,
+              // canceltype:canceltype,
+              rfc: rfc,
+              commentcancellation: commentcancellation,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status) {
+                alert(data.alertMessage);
+                window.location.href = "/account/account";
+              } else {
+                alert("An error occurred: " + data.message);
+              }
+            })
+            .catch((error) => {
+              console.error("Error sending data to backend:", error);
+            });
+        }
+      });
+    </script> -->
+
+
+
+
+
+
+
+
+    <script>
+      $.get('/account/genratePo', { orderId: "<%=record.id%>" }).then((res) => {
+        if (res.status) {
           $("#po").val(res.lastGeneratedNumber);
         }
         console.log(res.lastGeneratedNumber)
       });
-      
+    </script>
 
-  </script>
-  
-  <script>
-    $(document).ready(function () {
-      // Listen for changes in the "Payment Terms" select element
-      $("#processedAccount").on("change", function () {
+
+
+
+
+
+    <!-- //checking payterm input option -->
+
+    <script>
+      $(document).ready(function () {
+        // Listen for changes in the "Payment Terms" select element
+        $("#processedAccount").on("change", function () {
+          checkPaymentTerm();
+        });
+
+        // Check the initial state on page load
         checkPaymentTerm();
       });
-  
-      // Check the initial state on page load
-      checkPaymentTerm();
-    });
-  
-    function checkPaymentTerm() {
-      const selectedOption = $("#processedAccount").val();
-  
-      // If "Other" is selected, show the additional input field; otherwise, hide it
-      if (selectedOption === "Other") {
-        $("#otherPaymentField").show();
-      } else {
-        $("#otherPaymentField").hide();
+
+      function checkPaymentTerm() {
+        const selectedOption = $("#processedAccount").val();
+
+
+        if (selectedOption === "Other") {
+          $("#otherPaymentField").show();
+        } else {
+          $("#otherPaymentField").hide();
+        }
       }
-    }
-  </script>
+    </script>
 
 
 
-<!-- handle mark as Cancel, completed, ,On-Hold -->
 
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-      const markascancelButton = document.getElementById("cancelled");
-    
-    
-      markascancelButton.addEventListener("click", function () {
-        
-      });
-    
-      closeBtn.addEventListener("click", function () {
-        modal.style.display = "none";
-      });
-    
-      form.addEventListener("submit", function (event) {
-        event.preventDefault();
-    
-        const id = cancelButton.getAttribute("data-id");
-        // const canceltype = document.getElementById("canceltype").value;
-        
-        const rfc = document.getElementById("rfc").value;
-        const commentcancellation = document.getElementById("commentcancellation").value;
-        // const fee = document.getElementById("fee").value;
-        // const refundamount = document.getElementById("refundamount").value;
-        // const shippingcharge = document.getElementById("shippingcharge").value;
-        // const amazonfee = document.getElementById("amazonfee").value;
-        // const extrafee = document.getElementById("extrafee").value;
-    
-        sendDataToBackend("cancelled", id, rfc, commentcancellation);
-      });
 
-</script>
-<script>
 
-</script>
-<script>
 
-</script>
-  </body>
+    <!-- handle mark as Cancel, completed, ,On-Hold -->
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const markascancelButton = document.getElementById("cancelled");
+        markascancelButton.addEventListener("click", function () {
+
+        });
+
+        closeBtn.addEventListener("click", function () {
+          modal.style.display = "none";
+        });
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const id = cancelButton.getAttribute("data-id");
+          // const canceltype = document.getElementById("canceltype").value;
+
+          const rfc = document.getElementById("rfc").value;
+          const commentcancellation = document.getElementById("commentcancellation").value;
+
+          sendDataToBackend("cancelled", id, rfc, commentcancellation);
+        });
+
+    </script> -->
+
+
+    <script>
+      var modal = document.getElementById('myModal');
+var loader = document.getElementById('loader');
+
+// Get references to the open and close modal buttons
+var openModalBtn = document.getElementById('openModalBtn');
+var closeModalBtn = document.getElementById('closeModalBtn');
+
+// Event listener to open the modal
+openModalBtn.onclick = function () {
+  modal.style.display = 'block'; // Display the modal
+  loader.style.display = 'block'; // Display the loader
+};
+
+// Event listener to close the modal
+closeModalBtn.onclick = function () {
+  modal.style.display = 'none'; // Hide the modal
+  loader.style.display = 'none'; // Hide the loader
+};
+
+// Clicking outside the modal should also close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = 'none';
+    loader.style.display = 'none';
+  }
+};
+    </script>
+
+
+</body>
+
 </html>

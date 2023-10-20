@@ -13,7 +13,7 @@
       <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
 
 
-      <% if (powers.includes('admin')) { %>
+      <% if (powers?.includes('admin')) { %>
 
 
         <li class="nav-item  <%= page == 'dashboard' ? 'active' : '' %>">
@@ -22,7 +22,7 @@
 
 
         <% } %>
-          <% if (powers.includes('accounts')|| powers.includes('AccountsWithReporting')){ %>
+          <% if (powers?.includes('accounts')|| powers?.includes('AccountsWithReporting')){ %>
 
 
             <li class="nav-item  <%= page == 'dashboard' ? 'active' : '' %>">
@@ -32,7 +32,7 @@
 
             <% } %>
 
-              <% if (powers.includes('amazon') ||powers.includes('AmazonWithReporting')) { %>
+              <% if (powers?.includes('amazon') ||powers?.includes('AmazonWithReporting')) { %>
 
                 <li class="nav-item  <%= page == 'dashboard' ? 'active' : '' %>">
                   <a href="/amazon" class="nav-link"><i data-feather="pie-chart"></i> Dashboard</a>
@@ -44,7 +44,7 @@
 
 
 
-                  <% if (powers.includes('amazon') || powers.includes('AmazonWithReporting')) { %>
+                  <% if (powers?.includes('amazon') || powers?.includes('AmazonWithReporting')) { %>
 
 
                     <li class="nav-item <%= page == 'distiListing' ? 'active' : '' %>">
@@ -54,7 +54,7 @@
 
                     <% } %>
 
-                      <% if (powers.includes('accounts')||powers.includes('AccountsWithReporting')){ %>
+                      <% if (powers?.includes('accounts')||powers?.includes('AccountsWithReporting')){ %>
 
 
                         <li class="nav-item <%= page == 'distiListing' ? 'active' : '' %>">
@@ -71,10 +71,10 @@
       </a><!-- dropdown-link -->
       <div class="dropdown-menu dropdown-menu-right tx-13">
         <h6 class="tx-semibold mg-b-5">
-          <%= user.name %>
+          <%= user?.name %>
         </h6>
-        <p class="mg-b-25 tx-12 tx-color-03" style="">
-          <%= (user.role).toUpperCase() %>
+        <p class="mg-b-25 tx-12 tx-color-03" >
+          <%= (user?.role)?.toUpperCase() %>
         </p>
         <a href="/<%= user.role %>/profile" class="dropdown-item"><i data-feather="user"></i> View Profile</a>
         <div class="dropdown-divider"></div>

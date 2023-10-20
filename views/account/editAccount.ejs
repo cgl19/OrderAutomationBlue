@@ -413,7 +413,7 @@
                                     <input type="hidden" id="id" name="id" value="<%= record?.id %>">
                                     <div class="row">
                                         <div class="col-4 mb-3">
-                                            <label for="companyPhone">Po Number</label>
+                                            <label id="poLable" for="po">Po Number</label>
 
                                             <input type="text" class="form-control" id="po" name="po"
                                                 value="<%=record.poNumber%>" required />
@@ -626,117 +626,144 @@
 
         <script>
 
-            $("#addAmazonBtn").on("click", (e) => {
-                e.preventDefault();
-                $("#AmazonDiv").append(` <div class="skuPart"> <div class="form-row">
-                    <div class="col-6 mb-3">
-                    <label for="status">Distributor</label>
-                    <select name="distributor[]" class="form-control" id="distributor">
-                      <option value="SYChoice">SY Choice</option>
-                      <option value="SYTech">SY Tech</option>
-                      <option value="IGChoice">IG Choice</option>
-                      <option value="IGTech">IG Tech</option>
-                      <option value="DHChoice">DH Choice</option>
-                      <option value="DHTech">DH Tech</option>
-                      <option value="ScansourceChoice">Scansource Choice</option>
-                      <option value="ScansourceTech">Scansource Tech</option>
-                      <option value="888VoipChoice">888Voip Choice</option>
-                      <option value="ASITech">ASI Tech</option>
-                    </select>
-                  </div>
-                  <div class="col-6 mb-3">
-                    <label for="mfrName">Manufacturer Name</label>
+            // $("#addAmazonBtn").on("click", (e) => {
+            //     e.preventDefault();
+            //     $("#AmazonDiv").append(` <div class="skuPart"> <div class="form-row">
+            //         <div class="col-6 mb-3">
+            //         <label for="status">Distributor</label>
+            //         <select name="distributor[]" class="form-control" id="distributor">
+            //           <option value="SYChoice">SY Choice</option>
+            //           <option value="SYTech">SY Tech</option>
+            //           <option value="IGChoice">IG Choice</option>
+            //           <option value="IGTech">IG Tech</option>
+            //           <option value="DHChoice">DH Choice</option>
+            //           <option value="DHTech">DH Tech</option>
+            //           <option value="ScansourceChoice">Scansource Choice</option>
+            //           <option value="ScansourceTech">Scansource Tech</option>
+            //           <option value="888VoipChoice">888Voip Choice</option>
+            //           <option value="ASITech">ASI Tech</option>
+            //         </select>
+            //       </div>
+            //       <div class="col-6 mb-3">
+            //         <label for="mfrName">Manufacturer Name</label>
                     
-                    <input type="text" class="form-control mfrInput" name="mfrName[]" id="mfrName" >
-                  </div>
-										<div class="col-6 mb-3">
-											<label for="sku">SKU</label>
-											<input type="text" class="form-control skuInput" name="sku[]" id="sku" >
-										  </div>
-									  <div class="col-6 mb-3">
-										<label for="quantity">Quantity</label>
-										<input type="number" class="form-control quantityInput" name="quantity[]" id="quantity" >
-									  </div>
+            //         <input type="text" class="form-control mfrInput" name="mfrName[]" id="mfrName" >
+            //       </div>
+			// 							<div class="col-6 mb-3">
+			// 								<label for="sku">SKU</label>
+			// 								<input type="text" class="form-control skuInput" name="sku[]" id="sku" >
+			// 							  </div>
+			// 						  <div class="col-6 mb-3">
+			// 							<label for="quantity">Quantity</label>
+			// 							<input type="number" class="form-control quantityInput" name="quantity[]" id="quantity" >
+			// 						  </div>
 									 
 								
-									</div>
+			// 						</div>
 									
-									<div class="form-row">
-                                            <div class="col-3 mb-3">
-					 					<label for="price">Price</label>
-										<input type="number" class="form-control priceInput" name="price[]" id="price" >
-									  </div>
-									  <div class="col-3 mb-3">
-										<label for="tax">Tax</label>
-										<input type="number" class="form-control taxInput" name="tax[]"id="tax" >
-									  </div>
-									  <div class="col-3 mb-3">
-										<label for="shippingFee">Shipping Fee</label>
-										<input type="number" class="form-control shippingFeeInput" name="shippingFee[]" id="shippingFee" >
-									  </div>
-									  <div class="col-3 mb-3">
-										<label for="amazonFee">Amazon Fee</label>
-										<input type="number" class="form-control amazonFeeInput" name="amazonFee[]" id="amazonFee" >
-									  </div>
-									  <div class="col-6 mb-3">
-										<label for="mft">Marketplace Facilitator Tax</label>
-										<input type="number" class="form-control mftInput" name="mft[]" id="mft" >
-									  </div>
-									  <div class="col-6 mb-3">
-										<label for="yourEarning">Your Earning</label>
-										<input type="number" class="form-control yourEarningInput" name="yourEarning[]" id="yourEarning" >
-									  </div>
-									</div>
+			// 						<div class="form-row">
+            //                                 <div class="col-3 mb-3">
+			// 		 					<label for="price">Price</label>
+			// 							<input type="number" class="form-control priceInput" name="price[]" id="price" >
+			// 						  </div>
+			// 						  <div class="col-3 mb-3">
+			// 							<label for="tax">Tax</label>
+			// 							<input type="number" class="form-control taxInput" name="tax[]"id="tax" >
+			// 						  </div>
+			// 						  <div class="col-3 mb-3">
+			// 							<label for="shippingFee">Shipping Fee</label>
+			// 							<input type="number" class="form-control shippingFeeInput" name="shippingFee[]" id="shippingFee" >
+			// 						  </div>
+			// 						  <div class="col-3 mb-3">
+			// 							<label for="amazonFee">Amazon Fee</label>
+			// 							<input type="number" class="form-control amazonFeeInput" name="amazonFee[]" id="amazonFee" >
+			// 						  </div>
+			// 						  <div class="col-6 mb-3">
+			// 							<label for="mft">Marketplace Facilitator Tax</label>
+			// 							<input type="number" class="form-control mftInput" name="mft[]" id="mft" >
+			// 						  </div>
+			// 						  <div class="col-6 mb-3">
+			// 							<label for="yourEarning">Your Earning</label>
+			// 							<input type="number" class="form-control yourEarningInput" name="yourEarning[]" id="yourEarning" >
+			// 						  </div>
+			// 						</div>
 									
-									<div class="form-row">
-									  <div class="col-4 mb-3">
-										<label for="cost">Cost</label>
-										<input type="number" class="form-control costInput" name="cost[]" id="cost" >
-									  </div>
-									  <div class="col-4 mb-3">
-										<label for="freightCost">Freight Cost</label>
-										<input type="number" class="form-control freightCostInput" name="freightCost[]" id="freightCost" >
-									  </div>
-									  <div class="col-4 mb-3">
-										<label for="handlingFee">Handling Fee</label>
-										<input type="number" class="form-control handlingFeeInput" name="handlingFee[]" id="handlingFee" >
-									  </div>
-									</div>  <div class=" row col-3 mb-3 ">
-                    <div class="d-none d-md-block" style="width: 100%">
-                      <a
-                        href="javascript://void(0)"
-                        id=""
-                        class="deleteSku btn btn-danger"
-                        style="float: left"
-                        >Delete</a
-                      >
-                    </div>
-                  </div> <hr></div>`);
-            });
+			// 						<div class="form-row">
+			// 						  <div class="col-4 mb-3">
+			// 							<label for="cost">Cost</label>
+			// 							<input type="number" class="form-control costInput" name="cost[]" id="cost" >
+			// 						  </div>
+			// 						  <div class="col-4 mb-3">
+			// 							<label for="freightCost">Freight Cost</label>
+			// 							<input type="number" class="form-control freightCostInput" name="freightCost[]" id="freightCost" >
+			// 						  </div>
+			// 						  <div class="col-4 mb-3">
+			// 							<label for="handlingFee">Handling Fee</label>
+			// 							<input type="number" class="form-control handlingFeeInput" name="handlingFee[]" id="handlingFee" >
+			// 						  </div>
+			// 						</div>  <div class=" row col-3 mb-3 ">
+            //         <div class="d-none d-md-block" style="width: 100%">
+            //           <a
+            //             href="javascript://void(0)"
+            //             id=""
+            //             class="deleteSku btn btn-danger"
+            //             style="float: left"
+            //             >Delete</a
+            //           >
+            //         </div>
+            //       </div> <hr></div>`);
+            // });
+
+
 
 
             document.getElementById("cancelled").addEventListener("click", function () {
                 document.querySelector('input[name="status"]').value = "cancelled";
                 var buttonValue = this.id;
-
-                document.getElementById("myForm").submit();
+                const p=document.getElementById('po').value;
+              
+                if(p=='' || p==undefined){
+                   const lableElement= document.getElementById('poLable');
+                   lableElement.innerText = "Po Number is required *";
+                   lableElement.style.color='red';
+                   alert("Po Number is required")
+                }
+                else{
+                    document.getElementById("myForm").submit();
+                }
+                
             });
 
 
             document.getElementById("completed").addEventListener("click", function () {
                 document.querySelector('input[name="status"]').value = "completed";
-
                 var buttonValue = this.id;
 
-                document.getElementById("myForm").submit();
+                const p=document.getElementById('po').value;
+                if(p=='' || p==undefined){
+                   const lableElement= document.getElementById('poLable');
+                   lableElement.innerText = "Po Number is required *";
+                   lableElement.style.color='red';
+                   alert("Po Number is required")
+                }
+                else{
+                    document.getElementById("myForm").submit();
+                }
             });
 
-            document.getElementById("onhold").addEventListener("click", function () {
-
+                document.getElementById("onhold").addEventListener("click", function () {
                 document.querySelector('input[name="status"]').value = "on-hold";
                 var buttonValue = this.id;
-
-                document.getElementById("myForm").submit();
+                const p=document.getElementById('po').value;
+                if(p=='' || p==undefined){
+                   const lableElement= document.getElementById('poLable');
+                   lableElement.innerText = "Po Number is required *";
+                   lableElement.style.color='red';
+                   alert("Po Number is required")
+                }
+                else{
+                    document.getElementById("myForm").submit();
+                }
             });
 
 
@@ -936,10 +963,6 @@
 
 
                     toastr["success"](" value Copied successfully.")
-
-
-
-
                 }
 
             });
