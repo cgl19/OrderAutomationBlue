@@ -957,7 +957,8 @@ exports.editOrderAccount = async (req, res) => {
 	}
 	catch (error) {
 		console.error(error);
-		let message = error.message + ':' + "Please Enter The Valid Data";
+		let message = error.parent+ ':'+error.errors[0].message + ':' +  ':' + "Please Enter The Valid Data";
+		//let message = error.errors[0].message + ':' + "Please Enter The Valid Data";
 		res.redirect(`/account/editOrderAccount/${oId}?message=${encodeURIComponent(message)}`);
 	}
 

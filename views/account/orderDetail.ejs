@@ -106,7 +106,7 @@
       left:45%;
       border: 30px solid #f3f3f3;
       border-radius: 70%;
-      border-top: 25px solid #d60a0a;
+      border-top: 25px solid #0bff03;
       width: 200px;
       height: 200px;
       -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -137,7 +137,9 @@
   <%- include('../includes/header', {page : "dashboard" }) %>
 
 
+//error modal 
 
+<!-- Modal -->
 
 
   <div id="successLoader" class="loader"></div>
@@ -205,7 +207,36 @@
                 </div>
 
 
+
+                <!-- Error modal  -->
+
+
                 <div class="col-3 mb-3">
+                  <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title text-danger" id="exampleModalLongTitle"><b> Error:</b><i>Need a Care <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search-heart" viewBox="0 0 16 16">
+                            <path d="M6.5 4.482c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
+                            <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
+                          </svg></i></h5>
+                          <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body " id="errorModalBody">
+                          System Says:
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+                        
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <button id="errorModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    Launch demo modal
+                  </button> -->
                   <label for="orderId">Order ID</label>
                   <span class="input-group-text cpBtn" id="basic-addon1"><i class="far fa-copy"></i></span>
                   <input type="text" class="form-control" id="orderId" value="<%= record?.orderId%>" required
@@ -890,7 +921,7 @@
               setTimeout(()=>{
                 const loaderE=document.getElementById('successLoader');
                loaderE.style.display="block";
-              },2000)              
+              },1000)              
               // Save the orderId, userId, and status
               const orderid = data.orderId;
               const userid = data.accountUserId;
@@ -926,11 +957,16 @@
               });
             } 
             else {
-              const errormsg=data.message+':'+data.errorMessage;
-              const lableElement = document.getElementById('poLable');
-              lableElement.innerText = "Enter Valid Po Number";
-               lableElement.style.color = 'red';
-              alert(errormsg);
+             const modalBody = document.getElementById('errorModalBody');
+              modalBody.textContent = data.message+':'+data.errorMessage;
+              $('#errorModal').modal('show');
+
+              // const errormsg=data.message+':'+data.errorMessage;
+              // const lableElement = document.getElementById('poLable');
+              // lableElement.innerText = "Enter Valid Po Number";
+              //  lableElement.style.color = 'red';
+              // alert(errormsg);
+              //display the error message in model instead of alert
              
             }
           })
@@ -1044,7 +1080,7 @@
 
 
 
-    <!-- <script>
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
         const cancelButton = document.getElementById("cancelled2");
         const modal = document.getElementById("myModal123");
@@ -1103,7 +1139,7 @@
             });
         }
       });
-    </script> -->
+    </script>
 
 
 
